@@ -11,7 +11,6 @@ namespace ImageCenter
         public Form1()
         {
             InitializeComponent();
-            imageBytes = File.ReadAllBytes("image.jpg");
         }
         // 委托类型
         delegate void DebugCallbackDelegate(string message);
