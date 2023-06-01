@@ -31,14 +31,14 @@
             button1 = new Button();
             load_status = new Label();
             console = new RichTextBox();
+            selectDllPath = new OpenFileDialog();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(380, 494);
-            button1.Margin = new Padding(4, 5, 4, 5);
+            button1.Location = new Point(266, 296);
             button1.Name = "button1";
-            button1.Size = new Size(232, 86);
+            button1.Size = new Size(162, 52);
             button1.TabIndex = 0;
             button1.Text = "Start Test";
             button1.UseVisualStyleBackColor = true;
@@ -47,31 +47,34 @@
             // load_status
             // 
             load_status.AutoSize = true;
-            load_status.Location = new Point(75, 67);
-            load_status.Margin = new Padding(4, 0, 4, 0);
+            load_status.Location = new Point(52, 40);
             load_status.Name = "load_status";
-            load_status.Size = new Size(64, 25);
+            load_status.Size = new Size(42, 15);
             load_status.TabIndex = 1;
             load_status.Text = "Status:";
             load_status.Click += load_status_Click;
             // 
             // console
             // 
-            console.Location = new Point(75, 126);
+            console.Location = new Point(52, 76);
+            console.Margin = new Padding(2);
             console.Name = "console";
-            console.Size = new Size(882, 343);
+            console.Size = new Size(619, 207);
             console.TabIndex = 3;
             console.Text = "";
             // 
+            // selectDllPath
+            // 
+            selectDllPath.FileName = "openFileDialog1";
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1019, 750);
+            ClientSize = new Size(713, 450);
             Controls.Add(console);
             Controls.Add(load_status);
             Controls.Add(button1);
-            Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
@@ -84,5 +87,7 @@
         private Label load_status;
         private RichTextBox console;
         private byte[] imageBytes;
+        private string dllPath = "";
+        private OpenFileDialog selectDllPath;
     }
 }

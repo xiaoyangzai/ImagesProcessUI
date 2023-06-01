@@ -3,14 +3,18 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.VisualBasic;
+using System.Diagnostics.Eventing.Reader;
+using System.IO;
 
 namespace ImageCenter
 {
     public partial class Form1 : Form
     {
+
         public Form1()
         {
             InitializeComponent();
+            button1.Text = "Select DLL...";
         }
         // 委托类型
         delegate void DebugCallbackDelegate(string message);
@@ -24,10 +28,24 @@ namespace ImageCenter
 
         private void button1_Click(object sender, EventArgs e)
         {
-            [DllImport("C:\\Users\\ywang2\\source\\repos\\ImageProcessModule\\build\\imageProcessAlgor\\Debug\\Myimageops.dll")]
+            if (dllPath == "")
+            {
+                if (selectDllPath.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = selectDllPath.FileName;
+                    dllPath = Path.GetDirectoryName(filePath);
+                    Directory.SetCurrentDirectory(dllPath);
+                    button1.Text = "Start Test";
+                }
+                else
+                {
+                    return;
+                }
+            }
+            [DllImport("Myimageops.dll")]
             static extern void BaseFunctionTest(IntPtr data, int length);
 
-            [DllImport("C:\\Users\\ywang2\\source\\repos\\ImageProcessModule\\build\\imageProcessAlgor\\Debug\\Myimageops.dll")]
+            [DllImport("Myimageops.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             IntPtr ptr = Marshal.AllocHGlobal(30);
