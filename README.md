@@ -1,4 +1,5 @@
 # ImagesProcessUI
+A C# sample for test the DLL functions provided by C++.
 ## How to build
 ### Windows
 1. Download visual studio 2022(recommonded)
