@@ -10,11 +10,11 @@ A C# sample for test the DLL functions provided by C++.
 ## How to run
 ### windows
 - Open folder `ImagesProcessUI\ImageCenter\bin\Debug\net6.0-windows`. (The path may be a little difference with yours)
-- Perform the file named `ImageCenter.exe`
+- Run the file named `ImageCenter.exe`
 ## Linux
 - WIP
 ## Task
 - [x] Execute the function from DLL built by C++.
 - [x] Enable debug info output from function within the DLL.
-- [ ] Provide the interface to set the path of DLL.
+- [x] Provide the interface to set the path of DLL.
 - [ ] Retrieve the multiply results from the DLL function. 
