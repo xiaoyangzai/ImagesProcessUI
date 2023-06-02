@@ -86,7 +86,6 @@
         private Button button1;
         private Label load_status;
         private RichTextBox console;
-        private byte[] imageBytes;
         private string dllPath = "";
         private OpenFileDialog selectDllPath;
     }
