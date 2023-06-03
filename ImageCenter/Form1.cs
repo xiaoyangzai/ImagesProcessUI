@@ -57,6 +57,9 @@ namespace ImageCenter
             [DllImport("Myimageops.dll")]
             static extern int RotateTransform(IntPtr source, int source_size, ref double angle);
 
+            [DllImport("Myimageops.dll")]
+            static extern int PixelSizeMeasure(IntPtr source, int source_size, int focalDistance, ref int pixelSize);
+
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             byte[] imageBytes = File.ReadAllBytes(imagePath);
@@ -73,6 +76,9 @@ namespace ImageCenter
                 quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref loc_x, ref loc_y);
                 double angle = 0.0;
                 int ret = RotateTransform(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref angle);
+
+                int pixelSize = 0;
+                ret = PixelSizeMeasure(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, 8, ref pixelSize);
                 load_status.Text = "Status: Done! Quality: " + quality.ToString() + " loc_x: " + loc_x.ToString() + " loc_y: " + loc_y.ToString();
             }
             catch (DllNotFoundException)
