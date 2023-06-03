@@ -42,9 +42,10 @@
             // 
             // button1
             // 
-            button1.Location = new Point(398, 308);
+            button1.Location = new Point(726, 513);
+            button1.Margin = new Padding(4, 5, 4, 5);
             button1.Name = "button1";
-            button1.Size = new Size(162, 44);
+            button1.Size = new Size(231, 73);
             button1.TabIndex = 0;
             button1.Text = "Start Test";
             button1.UseVisualStyleBackColor = true;
@@ -53,19 +54,19 @@
             // load_status
             // 
             load_status.AutoSize = true;
-            load_status.Location = new Point(52, 40);
+            load_status.Location = new Point(74, 67);
+            load_status.Margin = new Padding(4, 0, 4, 0);
             load_status.Name = "load_status";
-            load_status.Size = new Size(42, 15);
+            load_status.Size = new Size(64, 25);
             load_status.TabIndex = 1;
             load_status.Text = "Status:";
             load_status.Click += load_status_Click;
             // 
             // console
             // 
-            console.Location = new Point(52, 76);
-            console.Margin = new Padding(2);
+            console.Location = new Point(74, 127);
             console.Name = "console";
-            console.Size = new Size(619, 207);
+            console.Size = new Size(883, 342);
             console.TabIndex = 3;
             console.Text = "";
             // 
@@ -75,19 +76,21 @@
             // 
             // selectImage
             // 
-            selectImage.Location = new Point(52, 308);
+            selectImage.Location = new Point(74, 513);
+            selectImage.Margin = new Padding(4, 5, 4, 5);
             selectImage.Name = "selectImage";
-            selectImage.Size = new Size(130, 44);
+            selectImage.Size = new Size(186, 73);
             selectImage.TabIndex = 4;
-            selectImage.Text = "Select Image...";
+            selectImage.Text = "Select (or Rotated) Image...";
             selectImage.UseVisualStyleBackColor = true;
             selectImage.Click += selectImage_Click;
             // 
             // selectTarget
             // 
-            selectTarget.Location = new Point(223, 308);
+            selectTarget.Location = new Point(402, 513);
+            selectTarget.Margin = new Padding(4, 5, 4, 5);
             selectTarget.Name = "selectTarget";
-            selectTarget.Size = new Size(130, 44);
+            selectTarget.Size = new Size(186, 73);
             selectTarget.TabIndex = 5;
             selectTarget.Text = "Select Target...";
             selectTarget.UseVisualStyleBackColor = true;
@@ -104,26 +107,28 @@
             // imagePathLabel
             // 
             imagePathLabel.AutoSize = true;
-            imagePathLabel.Location = new Point(56, 368);
+            imagePathLabel.Location = new Point(80, 613);
+            imagePathLabel.Margin = new Padding(4, 0, 4, 0);
             imagePathLabel.Name = "imagePathLabel";
-            imagePathLabel.Size = new Size(70, 15);
+            imagePathLabel.Size = new Size(107, 25);
             imagePathLabel.TabIndex = 6;
             imagePathLabel.Text = "Image path:";
             // 
             // targetPathLabel
             // 
             targetPathLabel.AutoSize = true;
-            targetPathLabel.Location = new Point(56, 394);
+            targetPathLabel.Location = new Point(80, 657);
+            targetPathLabel.Margin = new Padding(4, 0, 4, 0);
             targetPathLabel.Name = "targetPathLabel";
-            targetPathLabel.Size = new Size(69, 15);
+            targetPathLabel.Size = new Size(105, 25);
             targetPathLabel.TabIndex = 7;
             targetPathLabel.Text = "Target path:";
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(713, 450);
+            ClientSize = new Size(1019, 750);
             Controls.Add(targetPathLabel);
             Controls.Add(imagePathLabel);
             Controls.Add(selectTarget);
@@ -131,6 +136,7 @@
             Controls.Add(console);
             Controls.Add(load_status);
             Controls.Add(button1);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);

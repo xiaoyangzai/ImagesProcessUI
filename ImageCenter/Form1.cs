@@ -54,6 +54,9 @@ namespace ImageCenter
             [DllImport("Myimageops.dll")]
             static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, ref int loc_x, ref int loc_y);
 
+            [DllImport("Myimageops.dll")]
+            static extern int RotateTransform(IntPtr source, int source_size, ref double angle);
+
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             byte[] imageBytes = File.ReadAllBytes(imagePath);
@@ -64,10 +67,12 @@ namespace ImageCenter
             string targetBase64String = Convert.ToBase64String(targetBytes);
             try
             {
-                //BaseFunctionTest(decodedPtr,"hello world".Length);
+                BaseFunctionTest(IntPtr.Zero, "hello world".Length);
                 int quality = -1;
                 int loc_x = 0, loc_y = 0;
                 quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref loc_x, ref loc_y);
+                double angle = 0.0;
+                int ret = RotateTransform(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref angle);
                 load_status.Text = "Status: Done! Quality: " + quality.ToString() + " loc_x: " + loc_x.ToString() + " loc_y: " + loc_y.ToString();
             }
             catch (DllNotFoundException)
@@ -98,7 +103,7 @@ namespace ImageCenter
                 {
                     imagePath = openImage.FileName;
                     imagePathLabel.Text = imagePath;
-                    if (targetPath !=  "")
+                    if (targetPath != "")
                         button1.Enabled = true;
                 }
                 else
@@ -116,7 +121,7 @@ namespace ImageCenter
                 {
                     targetPath = openTarget.FileName;
                     targetPathLabel.Text = targetPath;
-                    if (imagePath !=  "")
+                    if (imagePath != "")
                         button1.Enabled = true;
                 }
                 else
