@@ -15,6 +15,7 @@ namespace ImageCenter
         {
             InitializeComponent();
             button1.Text = "Select DLL...";
+            button1.Enabled = false;
         }
         // 委托类型
         delegate void DebugCallbackDelegate(string message);
@@ -51,20 +52,23 @@ namespace ImageCenter
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
 
             [DllImport("Myimageops.dll")]
-            static extern void Base64Decoder(IntPtr data, int length);
-
-            [DllImport("Myimageops.dll")]
-            static extern void Base64Encoder(IntPtr data, int length);
+            static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, ref int loc_x, ref int loc_y);
 
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
-            IntPtr encodedPtr = Marshal.StringToCoTaskMemUTF8("aGVsbG8gd29ybGQ=");
-            IntPtr decodedPtr = Marshal.StringToCoTaskMemUTF8("hello world");
+
+            byte[] imageBytes = File.ReadAllBytes(imagePath);
+            byte[] targetBytes = File.ReadAllBytes(targetPath);
+
+            // encode image with Base64 
+            string imageBase64String = Convert.ToBase64String(imageBytes);
+            string targetBase64String = Convert.ToBase64String(targetBytes);
             try
             {
                 //BaseFunctionTest(decodedPtr,"hello world".Length);
-                Base64Decoder(encodedPtr,"aGVsbG8gd29ybGQ=".Length);
-                Base64Encoder(decodedPtr,"hello world".Length);
-                load_status.Text = "Status: Done!!";
+                int quality = -1;
+                int loc_x = 0, loc_y = 0;
+                quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref loc_x, ref loc_y);
+                load_status.Text = "Status: Done! Quality: " + quality.ToString() + " loc_x: " + loc_x.ToString() + " loc_y: " + loc_y.ToString();
             }
             catch (DllNotFoundException)
             {
@@ -84,6 +88,42 @@ namespace ImageCenter
         private void load_status_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void selectImage_Click(object sender, EventArgs e)
+        {
+            if (imagePath == "")
+            {
+                if (openImage.ShowDialog() == DialogResult.OK)
+                {
+                    imagePath = openImage.FileName;
+                    imagePathLabel.Text = imagePath;
+                    if (targetPath !=  "")
+                        button1.Enabled = true;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
+        private void selectTarget_Click(object sender, EventArgs e)
+        {
+            if (targetPath == "")
+            {
+                if (openTarget.ShowDialog() == DialogResult.OK)
+                {
+                    targetPath = openTarget.FileName;
+                    targetPathLabel.Text = targetPath;
+                    if (imagePath !=  "")
+                        button1.Enabled = true;
+                }
+                else
+                {
+                    return;
+                }
+            }
         }
     }
 }

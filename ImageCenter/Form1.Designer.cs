@@ -32,13 +32,19 @@
             load_status = new Label();
             console = new RichTextBox();
             selectDllPath = new OpenFileDialog();
+            selectImage = new Button();
+            selectTarget = new Button();
+            openImage = new OpenFileDialog();
+            openTarget = new OpenFileDialog();
+            imagePathLabel = new Label();
+            targetPathLabel = new Label();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(266, 296);
+            button1.Location = new Point(398, 308);
             button1.Name = "button1";
-            button1.Size = new Size(162, 52);
+            button1.Size = new Size(162, 44);
             button1.TabIndex = 0;
             button1.Text = "Start Test";
             button1.UseVisualStyleBackColor = true;
@@ -67,11 +73,61 @@
             // 
             selectDllPath.FileName = "openFileDialog1";
             // 
+            // selectImage
+            // 
+            selectImage.Location = new Point(52, 308);
+            selectImage.Name = "selectImage";
+            selectImage.Size = new Size(130, 44);
+            selectImage.TabIndex = 4;
+            selectImage.Text = "Select Image...";
+            selectImage.UseVisualStyleBackColor = true;
+            selectImage.Click += selectImage_Click;
+            // 
+            // selectTarget
+            // 
+            selectTarget.Location = new Point(223, 308);
+            selectTarget.Name = "selectTarget";
+            selectTarget.Size = new Size(130, 44);
+            selectTarget.TabIndex = 5;
+            selectTarget.Text = "Select Target...";
+            selectTarget.UseVisualStyleBackColor = true;
+            selectTarget.Click += selectTarget_Click;
+            // 
+            // openImage
+            // 
+            openImage.FileName = "openFileDialog1";
+            // 
+            // openTarget
+            // 
+            openTarget.FileName = "openFileDialog1";
+            // 
+            // imagePathLabel
+            // 
+            imagePathLabel.AutoSize = true;
+            imagePathLabel.Location = new Point(56, 368);
+            imagePathLabel.Name = "imagePathLabel";
+            imagePathLabel.Size = new Size(70, 15);
+            imagePathLabel.TabIndex = 6;
+            imagePathLabel.Text = "Image path:";
+            // 
+            // targetPathLabel
+            // 
+            targetPathLabel.AutoSize = true;
+            targetPathLabel.Location = new Point(56, 394);
+            targetPathLabel.Name = "targetPathLabel";
+            targetPathLabel.Size = new Size(69, 15);
+            targetPathLabel.TabIndex = 7;
+            targetPathLabel.Text = "Target path:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(713, 450);
+            Controls.Add(targetPathLabel);
+            Controls.Add(imagePathLabel);
+            Controls.Add(selectTarget);
+            Controls.Add(selectImage);
             Controls.Add(console);
             Controls.Add(load_status);
             Controls.Add(button1);
@@ -87,6 +143,14 @@
         private Label load_status;
         private RichTextBox console;
         private string dllPath = "";
+        private string imagePath = "";
+        private string targetPath = "";
         private OpenFileDialog selectDllPath;
+        private Button selectImage;
+        private Button selectTarget;
+        private OpenFileDialog openImage;
+        private OpenFileDialog openTarget;
+        private Label imagePathLabel;
+        private Label targetPathLabel;
     }
 }
