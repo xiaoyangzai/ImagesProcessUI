@@ -60,6 +60,9 @@ namespace ImageCenter
             [DllImport("Myimageops.dll")]
             static extern int PixelSizeMeasure(IntPtr source, int source_size, int focalDistance, ref int pixelSize);
 
+            [DllImport("Myimageops.dll")]
+            static extern int CutLineDetection(IntPtr source, int source_size, ref int delta_x, ref int delta_y);
+
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             byte[] imageBytes = File.ReadAllBytes(imagePath);
@@ -79,7 +82,11 @@ namespace ImageCenter
 
                 int pixelSize = 0;
                 ret = PixelSizeMeasure(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, 8, ref pixelSize);
-                load_status.Text = "Status: Done! Quality: " + quality.ToString() + " loc_x: " + loc_x.ToString() + " loc_y: " + loc_y.ToString();
+
+                int delta_x = -1;
+                int delta_y = -1;
+                ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref delta_x, ref delta_y);
+                load_status.Text = "Status: Done!";
             }
             catch (DllNotFoundException)
             {
