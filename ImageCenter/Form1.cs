@@ -63,6 +63,9 @@ namespace ImageCenter
             [DllImport("Myimageops.dll")]
             static extern int CutLineDetection(IntPtr source, int source_size, ref int delta_x, ref int delta_y);
 
+            [DllImport("Myimageops.dll")]
+            static extern int CutTraceDetection(IntPtr source, int source_size, ref double tarceAngle, ref int traceCenterOffset, ref int tranceWidth, ref int maxTraceWith, ref int maxArea);
+
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             byte[] imageBytes = File.ReadAllBytes(imagePath);
@@ -86,6 +89,12 @@ namespace ImageCenter
                 int delta_x = -1;
                 int delta_y = -1;
                 ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref delta_x, ref delta_y);
+                double tarceAngle = 0.0;
+                int traceCenterOffset = 0;
+                int tranceWidth = -1;
+                int maxTraceWith = -1;
+                int maxArea = -1;
+                ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref tarceAngle, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea);
                 load_status.Text = "Status: Done!";
             }
             catch (DllNotFoundException)
