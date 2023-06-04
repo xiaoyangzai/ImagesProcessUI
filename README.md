@@ -17,4 +17,5 @@ A C# sample for test the DLL functions provided by C++.
 - [x] Execute the function from DLL built by C++.
 - [x] Enable debug info output from function within the DLL.
 - [x] Provide the interface to set the path of DLL.
-- [ ] Retrieve the multiply results from the DLL function. 
+- [x] Retrieve the multiply results from the DLL function. 
+- [x] Enable unite test cases for all the API provided from DLL. 
