@@ -125,7 +125,7 @@
             templateImage.Location = new Point(478, 22);
             templateImage.Name = "templateImage";
             templateImage.Size = new Size(456, 299);
-            templateImage.SizeMode = PictureBoxSizeMode.StretchImage;
+            templateImage.SizeMode = PictureBoxSizeMode.CenterImage;
             templateImage.TabIndex = 9;
             templateImage.TabStop = false;
             // 

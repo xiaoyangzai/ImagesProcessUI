@@ -158,13 +158,28 @@ namespace ImageCenter
             [DllImport("Myimageops.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("Myimageops.dll")]
-            static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, ref int loc_x, ref int loc_y);
+            static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, int originalPosX, int originalPosY, ref int loc_x, ref int loc_y, out IntPtr resultPtr);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
                 int quality = -1;
+                int origianlPosX = 600;
+                int origianlPosY = 500;
                 int loc_x = 0, loc_y = 0;
-                quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref loc_x, ref loc_y);
+                IntPtr resultPtr = IntPtr.Zero;
+                quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, origianlPosX, origianlPosY, ref loc_x, ref loc_y, out resultPtr);
+                if (quality < 0)
+                {
+                    console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
+                    return;
+                }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
                 console.Text += "\n[Info] Calling MatcherTarget function...Done!";
             }
             catch (DllNotFoundException)
