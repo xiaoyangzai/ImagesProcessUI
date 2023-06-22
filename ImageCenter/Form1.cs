@@ -14,142 +14,256 @@ namespace ImageCenter
         public Form1()
         {
             InitializeComponent();
-            button1.Text = "Select DLL...";
-            button1.Enabled = false;
+            StartAllTest.Text = "Please select DLL...";
         }
-        // 委托类型
         delegate void DebugCallbackDelegate(string message);
 
-        // 回调函数
         private void DebugCallback(string message)
         {
             Console.WriteLine("DEBUG: " + message);
             console.Text += "************************\n";
             console.Text += message;
-            console.Text += "************************\n";
+            console.Text += "\n************************\n";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (dllPath == "")
+            selectDllPath.FileName = "*.dll";
+            if (selectDllPath.ShowDialog() == DialogResult.OK)
             {
-                if (selectDllPath.ShowDialog() == DialogResult.OK)
+                string filePath = selectDllPath.FileName;
+                dllPath = Path.GetDirectoryName(filePath);
+                if (dllPath == null || filePath == null)
                 {
-                    string filePath = selectDllPath.FileName;
-                    dllPath = Path.GetDirectoryName(filePath);
-                    Directory.SetCurrentDirectory(dllPath);
-                    button1.Text = "Start Test";
-                }
-                else
-                {
+                    console.Text = "[Error]: Failed to select file DLL. Please re-select.";
                     return;
                 }
+                Directory.SetCurrentDirectory(dllPath);
+                console.Text = "Select DLL: " + filePath;
             }
-            [DllImport("Myimageops.dll")]
-            static extern void BaseFunctionTest(IntPtr data, int length);
+            if (dllPath == null)
+            {
+                return;
+            }
 
             [DllImport("Myimageops.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
-
             [DllImport("Myimageops.dll")]
-            static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, ref int loc_x, ref int loc_y);
-
-            [DllImport("Myimageops.dll")]
-            static extern int RotateTransform(IntPtr source, int source_size, ref double angle);
-
-            [DllImport("Myimageops.dll")]
-            static extern int PixelSizeMeasure(IntPtr source, int source_size, int focalDistance, ref int pixelSize);
-
-            [DllImport("Myimageops.dll")]
-            static extern int CutLineDetection(IntPtr source, int source_size, ref int delta_x, ref int delta_y);
-
-            [DllImport("Myimageops.dll")]
-            static extern int CutTraceDetection(IntPtr source, int source_size, ref double tarceAngle, ref int traceCenterOffset, ref int tranceWidth, ref int maxTraceWith, ref int maxArea);
-
+            static extern void BaseFunctionTest(IntPtr data, int length);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
-            byte[] imageBytes = File.ReadAllBytes(imagePath);
-            byte[] targetBytes = File.ReadAllBytes(targetPath);
-
-            // encode image with Base64 
-            string imageBase64String = Convert.ToBase64String(imageBytes);
-            string targetBase64String = Convert.ToBase64String(targetBytes);
+            console.Text = "[Info] Calling BaseFunctionTest...\n";
             try
             {
                 BaseFunctionTest(IntPtr.Zero, "hello world".Length);
-                int quality = -1;
-                int loc_x = 0, loc_y = 0;
-                quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref loc_x, ref loc_y);
-                double angle = 0.0;
-                int ret = RotateTransform(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref angle);
-
-                int pixelSize = 0;
-                ret = PixelSizeMeasure(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, 8, ref pixelSize);
-
-                int delta_x = -1;
-                int delta_y = -1;
-                ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref delta_x, ref delta_y);
-                double tarceAngle = 0.0;
-                int traceCenterOffset = 0;
-                int tranceWidth = -1;
-                int maxTraceWith = -1;
-                int maxArea = -1;
-                ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref tarceAngle, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea);
-                load_status.Text = "Status: Done!";
+                console.Text += "\n[Info] Calling BaseFunctionTest...Done";
             }
             catch (DllNotFoundException)
             {
-                load_status.Text = "Status: DLL not found!!";
+                console.Text = "[Error] DLL not found!!";
             }
             catch (EntryPointNotFoundException)
             {
-                load_status.Text = "Status: Function not found!!";
+                console.Text = "[Error] Functior not found!!";
             }
-        }
-
-        private void msg_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void load_status_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void selectImage_Click(object sender, EventArgs e)
         {
-            if (imagePath == "")
+            openImage.FileName = "*.jpg";
+            if (openImage.ShowDialog() == DialogResult.OK)
             {
-                if (openImage.ShowDialog() == DialogResult.OK)
-                {
-                    imagePath = openImage.FileName;
-                    imagePathLabel.Text = imagePath;
-                    if (targetPath != "")
-                        button1.Enabled = true;
-                }
-                else
-                {
-                    return;
-                }
+                imagePath = openImage.FileName;
+            }
+            if (imagePath != null)
+            {
+                Image inputFile = Image.FromFile(imagePath);
+                inputImage.Image = inputFile;
+                byte[] imageBytes = File.ReadAllBytes(imagePath);
+                imageBase64String = Convert.ToBase64String(imageBytes);
             }
         }
 
         private void selectTarget_Click(object sender, EventArgs e)
         {
-            if (targetPath == "")
+            openTarget.FileName = "*.jpg";
+            if (openTarget.ShowDialog() == DialogResult.OK)
             {
-                if (openTarget.ShowDialog() == DialogResult.OK)
+                targetPath = openTarget.FileName;
+            }
+            if (targetPath != null)
+            {
+                Image targetFile = Image.FromFile(targetPath);
+                templateImage.Image = targetFile;
+                byte[] targetBytes = File.ReadAllBytes(targetPath);
+                targetBase64String = Convert.ToBase64String(targetBytes);
+            }
+        }
+
+        private void buttonRotateDegree_Click(object sender, EventArgs e)
+        {
+            if (imagePath == null)
+            {
+                console.Text = "[Error] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+            console.Text = "[Info] Calling RotateDegree function...\n";
+            [DllImport("Myimageops.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("Myimageops.dll")]
+            static extern int RotateTransform(IntPtr source, int source_size, ref double angle, out IntPtr resultPtr);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            try
+            {
+                double angle = 0.0;
+                IntPtr resultPtr = IntPtr.Zero;
+                int ret = RotateTransform(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref angle, out resultPtr);
+                if (ret < 0)
                 {
-                    targetPath = openTarget.FileName;
-                    targetPathLabel.Text = targetPath;
-                    if (imagePath != "")
-                        button1.Enabled = true;
-                }
-                else
-                {
+                    console.Text += "\n[Error] Failed to call RotateDegree function. Exit Code: " + ret;
                     return;
                 }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling RotateDegree function...Done!";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function RtateDegreeDegree not found!!";
+            }
+        }
+
+        private void buttonMatcher_Click(object sender, EventArgs e)
+        {
+            if (imagePath == null)
+            {
+                console.Text = "[Error] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+            if (targetPath == null)
+            {
+                console.Text = "[Error] Target image is not selected. Please selec the target image again!";
+                return;
+            }
+            console.Text = "[Info] Calling MatcherTarget function...\n";
+            [DllImport("Myimageops.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("Myimageops.dll")]
+            static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, ref int loc_x, ref int loc_y);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            try
+            {
+                int quality = -1;
+                int loc_x = 0, loc_y = 0;
+                quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref loc_x, ref loc_y);
+                console.Text += "\n[Info] Calling MatcherTarget function...Done!";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function MatcherTarget not found!!";
+            }
+
+        }
+
+        private void buttonCutLineDetection_Click(object sender, EventArgs e)
+        {
+            if (imagePath == null)
+            {
+                console.Text = "[Info] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+            console.Text = "[Info] Calling CutLineDetection function...\n";
+            [DllImport("Myimageops.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("Myimageops.dll")]
+            static extern int CutLineDetection(IntPtr source, int source_size, ref int delta_x, ref int delta_y);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            try
+            {
+                int delta_x = -1;
+                int delta_y = -1;
+                int ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref delta_x, ref delta_y);
+                console.Text += "\n[Info] Calling CutLineDetection function...Done!";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function CutLineDetection not found!!";
+            }
+        }
+
+        private void buttonCutTraceValidate_Click(object sender, EventArgs e)
+        {
+            [DllImport("Myimageops.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("Myimageops.dll")]
+            static extern int CutTraceDetection(IntPtr source, int source_size, ref double tarceAngle, ref int traceCenterOffset, ref int tranceWidth, ref int maxTraceWith, ref int maxArea);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            console.Text = "[Info] Calling CutTraceDetection function...\n";
+            try
+            {
+                double tarceAngle = 0.0;
+                int traceCenterOffset = 0;
+                int tranceWidth = -1;
+                int maxTraceWith = -1;
+                int maxArea = -1;
+                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref tarceAngle, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea);
+                console.Text += "\n[Info] Calling CutTraceDetection function...Done!";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function cutTraceDetection not found...";
+            }
+        }
+
+        private void buttonPixelMeasure_Click(object sender, EventArgs e)
+        {
+            if (imagePath == null)
+            {
+                console.Text = "[Info] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+            console.Text = "[Info] Calling PixelMeasure function...\n";
+            [DllImport("Myimageops.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("Myimageops.dll")]
+            static extern int PixelSizeMeasure(IntPtr source, int source_size, int focalDistance, ref int pixelSize);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            try
+            {
+                int pixelSize = 0;
+                int ret = PixelSizeMeasure(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, 8, ref pixelSize);
+                console.Text += "\n[Info] Calling PixelMeasure function...Done.\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function PixelMeasure not found...";
             }
         }
     }
