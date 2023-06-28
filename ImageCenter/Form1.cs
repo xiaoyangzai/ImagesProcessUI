@@ -163,8 +163,8 @@ namespace ImageCenter
             try
             {
                 int quality = -1;
-                int origianlPosX = 600;
-                int origianlPosY = 500;
+                int origianlPosX = 345;
+                int origianlPosY = 185;
                 int loc_x = 0, loc_y = 0;
                 IntPtr resultPtr = IntPtr.Zero;
                 quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, origianlPosX, origianlPosY, ref loc_x, ref loc_y, out resultPtr);
