@@ -74,9 +74,9 @@
             // 
             // console
             // 
-            console.Location = new Point(80, 755);
+            console.Location = new Point(88, 757);
             console.Name = "console";
-            console.Size = new Size(717, 496);
+            console.Size = new Size(746, 314);
             console.TabIndex = 3;
             console.Text = "";
             // 
@@ -178,7 +178,7 @@
             // 
             // buttonBrightQuality
             // 
-            buttonBrightQuality.Location = new Point(890, 1102);
+            buttonBrightQuality.Location = new Point(1130, 1013);
             buttonBrightQuality.Margin = new Padding(4, 5, 4, 5);
             buttonBrightQuality.Name = "buttonBrightQuality";
             buttonBrightQuality.Size = new Size(231, 58);
@@ -223,6 +223,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             ClientSize = new Size(1924, 1170);
             Controls.Add(buttonPixelMeasure);
             Controls.Add(buttonCutTraceValidate);

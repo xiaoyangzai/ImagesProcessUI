@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using Microsoft.VisualBasic;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
+using System.Data.SqlTypes;
+using System.Text;
 
 namespace ImageCenter
 {
@@ -17,6 +19,7 @@ namespace ImageCenter
             StartAllTest.Text = "Please select DLL...";
         }
         delegate void DebugCallbackDelegate(string message);
+        delegate int CaptureImageDelegate(IntPtr message, ref int length, int focusIndex);
 
         private void DebugCallback(string message)
         {
@@ -24,6 +27,28 @@ namespace ImageCenter
             console.Text += "************************\n";
             console.Text += message;
             console.Text += "\n************************\n";
+        }
+
+        private int CaptureImage(IntPtr image, ref int length, int focusIndex)
+        {
+            console.Text += "************************\n";
+            console.Text += "Calling CaptureImage()...\n";
+            if (image == IntPtr.Zero)
+            {
+                console.Text += "Invalid buffer from algorithm\n";
+                return -1;
+            }
+            // TODO: Capture the image based on the specified focus index
+            byte[] strBytes = Encoding.ASCII.GetBytes(imageBase64String);
+
+            // Copy the image base64 data to chipImage algorithm 
+            Marshal.Copy(strBytes, 0, image, strBytes.Length);
+            length = strBytes.Length;
+
+            console.Text += "Capture image at focus index: " + focusIndex + " with length: " + length + "\n";
+            console.Text += "Calling CaptureImage()...Done\n";
+            console.Text += "************************\n";
+            return 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -52,11 +77,16 @@ namespace ImageCenter
             static extern void BaseFunctionTest(IntPtr data, int length);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
+            [DllImport("Myimageops.dll")]
+            static extern int AutoFocus(int min_focus, int max_focus, int step, CaptureImageDelegate callback);
+
+
             console.Text = "[Info] Calling BaseFunctionTest...\n";
             try
             {
                 BaseFunctionTest(IntPtr.Zero, "hello world".Length);
-                console.Text += "\n[Info] Calling BaseFunctionTest...Done";
+                console.Text += "\n[Info] Calling BaseFunctionTest...Done\n";
+                AutoFocus(1, 10, 1, new CaptureImageDelegate(CaptureImage));
             }
             catch (DllNotFoundException)
             {
