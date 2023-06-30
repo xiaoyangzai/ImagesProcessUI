@@ -77,16 +77,11 @@ namespace ImageCenter
             static extern void BaseFunctionTest(IntPtr data, int length);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
-            [DllImport("Myimageops.dll")]
-            static extern int AutoFocus(int min_focus, int max_focus, int step, CaptureImageDelegate callback);
-
-
             console.Text = "[Info] Calling BaseFunctionTest...\n";
             try
             {
                 BaseFunctionTest(IntPtr.Zero, "hello world".Length);
                 console.Text += "\n[Info] Calling BaseFunctionTest...Done\n";
-                AutoFocus(1, 10, 1, new CaptureImageDelegate(CaptureImage));
             }
             catch (DllNotFoundException)
             {
@@ -310,6 +305,31 @@ namespace ImageCenter
             {
                 console.Text = "[Error] Function PixelMeasure not found...";
             }
+        }
+
+        private void buttonFocusQuality_Click(object sender, EventArgs e)
+        {
+            [DllImport("Myimageops.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("Myimageops.dll")]
+            static extern int AutoFocus(int min_focus, int max_focus, int step, CaptureImageDelegate callback);
+            try
+            {
+                console.Text = "[Info] Calling AutoFocus function...\n";
+                AutoFocus(1, 10, 1, new CaptureImageDelegate(CaptureImage));
+                console.Text += "[Info] Calling AutoFocus function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Functior not found!!";
+            }
+
         }
     }
 }
