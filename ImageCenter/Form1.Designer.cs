@@ -243,7 +243,7 @@
         private Label load_status;
         private RichTextBox console;
         private string dllPath = "";
-        private string imagePath = "";
+        private string imagePath = "C:\\Users\\ywang2\\source\\repos\\ChipImage\\focus_good.jpg";
         string imageBase64String;
         string targetBase64String;
         private string targetPath = "";

@@ -17,6 +17,18 @@ namespace ImageCenter
         {
             InitializeComponent();
             StartAllTest.Text = "Please select DLL...";
+            if (imagePath != null)
+            {
+                Image inputFile = Image.FromFile(imagePath);
+                inputImage.Image = inputFile;
+                byte[] imageBytes = File.ReadAllBytes(imagePath);
+                imageBase64String = Convert.ToBase64String(imageBytes);
+            }
+        }
+        public enum QualityType 
+        {
+            FOCUS,
+            BRIGHTNESS
         }
         delegate void DebugCallbackDelegate(string message);
         delegate int CaptureImageDelegate(IntPtr message, ref int length, int focusIndex);
@@ -45,7 +57,7 @@ namespace ImageCenter
             Marshal.Copy(strBytes, 0, image, strBytes.Length);
             length = strBytes.Length;
 
-            console.Text += "Capture image at focus index: " + focusIndex + " with length: " + length + "\n";
+            console.Text += "Capture image at focus or brightness position: " + focusIndex + " with length: " + length + "\n";
             console.Text += "Calling CaptureImage()...Done\n";
             console.Text += "************************\n";
             return 0;
@@ -314,11 +326,11 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("Myimageops.dll")]
-            static extern int AutoFocus(int min_focus, int max_focus, int step, CaptureImageDelegate callback);
+            static extern int AutoAdjust(int minPosition, int maxPosition, int currentPosition, CaptureImageDelegate callback, QualityType type=QualityType.FOCUS);
             try
             {
                 console.Text = "[Info] Calling AutoFocus function...\n";
-                AutoFocus(1, 10, 1, new CaptureImageDelegate(CaptureImage));
+                AutoAdjust(1, 100, 5, new CaptureImageDelegate(CaptureImage), QualityType.FOCUS);
                 console.Text += "[Info] Calling AutoFocus function...Done\n";
             }
             catch (DllNotFoundException)
