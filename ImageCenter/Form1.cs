@@ -326,12 +326,12 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("Myimageops.dll")]
-            static extern int AutoAdjust(int minPosition, int maxPosition, int currentPosition, CaptureImageDelegate callback, QualityType type=QualityType.FOCUS);
+            static extern float ImageQuality(IntPtr source, int source_size, QualityType type=QualityType.FOCUS);
             try
             {
-                console.Text = "[Info] Calling AutoFocus function...\n";
-                AutoAdjust(1, 100, 5, new CaptureImageDelegate(CaptureImage), QualityType.FOCUS);
-                console.Text += "[Info] Calling AutoFocus function...Done\n";
+                console.Text = "[Info] Calling FocusQuality function...\n";
+                float ret = ImageQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, QualityType.FOCUS);
+                console.Text += "[Info] Calling FocusQuality function...Done\n";
             }
             catch (DllNotFoundException)
             {
