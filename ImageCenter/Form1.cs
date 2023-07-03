@@ -148,24 +148,16 @@ namespace ImageCenter
             [DllImport("Myimageops.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("Myimageops.dll")]
-            static extern int RotateTransform(IntPtr source, int source_size, ref double angle, out IntPtr resultPtr);
+            static extern int RotateTransform(IntPtr source, int source_size, ref float angle);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
-                double angle = 0.0;
-                IntPtr resultPtr = IntPtr.Zero;
-                int ret = RotateTransform(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref angle, out resultPtr);
+                float angle = 0;
+                int ret = RotateTransform(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref angle);
                 if (ret < 0)
                 {
                     console.Text += "\n[Error] Failed to call RotateDegree function. Exit Code: " + ret;
                     return;
-                }
-                if (resultPtr != IntPtr.Zero)
-                {
-                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
-                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
-                    MemoryStream ms = new MemoryStream(imageBytes);
-                    resultImage.Image = Image.FromStream(ms);
                 }
                 console.Text += "\n[Info] Calling RotateDegree function...Done!";
             }
