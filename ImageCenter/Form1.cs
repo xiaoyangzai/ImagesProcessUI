@@ -25,7 +25,7 @@ namespace ImageCenter
                 imageBase64String = Convert.ToBase64String(imageBytes);
             }
         }
-        public enum QualityType 
+        public enum QualityType
         {
             FOCUS,
             BRIGHTNESS
@@ -107,7 +107,7 @@ namespace ImageCenter
 
         private void selectImage_Click(object sender, EventArgs e)
         {
-            openImage.FileName = "*.jpg";
+            openImage.FileName = "";
             if (openImage.ShowDialog() == DialogResult.OK)
             {
                 imagePath = openImage.FileName;
@@ -123,7 +123,7 @@ namespace ImageCenter
 
         private void selectTarget_Click(object sender, EventArgs e)
         {
-            openTarget.FileName = "*.jpg";
+            openTarget.FileName = "";
             if (openTarget.ShowDialog() == DialogResult.OK)
             {
                 targetPath = openTarget.FileName;
@@ -318,7 +318,7 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("Myimageops.dll")]
-            static extern float ImageQuality(IntPtr source, int source_size, QualityType type=QualityType.FOCUS);
+            static extern float ImageQuality(IntPtr source, int source_size, QualityType type = QualityType.FOCUS);
             try
             {
                 console.Text = "[Info] Calling FocusQuality function...\n";
@@ -334,6 +334,30 @@ namespace ImageCenter
                 console.Text = "[Error] Functior not found!!";
             }
 
+        }
+
+        private void buttonBrightQuality_Click(object sender, EventArgs e)
+        {
+            [DllImport("Myimageops.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("Myimageops.dll")]
+            static extern float ImageQuality(IntPtr source, int source_size, QualityType type = QualityType.FOCUS);
+            try
+            {
+                console.Text = "[Info] Calling FocusQuality function...\n";
+                float ret = ImageQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, QualityType.BRIGHTNESS);
+                console.Text += "[Info] Calling FocusQuality function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Functior not found!!";
+            }
         }
     }
 }
