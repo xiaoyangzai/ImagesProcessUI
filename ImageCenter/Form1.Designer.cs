@@ -173,7 +173,7 @@
             buttonFocusQuality.Name = "buttonFocusQuality";
             buttonFocusQuality.Size = new Size(231, 58);
             buttonFocusQuality.TabIndex = 13;
-            buttonFocusQuality.Text = "ImageFocusQuality";
+            buttonFocusQuality.Text = "AutoFocus";
             buttonFocusQuality.UseVisualStyleBackColor = true;
             buttonFocusQuality.Click += buttonFocusQuality_Click;
             // 
@@ -184,7 +184,7 @@
             buttonBrightQuality.Name = "buttonBrightQuality";
             buttonBrightQuality.Size = new Size(231, 58);
             buttonBrightQuality.TabIndex = 14;
-            buttonBrightQuality.Text = "ImageBrightQuality";
+            buttonBrightQuality.Text = "AutoBright";
             buttonBrightQuality.UseVisualStyleBackColor = true;
             buttonBrightQuality.Click += buttonBrightQuality_Click;
             // 

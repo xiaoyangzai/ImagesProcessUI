@@ -325,7 +325,7 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("Myimageops.dll")]
-            static extern int AutoAdjust(int minPosition, int maxPosition, int currentPosition,int step, CaptureImageDelegate callback, QualityType type = QualityType.FOCUS);
+            static extern int AutoAdjust(int minPosition, int maxPosition, int currentPosition, int step, CaptureImageDelegate callback, QualityType type = QualityType.FOCUS);
 
             //[DllImport("Myimageops.dll")]
             //static extern float ImageQuality(IntPtr source, int source_size, QualityType type = QualityType.FOCUS);
@@ -357,12 +357,19 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("Myimageops.dll")]
-            static extern float ImageQuality(IntPtr source, int source_size, QualityType type = QualityType.FOCUS);
+            static extern int AutoAdjust(int minPosition, int maxPosition, int currentPosition, int step, CaptureImageDelegate callback, QualityType type = QualityType.FOCUS);
+
+            //[DllImport("Myimageops.dll")]
+            //static extern float ImageQuality(IntPtr source, int source_size, QualityType type = QualityType.FOCUS);
             try
             {
-                console.Text = "[Info] Calling FocusQuality function...\n";
-                float ret = ImageQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, QualityType.BRIGHTNESS);
-                console.Text += "[Info] Calling FocusQuality function...Done\n";
+                //console.Text = "[Info] Calling FocusQuality function...\n";
+                //float ret = ImageQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, QualityType.BRIGHTNESS);
+                //console.Text += "[Info] Calling FocusQuality function...Done\n";
+                console.Text = "[Info] Calling AutoBright function...\n";
+                int bright = AutoAdjust(1, 21, 5, 1, new CaptureImageDelegate(CaptureImage), QualityType.BRIGHTNESS);
+                console.Text += "[Info] Best bright value: " + bright + "\n";
+                console.Text += "[Info] Calling AutoBright function...Done\n";
             }
             catch (DllNotFoundException)
             {
