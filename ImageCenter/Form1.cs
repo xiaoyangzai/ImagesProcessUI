@@ -51,13 +51,20 @@ namespace ImageCenter
                 return -1;
             }
             // TODO: Capture the image based on the specified focus index
-            byte[] strBytes = Encoding.ASCII.GetBytes(imageBase64String);
+            string focusImagePath = Path.GetDirectoryName(imagePath);
+            string focusImage = Path.Combine(focusImagePath, focusIndex + ".png");
+            byte[] imageBytes = File.ReadAllBytes(focusImage);
+            string focusImageBase64String = Convert.ToBase64String(imageBytes);
+            byte[] strBytes = Encoding.ASCII.GetBytes(focusImageBase64String);
 
+            Image inputFile = Image.FromFile(focusImage);
+            inputImage.Image = inputFile;
+            inputImage.Refresh();
             // Copy the image base64 data to chipImage algorithm 
             Marshal.Copy(strBytes, 0, image, strBytes.Length);
             length = strBytes.Length;
 
-            console.Text += "Capture image at focus or brightness position: " + focusIndex + " with length: " + length + "\n";
+            console.Text += "Capture image at focus or brightness position: " + focusImage + " with length: " + length + "\n";
             console.Text += "Calling CaptureImage()...Done\n";
             console.Text += "************************\n";
             return 0;
@@ -318,12 +325,19 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("Myimageops.dll")]
-            static extern float ImageQuality(IntPtr source, int source_size, QualityType type = QualityType.FOCUS);
+            static extern int AutoAdjust(int minPosition, int maxPosition, int currentPosition,int step, CaptureImageDelegate callback, QualityType type = QualityType.FOCUS);
+
+            //[DllImport("Myimageops.dll")]
+            //static extern float ImageQuality(IntPtr source, int source_size, QualityType type = QualityType.FOCUS);
             try
             {
-                console.Text = "[Info] Calling FocusQuality function...\n";
-                float ret = ImageQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, QualityType.FOCUS);
-                console.Text += "[Info] Calling FocusQuality function...Done\n";
+                //console.Text = "[Info] Calling FocusQuality function...\n";
+                //float ret = ImageQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, QualityType.FOCUS);
+                //console.Text += "[Info] Calling FocusQuality function...Done\n";
+                console.Text = "[Info] Calling AutoFocus function...\n";
+                int focus = AutoAdjust(1, 17, 5, 1, new CaptureImageDelegate(CaptureImage), QualityType.FOCUS);
+                console.Text += "[Info] Best focus value: " + focus + "\n";
+                console.Text += "[Info] Calling AutoFocus function...Done\n";
             }
             catch (DllNotFoundException)
             {
