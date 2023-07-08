@@ -30,6 +30,12 @@ namespace ImageCenter
             FOCUS,
             BRIGHTNESS
         }
+        public enum SearchStategyType
+        {
+            BISECTION,
+            SMARTSCAN
+        }
+
         delegate void DebugCallbackDelegate(string message);
         delegate int CaptureImageDelegate(IntPtr message, ref int length, int focusIndex);
 
@@ -325,8 +331,7 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("Myimageops.dll")]
-            static extern int AutoAdjust(int minPosition, int maxPosition, int currentPosition, int step, CaptureImageDelegate callback, QualityType type = QualityType.FOCUS);
-
+            static extern int AutoAdjust(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, int currentPosition = -1, QualityType type = QualityType.FOCUS, SearchStategyType strategy = SearchStategyType.SMARTSCAN); 
             //[DllImport("Myimageops.dll")]
             //static extern float ImageQuality(IntPtr source, int source_size, QualityType type = QualityType.FOCUS);
             try
@@ -335,7 +340,7 @@ namespace ImageCenter
                 //float ret = ImageQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, QualityType.FOCUS);
                 //console.Text += "[Info] Calling FocusQuality function...Done\n";
                 console.Text = "[Info] Calling AutoFocus function...\n";
-                int focus = AutoAdjust(1, 17, 5, 1, new CaptureImageDelegate(CaptureImage), QualityType.FOCUS);
+                int focus = AutoAdjust(1, 17, 1, new CaptureImageDelegate(CaptureImage), 5,QualityType.FOCUS, SearchStategyType.SMARTSCAN);
                 console.Text += "[Info] Best focus value: " + focus + "\n";
                 console.Text += "[Info] Calling AutoFocus function...Done\n";
             }
@@ -357,7 +362,7 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("Myimageops.dll")]
-            static extern int AutoAdjust(int minPosition, int maxPosition, int currentPosition, int step, CaptureImageDelegate callback, QualityType type = QualityType.FOCUS);
+            static extern int AutoAdjust(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, int currentPosition = -1, QualityType type = QualityType.FOCUS, SearchStategyType strategy = SearchStategyType.SMARTSCAN); 
 
             //[DllImport("Myimageops.dll")]
             //static extern float ImageQuality(IntPtr source, int source_size, QualityType type = QualityType.FOCUS);
@@ -367,7 +372,7 @@ namespace ImageCenter
                 //float ret = ImageQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, QualityType.BRIGHTNESS);
                 //console.Text += "[Info] Calling FocusQuality function...Done\n";
                 console.Text = "[Info] Calling AutoBright function...\n";
-                int bright = AutoAdjust(1, 21, 5, 1, new CaptureImageDelegate(CaptureImage), QualityType.BRIGHTNESS);
+                int bright = AutoAdjust(1, 21, 1, new CaptureImageDelegate(CaptureImage), 5,QualityType.BRIGHTNESS, SearchStategyType.SMARTSCAN);
                 console.Text += "[Info] Best bright value: " + bright + "\n";
                 console.Text += "[Info] Calling AutoBright function...Done\n";
             }
