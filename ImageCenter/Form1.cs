@@ -17,7 +17,7 @@ namespace ImageCenter
         {
             InitializeComponent();
             StartAllTest.Text = "Please select DLL...";
-            if (imagePath != null)
+            if (imagePath != "")
             {
                 Image inputFile = Image.FromFile(imagePath);
                 inputImage.Image = inputFile;
@@ -325,7 +325,7 @@ namespace ImageCenter
             try
             {
                 console.Text = "[Info] Calling AutoFocus function...\n";
-                int focus = AutoAdjustFocus(1, 17, 1, new CaptureImageDelegate(CaptureImage), 5);
+                int focus = AutoAdjustFocus(1, 16, 1, new CaptureImageDelegate(CaptureImage), 5);
                 console.Text += "[Info] Best focus value: " + focus + "\n";
                 console.Text += "[Info] Calling AutoFocus function...Done\n";
             }
