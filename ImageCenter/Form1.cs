@@ -86,9 +86,9 @@ namespace ImageCenter
                 return;
             }
 
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern void BaseFunctionTest(IntPtr data, int length);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
@@ -148,9 +148,9 @@ namespace ImageCenter
                 return;
             }
             console.Text = "[Info] Calling RotateDegree function...\n";
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern int RotateTransform(IntPtr source, int source_size, ref float angle);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
@@ -187,9 +187,9 @@ namespace ImageCenter
                 return;
             }
             console.Text = "[Info] Calling MatcherTarget function...\n";
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, int originalPosX, int originalPosY, ref int loc_x, ref int loc_y, out IntPtr resultPtr);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
@@ -233,9 +233,9 @@ namespace ImageCenter
                 return;
             }
             console.Text = "[Info] Calling CutLineDetection function...\n";
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern int CutLineDetection(IntPtr source, int source_size, ref int delta_x, ref int delta_y);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
@@ -257,9 +257,9 @@ namespace ImageCenter
 
         private void buttonCutTraceValidate_Click(object sender, EventArgs e)
         {
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern int CutTraceDetection(IntPtr source, int source_size, ref double tarceAngle, ref int traceCenterOffset, ref int tranceWidth, ref int maxTraceWith, ref int maxArea);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
@@ -292,16 +292,30 @@ namespace ImageCenter
                 return;
             }
             console.Text = "[Info] Calling PixelMeasure function...\n";
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
-            [DllImport("Myimageops.dll")]
-            static extern int PixelSizeMeasure(IntPtr source, int source_size, int focalDistance, ref int pixelSize);
+            [DllImport("image_process.dll")]
+            static extern int PixelSizeMeasure(IntPtr source, int source_size, IntPtr target, int target_size, ref int offset_x, ref int offset_y, out IntPtr resultPtr);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             try
             {
-                int pixelSize = 0;
-                int ret = PixelSizeMeasure(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, 8, ref pixelSize);
+                int offset_x = -1;
+                int offset_y = -1;
+                IntPtr resultPtr = IntPtr.Zero;
+                int ret = PixelSizeMeasure(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offset_x, ref offset_y, out resultPtr);
+                if (ret < 0)
+                {
+                    console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + ret;
+                    return;
+                }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
                 console.Text += "\n[Info] Calling PixelMeasure function...Done.\n";
             }
             catch (DllNotFoundException)
@@ -316,12 +330,12 @@ namespace ImageCenter
 
         private void buttonFocusQuality_Click(object sender, EventArgs e)
         {
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
-            [DllImport("Myimageops.dll")]
-            static extern int AutoAdjustFocus(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, int currentPosition = -1); 
+            [DllImport("image_process.dll")]
+            static extern int AutoAdjustFocus(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, int currentPosition = -1);
             try
             {
                 console.Text = "[Info] Calling AutoFocus function...\n";
@@ -342,12 +356,12 @@ namespace ImageCenter
 
         private void buttonBrightQuality_Click(object sender, EventArgs e)
         {
-            [DllImport("Myimageops.dll")]
+            [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
-            [DllImport("Myimageops.dll")]
-            static extern int AutoAdjustLight(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, int currentPosition = -1); 
+            [DllImport("image_process.dll")]
+            static extern int AutoAdjustLight(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, int currentPosition = -1);
 
             try
             {
