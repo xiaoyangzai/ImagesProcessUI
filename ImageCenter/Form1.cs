@@ -176,53 +176,7 @@ namespace ImageCenter
 
         private void buttonMatcher_Click(object sender, EventArgs e)
         {
-            if (imagePath == null)
-            {
-                console.Text = "[Error] Input image is not selected. Please selec the input image again!";
-                return;
-            }
-            if (targetPath == null)
-            {
-                console.Text = "[Error] Target image is not selected. Please selec the target image again!";
-                return;
-            }
-            console.Text = "[Info] Calling MatcherTarget function...\n";
-            [DllImport("image_process.dll")]
-            static extern void SetDebugCallback(DebugCallbackDelegate callback);
-            [DllImport("image_process.dll")]
-            static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, int originalPosX, int originalPosY, ref int loc_x, ref int loc_y, out IntPtr resultPtr);
-            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
-            try
-            {
-                int quality = -1;
-                int origianlPosX = 345;
-                int origianlPosY = 185;
-                int loc_x = 0, loc_y = 0;
-                IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, origianlPosX, origianlPosY, ref loc_x, ref loc_y, out resultPtr);
-                if (quality < 0)
-                {
-                    console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
-                    return;
-                }
-                if (resultPtr != IntPtr.Zero)
-                {
-                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
-                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
-                    MemoryStream ms = new MemoryStream(imageBytes);
-                    resultImage.Image = Image.FromStream(ms);
-                }
-                console.Text += "\n[Info] Calling MatcherTarget function...Done!";
-            }
-            catch (DllNotFoundException)
-            {
-                console.Text = "[Error] DLL not found!!";
-            }
-            catch (EntryPointNotFoundException)
-            {
-                console.Text = "[Error] Function MatcherTarget not found!!";
-            }
-
+            return;
         }
 
         private void buttonCutLineDetection_Click(object sender, EventArgs e)
