@@ -32,15 +32,15 @@ namespace ImageCenter
         private void DebugCallback(string message)
         {
             Console.WriteLine("DEBUG: " + message);
-            console.Text += "************************\n";
-            console.Text += message;
-            console.Text += "\n************************\n";
+            //console.Text += "************************\n";
+            //console.Text += message;
+            //console.Text += "\n************************\n";
         }
 
         private int CaptureImage(IntPtr image, ref int length, int focusIndex)
         {
-            console.Text += "************************\n";
-            console.Text += "Calling CaptureImage()...\n";
+            //console.Text += "************************\n";
+            //console.Text += "Calling CaptureImage()...\n";
             if (image == IntPtr.Zero)
             {
                 console.Text += "Invalid buffer from algorithm\n";
@@ -54,15 +54,15 @@ namespace ImageCenter
             byte[] strBytes = Encoding.ASCII.GetBytes(focusImageBase64String);
 
             Image inputFile = Image.FromFile(focusImage);
-            inputImage.Image = inputFile;
-            inputImage.Refresh();
+            //inputImage.Image = inputFile;
+            //inputImage.Refresh();
             // Copy the image base64 data to chipImage algorithm 
             Marshal.Copy(strBytes, 0, image, strBytes.Length);
             length = strBytes.Length;
 
-            console.Text += "Capture image at focus or brightness position: " + focusImage + " with length: " + length + "\n";
-            console.Text += "Calling CaptureImage()...Done\n";
-            console.Text += "************************\n";
+            //console.Text += "Capture image at focus or brightness position: " + focusImage + " with length: " + length + "\n";
+            //console.Text += "Calling CaptureImage()...Done\n";
+            //console.Text += "************************\n";
             return 0;
         }
 
@@ -289,13 +289,21 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("image_process.dll")]
-            static extern int AutoAdjustFocus(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, int currentPosition = -1);
+            static extern int AutoAdjustFocus(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, int currentPosition = -1, int timeout = -1);
             try
             {
                 console.Text = "[Info] Calling AutoFocus function...\n";
-                int focus = AutoAdjustFocus(1, 16, 1, new CaptureImageDelegate(CaptureImage), 5);
+                int focus = AutoAdjustFocus(1, 16, 1, new CaptureImageDelegate(CaptureImage),10,8);
                 console.Text += "[Info] Best focus value: " + focus + "\n";
                 console.Text += "[Info] Calling AutoFocus function...Done\n";
+                if (focus > 0)
+                {
+                    string focusImagePath = Path.GetDirectoryName(imagePath);
+                    string focusImage = Path.Combine(focusImagePath, focus + ".png");
+                    Image inputFile = Image.FromFile(focusImage);
+                    inputImage.Image = inputFile;
+                    inputImage.Refresh();
+                }
             }
             catch (DllNotFoundException)
             {
@@ -304,6 +312,10 @@ namespace ImageCenter
             catch (EntryPointNotFoundException)
             {
                 console.Text = "[Error] Functior not found!!";
+            }
+            catch (Exception ex)
+            {
+                console.Text = "[Excetion] " + ex.Message;
             }
 
         }
