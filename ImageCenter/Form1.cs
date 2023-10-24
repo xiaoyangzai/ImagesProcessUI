@@ -190,7 +190,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, int originalPosX, int originalPosY, ref int loc_x, ref int loc_y, out IntPtr resultPtr);
+            static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, int originalPosX, int originalPosY, ref int loc_x, ref int loc_y, out IntPtr resultPtr, UInt16 fontSize = 5);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
@@ -199,7 +199,7 @@ namespace ImageCenter
                 int origianlPosY = 185;
                 int loc_x = 0, loc_y = 0;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, origianlPosX, origianlPosY, ref loc_x, ref loc_y, out resultPtr);
+                quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, origianlPosX, origianlPosY, ref loc_x, ref loc_y, out resultPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -295,7 +295,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int PixelSizeMeasure(IntPtr source, int source_size, IntPtr target, int target_size, ref int offset_x, ref int offset_y, out IntPtr resultPtr);
+            static extern int PixelSizeMeasure(IntPtr source, int source_size, IntPtr target, int target_size, ref int offset_x, ref int offset_y, out IntPtr resultPtr, UInt16 fontSize = 5);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             try
@@ -303,7 +303,7 @@ namespace ImageCenter
                 int offset_x = -1;
                 int offset_y = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                int ret = PixelSizeMeasure(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offset_x, ref offset_y, out resultPtr);
+                int ret = PixelSizeMeasure(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offset_x, ref offset_y, out resultPtr, 7);
                 if (ret < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + ret;
@@ -335,14 +335,16 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("image_process.dll")]
-            static extern int AutoAdjustFocus(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, int currentPosition = -1, int timeout = -1);
+            static extern int AutoAdjustFocus(int minPosition, int maxPosition, int step, CaptureImageDelegate callback,ref float optimumQuality,int currentPosition = -1, int timeout = -1, float refQuality = -1);
             try
             {
                 console.Text = "[Info] Calling AutoFocus function...\n";
-                int focus = AutoAdjustFocus(1, 16, 1, new CaptureImageDelegate(CaptureImage), 5, 900);
+                float optQuality = 0.0f;
+                int focus = AutoAdjustFocus(1, 16, 1, new CaptureImageDelegate(CaptureImage), ref optQuality, 5, 900, 0.2f);
                 if (focus > 0)
                 {
                     console.Text += "[Info] Best focus value: " + focus + "\n";
+                    console.Text += "[Info] Best quality value: " + optQuality + "\n";
                     console.Text += "[Info] Calling AutoFocus function...Done\n";
                     return;
                 }
