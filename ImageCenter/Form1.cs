@@ -190,16 +190,14 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTarget(IntPtr source, int source_size, IntPtr target, int target_size, int originalPosX, int originalPosY, ref int loc_x, ref int loc_y, out IntPtr resultPtr, UInt16 fontSize = 5);
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size,  ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
                 int quality = -1;
-                int origianlPosX = 345;
-                int origianlPosY = 185;
-                int loc_x = 0, loc_y = 0;
+                int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, origianlPosX, origianlPosY, ref loc_x, ref loc_y, out resultPtr, 7);
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length,  ref offsetX, ref offsetY, out resultPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -377,13 +375,15 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("image_process.dll")]
-            static extern int AutoAdjustLight(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, int currentPosition = -1, int timeout = -1);
+            static extern int AutoAdjustLight(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, ref float optimumQuality, int currentPosition = -1, int timeout = -1, float refQuality = -1.0f);
 
             try
             {
                 console.Text = "[Info] Calling AutoBright function...\n";
-                int bright = AutoAdjustLight(1, 21, 1, new CaptureImageDelegate(CaptureImage));
+                float quality = 0.0f;
+                int bright = AutoAdjustLight(1, 21, 1, new CaptureImageDelegate(CaptureImage), ref quality, -1, -1, 0.8f);
                 console.Text += "[Info] Best bright value: " + bright + "\n";
+                console.Text += "[Info] Best bright quality: " + quality+ "\n";
                 console.Text += "[Info] Calling AutoBright function...Done\n";
             }
             catch (DllNotFoundException)
