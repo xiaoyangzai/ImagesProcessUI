@@ -46,17 +46,23 @@
             buttonCutLineDetection = new Button();
             buttonCutTraceValidate = new Button();
             buttonPixelMeasure = new Button();
+            maxValue = new NumericUpDown();
+            label1 = new Label();
+            startPosition = new NumericUpDown();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)maxValue).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)startPosition).BeginInit();
             SuspendLayout();
             // 
             // StartAllTest
             // 
-            StartAllTest.Location = new Point(890, 755);
-            StartAllTest.Margin = new Padding(4, 5, 4, 5);
+            StartAllTest.Location = new Point(1246, 936);
+            StartAllTest.Margin = new Padding(6);
             StartAllTest.Name = "StartAllTest";
-            StartAllTest.Size = new Size(730, 58);
+            StartAllTest.Size = new Size(1022, 72);
             StartAllTest.TabIndex = 0;
             StartAllTest.Text = "Select DLL...";
             StartAllTest.UseVisualStyleBackColor = true;
@@ -65,18 +71,19 @@
             // load_status
             // 
             load_status.AutoSize = true;
-            load_status.Location = new Point(17, 760);
-            load_status.Margin = new Padding(4, 0, 4, 0);
+            load_status.Location = new Point(24, 942);
+            load_status.Margin = new Padding(6, 0, 6, 0);
             load_status.Name = "load_status";
-            load_status.Size = new Size(64, 25);
+            load_status.Size = new Size(91, 31);
             load_status.TabIndex = 1;
             load_status.Text = "Status:";
             // 
             // console
             // 
-            console.Location = new Point(89, 757);
+            console.Location = new Point(125, 939);
+            console.Margin = new Padding(4);
             console.Name = "console";
-            console.Size = new Size(745, 314);
+            console.Size = new Size(1041, 388);
             console.TabIndex = 3;
             console.Text = "";
             // 
@@ -86,10 +93,10 @@
             // 
             // selectImage
             // 
-            selectImage.Location = new Point(194, 562);
-            selectImage.Margin = new Padding(4, 5, 4, 5);
+            selectImage.Location = new Point(272, 697);
+            selectImage.Margin = new Padding(6);
             selectImage.Name = "selectImage";
-            selectImage.Size = new Size(231, 58);
+            selectImage.Size = new Size(323, 72);
             selectImage.TabIndex = 4;
             selectImage.Text = "Select input Image...";
             selectImage.UseVisualStyleBackColor = true;
@@ -97,10 +104,10 @@
             // 
             // selectTarget
             // 
-            selectTarget.Location = new Point(691, 565);
-            selectTarget.Margin = new Padding(4, 5, 4, 5);
+            selectTarget.Location = new Point(967, 701);
+            selectTarget.Margin = new Padding(6);
             selectTarget.Name = "selectTarget";
-            selectTarget.Size = new Size(231, 55);
+            selectTarget.Size = new Size(323, 68);
             selectTarget.TabIndex = 5;
             selectTarget.Text = "Select tempalte image...";
             selectTarget.UseVisualStyleBackColor = true;
@@ -116,40 +123,40 @@
             // 
             // inputImage
             // 
-            inputImage.Location = new Point(39, 37);
-            inputImage.Margin = new Padding(4, 5, 4, 5);
+            inputImage.Location = new Point(55, 46);
+            inputImage.Margin = new Padding(6);
             inputImage.Name = "inputImage";
-            inputImage.Size = new Size(589, 498);
+            inputImage.Size = new Size(825, 618);
             inputImage.SizeMode = PictureBoxSizeMode.StretchImage;
             inputImage.TabIndex = 8;
             inputImage.TabStop = false;
             // 
             // templateImage
             // 
-            templateImage.Location = new Point(719, 383);
-            templateImage.Margin = new Padding(4, 5, 4, 5);
+            templateImage.Location = new Point(1007, 475);
+            templateImage.Margin = new Padding(6);
             templateImage.Name = "templateImage";
-            templateImage.Size = new Size(186, 152);
+            templateImage.Size = new Size(260, 188);
             templateImage.SizeMode = PictureBoxSizeMode.CenterImage;
             templateImage.TabIndex = 9;
             templateImage.TabStop = false;
             // 
             // resultImage
             // 
-            resultImage.Location = new Point(1001, 37);
-            resultImage.Margin = new Padding(4, 5, 4, 5);
+            resultImage.Location = new Point(1401, 46);
+            resultImage.Margin = new Padding(6);
             resultImage.Name = "resultImage";
-            resultImage.Size = new Size(651, 498);
+            resultImage.Size = new Size(911, 618);
             resultImage.SizeMode = PictureBoxSizeMode.StretchImage;
             resultImage.TabIndex = 10;
             resultImage.TabStop = false;
             // 
             // buttonRotateDegree
             // 
-            buttonRotateDegree.Location = new Point(890, 837);
-            buttonRotateDegree.Margin = new Padding(4, 5, 4, 5);
+            buttonRotateDegree.Location = new Point(1246, 1038);
+            buttonRotateDegree.Margin = new Padding(6);
             buttonRotateDegree.Name = "buttonRotateDegree";
-            buttonRotateDegree.Size = new Size(231, 58);
+            buttonRotateDegree.Size = new Size(323, 72);
             buttonRotateDegree.TabIndex = 11;
             buttonRotateDegree.Text = "ImageRotateDegree";
             buttonRotateDegree.UseVisualStyleBackColor = true;
@@ -157,10 +164,10 @@
             // 
             // buttonMatcher
             // 
-            buttonMatcher.Location = new Point(890, 925);
-            buttonMatcher.Margin = new Padding(4, 5, 4, 5);
+            buttonMatcher.Location = new Point(1246, 1147);
+            buttonMatcher.Margin = new Padding(6);
             buttonMatcher.Name = "buttonMatcher";
-            buttonMatcher.Size = new Size(231, 58);
+            buttonMatcher.Size = new Size(323, 72);
             buttonMatcher.TabIndex = 12;
             buttonMatcher.Text = "ImageMatcher";
             buttonMatcher.UseVisualStyleBackColor = true;
@@ -168,10 +175,10 @@
             // 
             // buttonFocusQuality
             // 
-            buttonFocusQuality.Location = new Point(890, 1013);
-            buttonFocusQuality.Margin = new Padding(4, 5, 4, 5);
+            buttonFocusQuality.Location = new Point(1246, 1256);
+            buttonFocusQuality.Margin = new Padding(6);
             buttonFocusQuality.Name = "buttonFocusQuality";
-            buttonFocusQuality.Size = new Size(231, 58);
+            buttonFocusQuality.Size = new Size(323, 72);
             buttonFocusQuality.TabIndex = 13;
             buttonFocusQuality.Text = "AutoFocus";
             buttonFocusQuality.UseVisualStyleBackColor = true;
@@ -179,10 +186,10 @@
             // 
             // buttonBrightQuality
             // 
-            buttonBrightQuality.Location = new Point(1130, 1013);
-            buttonBrightQuality.Margin = new Padding(4, 5, 4, 5);
+            buttonBrightQuality.Location = new Point(1582, 1256);
+            buttonBrightQuality.Margin = new Padding(6);
             buttonBrightQuality.Name = "buttonBrightQuality";
-            buttonBrightQuality.Size = new Size(231, 58);
+            buttonBrightQuality.Size = new Size(323, 72);
             buttonBrightQuality.TabIndex = 14;
             buttonBrightQuality.Text = "AutoBright";
             buttonBrightQuality.UseVisualStyleBackColor = true;
@@ -190,10 +197,10 @@
             // 
             // buttonCutLineDetection
             // 
-            buttonCutLineDetection.Location = new Point(1389, 837);
-            buttonCutLineDetection.Margin = new Padding(4, 5, 4, 5);
+            buttonCutLineDetection.Location = new Point(1945, 1038);
+            buttonCutLineDetection.Margin = new Padding(6);
             buttonCutLineDetection.Name = "buttonCutLineDetection";
-            buttonCutLineDetection.Size = new Size(231, 58);
+            buttonCutLineDetection.Size = new Size(323, 72);
             buttonCutLineDetection.TabIndex = 15;
             buttonCutLineDetection.Text = "ImageCutLineDetection";
             buttonCutLineDetection.UseVisualStyleBackColor = true;
@@ -201,10 +208,10 @@
             // 
             // buttonCutTraceValidate
             // 
-            buttonCutTraceValidate.Location = new Point(1130, 837);
-            buttonCutTraceValidate.Margin = new Padding(4, 5, 4, 5);
+            buttonCutTraceValidate.Location = new Point(1582, 1038);
+            buttonCutTraceValidate.Margin = new Padding(6);
             buttonCutTraceValidate.Name = "buttonCutTraceValidate";
-            buttonCutTraceValidate.Size = new Size(231, 58);
+            buttonCutTraceValidate.Size = new Size(323, 72);
             buttonCutTraceValidate.TabIndex = 16;
             buttonCutTraceValidate.Text = "ImageCutTraceValidate";
             buttonCutTraceValidate.UseVisualStyleBackColor = true;
@@ -212,21 +219,58 @@
             // 
             // buttonPixelMeasure
             // 
-            buttonPixelMeasure.Location = new Point(1130, 925);
-            buttonPixelMeasure.Margin = new Padding(4, 5, 4, 5);
+            buttonPixelMeasure.Location = new Point(1582, 1147);
+            buttonPixelMeasure.Margin = new Padding(6);
             buttonPixelMeasure.Name = "buttonPixelMeasure";
-            buttonPixelMeasure.Size = new Size(231, 58);
+            buttonPixelMeasure.Size = new Size(323, 72);
             buttonPixelMeasure.TabIndex = 17;
             buttonPixelMeasure.Text = "ImagePixelMeasure";
             buttonPixelMeasure.UseVisualStyleBackColor = true;
             buttonPixelMeasure.Click += buttonPixelMeasure_Click;
             // 
+            // maxValue
+            // 
+            maxValue.Location = new Point(1474, 1349);
+            maxValue.Name = "maxValue";
+            maxValue.Size = new Size(95, 38);
+            maxValue.TabIndex = 18;
+            maxValue.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(1262, 1353);
+            label1.Name = "label1";
+            label1.Size = new Size(192, 31);
+            label1.TabIndex = 19;
+            label1.Text = "焦距/光亮最大值";
+            // 
+            // startPosition
+            // 
+            startPosition.Location = new Point(1767, 1349);
+            startPosition.Name = "startPosition";
+            startPosition.Size = new Size(115, 38);
+            startPosition.TabIndex = 20;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(1593, 1353);
+            label2.Name = "label2";
+            label2.Size = new Size(158, 31);
+            label2.TabIndex = 21;
+            label2.Text = "搜索起始位置";
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(1924, 1302);
+            ClientSize = new Size(2694, 1614);
+            Controls.Add(label2);
+            Controls.Add(startPosition);
+            Controls.Add(label1);
+            Controls.Add(maxValue);
             Controls.Add(buttonPixelMeasure);
             Controls.Add(buttonCutTraceValidate);
             Controls.Add(buttonCutLineDetection);
@@ -242,12 +286,14 @@
             Controls.Add(console);
             Controls.Add(load_status);
             Controls.Add(StartAllTest);
-            Margin = new Padding(4, 5, 4, 5);
+            Margin = new Padding(6);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)inputImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).EndInit();
+            ((System.ComponentModel.ISupportInitialize)maxValue).EndInit();
+            ((System.ComponentModel.ISupportInitialize)startPosition).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -257,7 +303,7 @@
         private Button StartAllTest;
         private Label load_status;
         private RichTextBox console;
-        private string dllPath = "";
+        private string dllPath = "C:\\Users\\wangy\\source\\repos\\ChipImage\\bin\\";
         private string imagePath = "";
         string imageBase64String;
         string targetBase64String;
@@ -277,5 +323,9 @@
         private Button buttonCutLineDetection;
         private Button buttonCutTraceValidate;
         private Button buttonPixelMeasure;
+        private NumericUpDown maxValue;
+        private Label label1;
+        private NumericUpDown startPosition;
+        private Label label2;
     }
 }

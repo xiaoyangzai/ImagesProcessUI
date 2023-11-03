@@ -8,6 +8,7 @@ using System.IO;
 using System.Data.SqlTypes;
 using System.Text;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace ImageCenter
 {
@@ -69,22 +70,23 @@ namespace ImageCenter
         private void button1_Click(object sender, EventArgs e)
         {
             selectDllPath.FileName = "*.dll";
-            if (selectDllPath.ShowDialog() == DialogResult.OK)
+            string filePath = dllPath + "image_process.dll";
+            if (dllPath == null && selectDllPath.ShowDialog() == DialogResult.OK)
             {
-                string filePath = selectDllPath.FileName;
+                filePath = selectDllPath.FileName;
                 dllPath = Path.GetDirectoryName(filePath);
                 if (dllPath == null || filePath == null)
                 {
                     console.Text = "[Error]: Failed to select file DLL. Please re-select.";
                     return;
                 }
-                Directory.SetCurrentDirectory(dllPath);
-                console.Text = "Select DLL: " + filePath;
             }
             if (dllPath == null)
             {
                 return;
             }
+            Directory.SetCurrentDirectory(dllPath);
+            console.Text = "Select DLL: " + filePath;
 
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
@@ -190,14 +192,14 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size,  ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length,  ref offsetX, ref offsetY, out resultPtr, 7);
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -333,12 +335,14 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("image_process.dll")]
-            static extern int AutoAdjustFocus(int minPosition, int maxPosition, int step, CaptureImageDelegate callback,ref float optimumQuality,int currentPosition = -1, int timeout = -1, float refQuality = -1);
+            static extern int AutoAdjustFocus(int minPosition, int maxPosition, int step, CaptureImageDelegate callback, ref float optimumQuality, int currentPosition = -1, int timeout = -1, float refQuality = -1);
             try
             {
                 console.Text = "[Info] Calling AutoFocus function...\n";
                 float optQuality = 0.0f;
-                int focus = AutoAdjustFocus(1, 16, 1, new CaptureImageDelegate(CaptureImage), ref optQuality, 5, 900, 0.2f);
+                int end = (int)maxValue.Value;
+                int refPosition = (int)startPosition.Value <= 0 ? -1 : (int)startPosition.Value;
+                int focus = AutoAdjustFocus(1, end, -1, new CaptureImageDelegate(CaptureImage), ref optQuality, refPosition);
                 if (focus > 0)
                 {
                     console.Text += "[Info] Best focus value: " + focus + "\n";
@@ -349,7 +353,9 @@ namespace ImageCenter
                 if (focus == -1)
                 {
                     console.Text += "[Info] Calling AutoFocus function...Timeout\n";
-                } else {
+                }
+                else
+                {
                     console.Text += "[Error] Failed to call AutoFocus function. Exit code: " + focus + "\n";
                 }
             }
@@ -381,9 +387,9 @@ namespace ImageCenter
             {
                 console.Text = "[Info] Calling AutoBright function...\n";
                 float quality = 0.0f;
-                int bright = AutoAdjustLight(1, 21, 1, new CaptureImageDelegate(CaptureImage), ref quality, -1, -1, 0.8f);
+                int bright = AutoAdjustLight(1, 21, 1, new CaptureImageDelegate(CaptureImage), ref quality);
                 console.Text += "[Info] Best bright value: " + bright + "\n";
-                console.Text += "[Info] Best bright quality: " + quality+ "\n";
+                console.Text += "[Info] Best bright quality: " + quality + "\n";
                 console.Text += "[Info] Calling AutoBright function...Done\n";
             }
             catch (DllNotFoundException)
