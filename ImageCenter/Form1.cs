@@ -341,8 +341,9 @@ namespace ImageCenter
                 console.Text = "[Info] Calling AutoFocus function...\n";
                 float optQuality = 0.0f;
                 int end = (int)maxValue.Value;
+                int step = (int)adjustStep.Value <= 0 ? -1 : (int)adjustStep.Value;
                 int refPosition = (int)startPosition.Value <= 0 ? -1 : (int)startPosition.Value;
-                int focus = AutoAdjustFocus(1, end, -1, new CaptureImageDelegate(CaptureImage), ref optQuality, refPosition);
+                int focus = AutoAdjustFocus(1, end, step, new CaptureImageDelegate(CaptureImage), ref optQuality, refPosition);
                 if (focus > 0)
                 {
                     console.Text += "[Info] Best focus value: " + focus + "\n";
@@ -387,7 +388,10 @@ namespace ImageCenter
             {
                 console.Text = "[Info] Calling AutoBright function...\n";
                 float quality = 0.0f;
-                int bright = AutoAdjustLight(1, 21, 1, new CaptureImageDelegate(CaptureImage), ref quality);
+                int end = (int)maxValue.Value;
+                int step = (int)adjustStep.Value <= 0 ? -1 : (int)adjustStep.Value;
+                int refPosition = (int)startPosition.Value <= 0 ? -1 : (int)startPosition.Value;
+                int bright = AutoAdjustLight(1, end, step, new CaptureImageDelegate(CaptureImage), ref quality, refPosition);
                 console.Text += "[Info] Best bright value: " + bright + "\n";
                 console.Text += "[Info] Best bright quality: " + quality + "\n";
                 console.Text += "[Info] Calling AutoBright function...Done\n";
