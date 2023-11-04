@@ -346,6 +346,11 @@ namespace ImageCenter
                 int focus = AutoAdjustFocus(1, end, step, new CaptureImageDelegate(CaptureImage), ref optQuality, refPosition);
                 if (focus > 0)
                 {
+                    string focusImagePath = Path.GetDirectoryName(imagePath);
+                    string focusImage = Path.Combine(focusImagePath, focus + ".png");
+                    Image inputFile = Image.FromFile(focusImage);
+                    inputImage.Image = inputFile;
+                    inputImage.Refresh();
                     console.Text += "[Info] Best focus value: " + focus + "\n";
                     console.Text += "[Info] Best quality value: " + optQuality + "\n";
                     console.Text += "[Info] Calling AutoFocus function...Done\n";
@@ -354,6 +359,10 @@ namespace ImageCenter
                 if (focus == -1)
                 {
                     console.Text += "[Info] Calling AutoFocus function...Timeout\n";
+                }
+                else if (focus == -3)
+                {
+                    console.Text += "[Error] Failed to call AutoFocus function. Low quality: " + optQuality + ". Please re-select focus range.\n";
                 }
                 else
                 {
@@ -392,9 +401,32 @@ namespace ImageCenter
                 int step = (int)adjustStep.Value <= 0 ? -1 : (int)adjustStep.Value;
                 int refPosition = (int)startPosition.Value <= 0 ? -1 : (int)startPosition.Value;
                 int bright = AutoAdjustLight(1, end, step, new CaptureImageDelegate(CaptureImage), ref quality, refPosition);
-                console.Text += "[Info] Best bright value: " + bright + "\n";
-                console.Text += "[Info] Best bright quality: " + quality + "\n";
-                console.Text += "[Info] Calling AutoBright function...Done\n";
+                if (bright > 0)
+                {
+                    string focusImagePath = Path.GetDirectoryName(imagePath);
+                    string brightImage = Path.Combine(focusImagePath, bright + ".png");
+                    Image inputFile = Image.FromFile(brightImage);
+                    inputImage.Image = inputFile;
+                    inputImage.Refresh();
+                    console.Text += "[Info] Best bright value: " + bright + "\n";
+                    console.Text += "[Info] Best quality value: " + quality + "\n";
+                    console.Text += "[Info] Calling AutoLight function...Done\n";
+                    return;
+                }
+                if (bright == -1)
+                {
+                    console.Text += "[Info] Calling AutoLight function...Timeout\n";
+                }
+                else if (bright == -3)
+                {
+                    console.Text += "[Error] Failed to call AutoLight function. Low quality: " + quality + ". Please re-select bright range.\n";
+                }
+                else
+                {
+                    console.Text += "[Error] Failed to call AutoLight function. Exit code: " + bright + "\n";
+                }
+                console.Text += "[Info] Calling AutoLight function...Done\n";
+                return;
             }
             catch (DllNotFoundException)
             {
