@@ -35,6 +35,7 @@ namespace ImageCenter
         {
             Debug.WriteLine("************************\n");
             Debug.WriteLine("DEBUG: " + message);
+            console.Text += message;
             Debug.WriteLine("************************\n");
         }
 
@@ -357,9 +358,14 @@ namespace ImageCenter
                 {
                     string focusImagePath = Path.GetDirectoryName(imagePath);
                     string focusImage = Path.Combine(focusImagePath, focus + ".png");
+                    imagePath = focusImage;
                     Image inputFile = Image.FromFile(focusImage);
                     inputImage.Image = inputFile;
                     inputImage.Refresh();
+                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                    imageBase64String = Convert.ToBase64String(imageBytes);
+
+
                     console.Text += "[Info] Best focus value: " + focus + "\n";
                     console.Text += "[Info] Best quality value: " + optQuality + "\n";
                     console.Text += "[Info] Calling AutoFocus function...Done\n";
@@ -414,9 +420,12 @@ namespace ImageCenter
                 {
                     string focusImagePath = Path.GetDirectoryName(imagePath);
                     string brightImage = Path.Combine(focusImagePath, bright + ".png");
+                    imagePath = brightImage;
                     Image inputFile = Image.FromFile(brightImage);
                     inputImage.Image = inputFile;
                     inputImage.Refresh();
+                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+                    imageBase64String = Convert.ToBase64String(imageBytes);
                     console.Text += "[Info] Best bright value: " + bright + "\n";
                     console.Text += "[Info] Best quality value: " + quality + "\n";
                     console.Text += "[Info] Calling AutoLight function...Done\n";
