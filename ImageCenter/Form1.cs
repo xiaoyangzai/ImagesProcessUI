@@ -160,7 +160,7 @@ namespace ImageCenter
             {
                 float angle = 0;
                 IntPtr resultPtr = IntPtr.Zero;
-                int ret = RotateTransform(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref angle,out resultPtr);
+                int ret = RotateTransform(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref angle, out resultPtr);
                 if (ret < 0)
                 {
                     console.Text += "\n[Error] Failed to call RotateDegree function. Exit Code: " + ret;
@@ -246,13 +246,21 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int CutLineDetection(IntPtr source, int source_size, ref int delta_x, ref int delta_y);
+            static extern int CutLineDetection(IntPtr source, int source_size, ref int width, ref int offsetY, out IntPtr resultPtr);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
-                int delta_x = -1;
-                int delta_y = -1;
-                int ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref delta_x, ref delta_y);
+                int width = -1;
+                int offsetY = -1;
+                IntPtr resultPtr = IntPtr.Zero;
+                int ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref width, ref offsetY, out resultPtr);
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
                 console.Text += "\n[Info] Calling CutLineDetection function...Done!";
             }
             catch (DllNotFoundException)
@@ -453,6 +461,20 @@ namespace ImageCenter
             catch (EntryPointNotFoundException)
             {
                 console.Text = "[Error] Functior not found!!";
+            }
+        }
+
+        private void saveReusltImage_Click(object sender, EventArgs e)
+        {
+            if (resultImage.Image != null)
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Images|*.png;*.bmp;*.jpg";
+                saveFileDialog.Title = "Save an Image File";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    resultImage.Image.Save(saveFileDialog.FileName);
+                }
             }
         }
     }
