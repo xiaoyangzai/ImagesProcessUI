@@ -278,18 +278,26 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int CutTraceDetection(IntPtr source, int source_size, ref double tarceAngle, ref int traceCenterOffset, ref int tranceWidth, ref int maxTraceWith, ref int maxArea);
+            static extern int CutTraceDetection(IntPtr source, int source_size, ref int traceCenterOffset, ref int tranceWidth, ref int maxTraceWith, ref int maxArea, int cutLineCenterY, out IntPtr resultPtr);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             console.Text = "[Info] Calling CutTraceDetection function...\n";
             try
             {
-                double tarceAngle = 0.0;
                 int traceCenterOffset = 0;
                 int tranceWidth = -1;
                 int maxTraceWith = -1;
                 int maxArea = -1;
-                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref tarceAngle, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea);
+                IntPtr resultPtr = IntPtr.Zero;
+                int cutLineCencertLocY = (int)cutCenterLocY.Value;
+                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, cutLineCencertLocY, out resultPtr);
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
                 console.Text += "\n[Info] Calling CutTraceDetection function...Done!";
             }
             catch (DllNotFoundException)

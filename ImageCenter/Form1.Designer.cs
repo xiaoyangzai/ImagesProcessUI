@@ -53,12 +53,15 @@
             adjustStep = new NumericUpDown();
             label3 = new Label();
             saveReusltImage = new Button();
+            cutCenterLocY = new NumericUpDown();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)maxValue).BeginInit();
             ((System.ComponentModel.ISupportInitialize)startPosition).BeginInit();
             ((System.ComponentModel.ISupportInitialize)adjustStep).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)cutCenterLocY).BeginInit();
             SuspendLayout();
             // 
             // StartAllTest
@@ -85,7 +88,7 @@
             // console
             // 
             console.Location = new Point(92, 810);
-            console.Margin = new Padding(4, 4, 4, 4);
+            console.Margin = new Padding(4);
             console.Name = "console";
             console.Size = new Size(1040, 389);
             console.TabIndex = 3;
@@ -201,23 +204,23 @@
             // 
             // buttonCutLineDetection
             // 
-            buttonCutLineDetection.Location = new Point(1912, 908);
+            buttonCutLineDetection.Location = new Point(1550, 908);
             buttonCutLineDetection.Margin = new Padding(6, 5, 6, 5);
             buttonCutLineDetection.Name = "buttonCutLineDetection";
             buttonCutLineDetection.Size = new Size(324, 71);
             buttonCutLineDetection.TabIndex = 15;
-            buttonCutLineDetection.Text = "ImageCutLineDetection";
+            buttonCutLineDetection.Text = "CutLineDetection";
             buttonCutLineDetection.UseVisualStyleBackColor = true;
             buttonCutLineDetection.Click += buttonCutLineDetection_Click;
             // 
             // buttonCutTraceValidate
             // 
-            buttonCutTraceValidate.Location = new Point(1550, 908);
+            buttonCutTraceValidate.Location = new Point(1886, 1018);
             buttonCutTraceValidate.Margin = new Padding(6, 5, 6, 5);
             buttonCutTraceValidate.Name = "buttonCutTraceValidate";
-            buttonCutTraceValidate.Size = new Size(324, 71);
+            buttonCutTraceValidate.Size = new Size(253, 71);
             buttonCutTraceValidate.TabIndex = 16;
-            buttonCutTraceValidate.Text = "ImageCutTraceValidate";
+            buttonCutTraceValidate.Text = "CutTraceValidate";
             buttonCutTraceValidate.UseVisualStyleBackColor = true;
             buttonCutTraceValidate.Click += buttonCutTraceValidate_Click;
             // 
@@ -235,7 +238,7 @@
             // maxValue
             // 
             maxValue.Location = new Point(1442, 1220);
-            maxValue.Margin = new Padding(4, 4, 4, 4);
+            maxValue.Margin = new Padding(4);
             maxValue.Name = "maxValue";
             maxValue.Size = new Size(96, 38);
             maxValue.TabIndex = 18;
@@ -254,7 +257,7 @@
             // startPosition
             // 
             startPosition.Location = new Point(1752, 1220);
-            startPosition.Margin = new Padding(4, 4, 4, 4);
+            startPosition.Margin = new Padding(4);
             startPosition.Name = "startPosition";
             startPosition.Size = new Size(116, 38);
             startPosition.TabIndex = 20;
@@ -299,12 +302,36 @@
             saveReusltImage.UseVisualStyleBackColor = true;
             saveReusltImage.Click += saveReusltImage_Click;
             // 
+            // cutCenterLocY
+            // 
+            cutCenterLocY.Increment = new decimal(new int[] { 5, 0, 0, 0 });
+            cutCenterLocY.Location = new Point(2044, 926);
+            cutCenterLocY.Margin = new Padding(6, 5, 6, 5);
+            cutCenterLocY.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            cutCenterLocY.Minimum = new decimal(new int[] { 500, 0, 0, 0 });
+            cutCenterLocY.Name = "cutCenterLocY";
+            cutCenterLocY.Size = new Size(95, 38);
+            cutCenterLocY.TabIndex = 25;
+            cutCenterLocY.Value = new decimal(new int[] { 878, 0, 0, 0 });
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(1886, 928);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(148, 31);
+            label4.TabIndex = 26;
+            label4.Text = "切割道中心Y";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2402, 1287);
+            Controls.Add(label4);
+            Controls.Add(cutCenterLocY);
             Controls.Add(saveReusltImage);
             Controls.Add(label3);
             Controls.Add(adjustStep);
@@ -336,6 +363,7 @@
             ((System.ComponentModel.ISupportInitialize)maxValue).EndInit();
             ((System.ComponentModel.ISupportInitialize)startPosition).EndInit();
             ((System.ComponentModel.ISupportInitialize)adjustStep).EndInit();
+            ((System.ComponentModel.ISupportInitialize)cutCenterLocY).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -372,5 +400,7 @@
         private NumericUpDown adjustStep;
         private Label label3;
         private Button saveReusltImage;
+        private NumericUpDown cutCenterLocY;
+        private Label label4;
     }
 }
