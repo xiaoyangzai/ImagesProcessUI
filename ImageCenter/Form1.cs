@@ -23,6 +23,7 @@ namespace ImageCenter
             {
                 Image inputFile = Image.FromFile(imagePath);
                 inputImage.Image = inputFile;
+                originalImage = new Bitmap(inputImage.Image);
                 byte[] imageBytes = File.ReadAllBytes(imagePath);
                 imageBase64String = Convert.ToBase64String(imageBytes);
             }
@@ -124,6 +125,7 @@ namespace ImageCenter
                 inputImage.Image = inputFile;
                 byte[] imageBytes = File.ReadAllBytes(imagePath);
                 imageBase64String = Convert.ToBase64String(imageBytes);
+                originalImage = new Bitmap(inputImage.Image);
             }
         }
 
@@ -483,6 +485,70 @@ namespace ImageCenter
                 {
                     resultImage.Image.Save(saveFileDialog.FileName);
                 }
+            }
+        }
+
+        private void cutLineWidth_ValueChanged(object sender, EventArgs e)
+        {
+            if (originalImage != null)
+            {
+                Bitmap bitmap = new Bitmap(originalImage);
+
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    // 设置线条颜色和宽度
+                    Pen pen = new Pen(Color.YellowGreen, 10);
+
+                    // 设置虚线的样式
+                    Pen dashedPen = new Pen(Color.YellowGreen, 10);
+                    dashedPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+
+                    // 计算线条的起点和终点
+                    int startY = (int)cutCenterLocY.Value;
+                    int endY = startY;
+                    int topY = startY - (int)cutLineWidth.Value / 2;
+                    int bottomY = startY + (int)cutLineWidth.Value / 2;
+
+                    // 绘制水平线条
+                    graphics.DrawLine(pen, 0, startY, inputImage.Image.Width, endY);
+                    graphics.DrawLine(dashedPen, 0, topY, inputImage.Image.Width, topY);
+                    graphics.DrawLine(dashedPen, 0, bottomY, inputImage.Image.Width, bottomY);
+                }
+
+                // 将绘制好线条的 Bitmap 对象设置为 PictureBox 的图像
+                inputImage.Image = bitmap;
+            }
+        }
+
+        private void cutCenterLocY_ValueChanged(object sender, EventArgs e)
+        {
+            if (originalImage != null)
+            {
+                Bitmap bitmap = new Bitmap(originalImage);
+
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    // 设置线条颜色和宽度
+                    Pen pen = new Pen(Color.YellowGreen, 10);
+
+                    // 设置虚线的样式
+                    Pen dashedPen = new Pen(Color.YellowGreen, 10);
+                    dashedPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+
+                    // 计算线条的起点和终点
+                    int startY = (int)cutCenterLocY.Value;
+                    int endY = startY;
+                    int topY = startY - (int)cutLineWidth.Value / 2;
+                    int bottomY = startY + (int)cutLineWidth.Value / 2;
+
+                    // 绘制水平线条
+                    graphics.DrawLine(pen, 0, startY, inputImage.Image.Width, endY);
+                    graphics.DrawLine(dashedPen, 0, topY, inputImage.Image.Width, topY);
+                    graphics.DrawLine(dashedPen, 0, bottomY, inputImage.Image.Width, bottomY);
+                }
+
+                // 将绘制好线条的 Bitmap 对象设置为 PictureBox 的图像
+                inputImage.Image = bitmap;
             }
         }
     }

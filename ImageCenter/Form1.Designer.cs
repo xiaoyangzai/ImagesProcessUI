@@ -55,6 +55,8 @@
             saveReusltImage = new Button();
             cutCenterLocY = new NumericUpDown();
             label4 = new Label();
+            cutLineWidth = new NumericUpDown();
+            label5 = new Label();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -62,6 +64,7 @@
             ((System.ComponentModel.ISupportInitialize)startPosition).BeginInit();
             ((System.ComponentModel.ISupportInitialize)adjustStep).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cutCenterLocY).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)cutLineWidth).BeginInit();
             SuspendLayout();
             // 
             // StartAllTest
@@ -307,12 +310,13 @@
             cutCenterLocY.Increment = new decimal(new int[] { 5, 0, 0, 0 });
             cutCenterLocY.Location = new Point(2044, 926);
             cutCenterLocY.Margin = new Padding(6, 5, 6, 5);
-            cutCenterLocY.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            cutCenterLocY.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             cutCenterLocY.Minimum = new decimal(new int[] { 500, 0, 0, 0 });
             cutCenterLocY.Name = "cutCenterLocY";
             cutCenterLocY.Size = new Size(95, 38);
             cutCenterLocY.TabIndex = 25;
             cutCenterLocY.Value = new decimal(new int[] { 878, 0, 0, 0 });
+            cutCenterLocY.ValueChanged += cutCenterLocY_ValueChanged;
             // 
             // label4
             // 
@@ -324,12 +328,37 @@
             label4.TabIndex = 26;
             label4.Text = "切割道中心Y";
             // 
+            // cutLineWidth
+            // 
+            cutLineWidth.Increment = new decimal(new int[] { 2, 0, 0, 0 });
+            cutLineWidth.Location = new Point(2044, 974);
+            cutLineWidth.Margin = new Padding(6, 5, 6, 5);
+            cutLineWidth.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            cutLineWidth.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
+            cutLineWidth.Name = "cutLineWidth";
+            cutLineWidth.Size = new Size(95, 38);
+            cutLineWidth.TabIndex = 27;
+            cutLineWidth.Value = new decimal(new int[] { 100, 0, 0, 0 });
+            cutLineWidth.ValueChanged += cutLineWidth_ValueChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(1886, 976);
+            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(134, 31);
+            label5.TabIndex = 28;
+            label5.Text = "切割道宽度";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2402, 1287);
+            Controls.Add(label5);
+            Controls.Add(cutLineWidth);
             Controls.Add(label4);
             Controls.Add(cutCenterLocY);
             Controls.Add(saveReusltImage);
@@ -364,6 +393,7 @@
             ((System.ComponentModel.ISupportInitialize)startPosition).EndInit();
             ((System.ComponentModel.ISupportInitialize)adjustStep).EndInit();
             ((System.ComponentModel.ISupportInitialize)cutCenterLocY).EndInit();
+            ((System.ComponentModel.ISupportInitialize)cutLineWidth).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -378,6 +408,7 @@
         string imageBase64String;
         string targetBase64String;
         private string targetPath = "";
+        private Bitmap originalImage;
         private OpenFileDialog selectDllPath;
         private Button selectImage;
         private Button selectTarget;
@@ -402,5 +433,7 @@
         private Button saveReusltImage;
         private NumericUpDown cutCenterLocY;
         private Label label4;
+        private NumericUpDown cutLineWidth;
+        private Label label5;
     }
 }
