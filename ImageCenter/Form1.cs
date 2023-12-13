@@ -9,6 +9,7 @@ using System.Data.SqlTypes;
 using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.DirectoryServices;
 
 namespace ImageCenter
 {
@@ -248,14 +249,15 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int CutLineDetection(IntPtr source, int source_size, ref int width, ref int offsetY, out IntPtr resultPtr);
+            static extern int CutLineDetection(IntPtr source, int source_size, ref int width, ref int offsetY, int refOffsetY,out IntPtr resultPtr);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
                 int width = -1;
                 int offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                int ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref width, ref offsetY, out resultPtr);
+                int refOffsetY = (int)cutCenterLocY.Value;
+                int ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref width, ref offsetY, refOffsetY,out resultPtr);
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
@@ -550,6 +552,48 @@ namespace ImageCenter
                 // 将绘制好线条的 Bitmap 对象设置为 PictureBox 的图像
                 inputImage.Image = bitmap;
             }
+        }
+
+        private void cutCenterValidate_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("image_process.dll")]
+            static extern int CutLineCenterValidator(IntPtr source, int source_size, ref int actualOffsetY, int width, int expectedOffsetY, int retryTimes, out IntPtr resultPtr);
+
+            try
+            {
+                console.Text = "[Info] Calling CutLineCenterValidator() function...\n";
+                float quality = 0.0f;
+                int times = (int)retryTimes.Value;
+                IntPtr resultPtr = IntPtr.Zero;
+                int cutLineCencertLocY = (int)cutCenterLocY.Value;
+                int width = (int)cutLineWidth.Value;
+                int acctualOffsetY = 0;
+                int ret = CutLineCenterValidator(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref acctualOffsetY, width, cutLineCencertLocY, times, out resultPtr);
+
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                    console.Text += "[Info] actual center of cut line is " + acctualOffsetY + "\n";
+                    console.Text += "[Info] Calling CutLineCenterValidator() function...Done\n";
+                }
+                console.Text += "[Info] Calling CutLineCenterValidator() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Functior not found!!";
+            }
+
         }
     }
 }

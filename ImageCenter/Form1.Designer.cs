@@ -57,6 +57,8 @@
             label4 = new Label();
             cutLineWidth = new NumericUpDown();
             label5 = new Label();
+            cutCenterValidate = new Button();
+            retryTimes = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -65,6 +67,7 @@
             ((System.ComponentModel.ISupportInitialize)adjustStep).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cutCenterLocY).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cutLineWidth).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)retryTimes).BeginInit();
             SuspendLayout();
             // 
             // StartAllTest
@@ -351,12 +354,37 @@
             label5.TabIndex = 28;
             label5.Text = "切割道宽度";
             // 
+            // cutCenterValidate
+            // 
+            cutCenterValidate.Location = new Point(1886, 1127);
+            cutCenterValidate.Margin = new Padding(6, 5, 6, 5);
+            cutCenterValidate.Name = "cutCenterValidate";
+            cutCenterValidate.Size = new Size(148, 71);
+            cutCenterValidate.TabIndex = 29;
+            cutCenterValidate.Text = "CutCenterValidate";
+            cutCenterValidate.UseVisualStyleBackColor = true;
+            cutCenterValidate.Click += cutCenterValidate_Click;
+            // 
+            // retryTimes
+            // 
+            retryTimes.Increment = new decimal(new int[] { 2, 0, 0, 0 });
+            retryTimes.Location = new Point(2046, 1145);
+            retryTimes.Margin = new Padding(6, 5, 6, 5);
+            retryTimes.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
+            retryTimes.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            retryTimes.Name = "retryTimes";
+            retryTimes.Size = new Size(95, 38);
+            retryTimes.TabIndex = 30;
+            retryTimes.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2402, 1287);
+            Controls.Add(retryTimes);
+            Controls.Add(cutCenterValidate);
             Controls.Add(label5);
             Controls.Add(cutLineWidth);
             Controls.Add(label4);
@@ -394,6 +422,7 @@
             ((System.ComponentModel.ISupportInitialize)adjustStep).EndInit();
             ((System.ComponentModel.ISupportInitialize)cutCenterLocY).EndInit();
             ((System.ComponentModel.ISupportInitialize)cutLineWidth).EndInit();
+            ((System.ComponentModel.ISupportInitialize)retryTimes).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -435,5 +464,7 @@
         private Label label4;
         private NumericUpDown cutLineWidth;
         private Label label5;
+        private Button cutCenterValidate;
+        private NumericUpDown retryTimes;
     }
 }
