@@ -249,7 +249,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int CutLineDetection(IntPtr source, int source_size, ref int width, ref int offsetY, int refOffsetY,out IntPtr resultPtr);
+            static extern int CutLineDetection(IntPtr source, int source_size, ref int width, ref int offsetY, int refOffsetY, out IntPtr resultPtr);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
@@ -257,7 +257,7 @@ namespace ImageCenter
                 int offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
                 int refOffsetY = (int)cutCenterLocY.Value;
-                int ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref width, ref offsetY, refOffsetY,out resultPtr);
+                int ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref width, ref offsetY, refOffsetY, out resultPtr);
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
@@ -594,6 +594,48 @@ namespace ImageCenter
                 console.Text = "[Error] Functior not found!!";
             }
 
+        }
+
+        private void detectLowCrossroad_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("image_process.dll")]
+            static extern int DetectCutLineCrossroad(IntPtr source, int source_size, ref int centerX, ref int centerY, ref int width, ref int high, out IntPtr resultPtr);
+
+            try
+            {
+                console.Text = "[Info] Calling DetectCutLineCrossroad() function...\n";
+                int times = (int)retryTimes.Value;
+                IntPtr resultPtr = IntPtr.Zero;
+                int centerX = -1;
+                int centerY = -1;
+                int width = -1;
+                int high = -1;
+                int ret = DetectCutLineCrossroad(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref centerX, ref centerY, ref width, ref high, out resultPtr);
+
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                    console.Text += "[Info] center of cut line crossrad is at (" + centerX + ","+ centerY + ")\n";
+                    console.Text += "[Info] size of crossrad bounding box is at (" + width + "*"+ high + ")\n";
+                    console.Text += "[Info] Calling DetectCutLineCrossroad() function...Done\n";
+                }
+                console.Text += "[Info] Calling DetectCutLineCrossroad() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Functior not found!!";
+            }
         }
     }
 }
