@@ -60,6 +60,7 @@
             cutCenterValidate = new Button();
             retryTimes = new NumericUpDown();
             detectLowCrossroad = new Button();
+            detectHighCrossroad = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -385,9 +386,20 @@
             detectLowCrossroad.Name = "detectLowCrossroad";
             detectLowCrossroad.Size = new Size(253, 71);
             detectLowCrossroad.TabIndex = 31;
-            detectLowCrossroad.Text = "CrossroadDetect";
+            detectLowCrossroad.Text = "LowCrossroad";
             detectLowCrossroad.UseVisualStyleBackColor = true;
             detectLowCrossroad.Click += detectLowCrossroad_Click;
+            // 
+            // detectHighCrossroad
+            // 
+            detectHighCrossroad.Location = new Point(1946, 1022);
+            detectHighCrossroad.Margin = new Padding(6, 5, 6, 5);
+            detectHighCrossroad.Name = "detectHighCrossroad";
+            detectHighCrossroad.Size = new Size(253, 71);
+            detectHighCrossroad.TabIndex = 32;
+            detectHighCrossroad.Text = "HighCrossroad";
+            detectHighCrossroad.UseVisualStyleBackColor = true;
+            detectHighCrossroad.Click += detectHighCrossroad_Click;
             // 
             // Form1
             // 
@@ -395,6 +407,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2402, 1287);
+            Controls.Add(detectHighCrossroad);
             Controls.Add(detectLowCrossroad);
             Controls.Add(retryTimes);
             Controls.Add(cutCenterValidate);
@@ -480,5 +493,6 @@
         private Button cutCenterValidate;
         private NumericUpDown retryTimes;
         private Button detectLowCrossroad;
+        private Button detectHighCrossroad;
     }
 }

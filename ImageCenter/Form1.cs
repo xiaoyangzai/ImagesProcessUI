@@ -603,7 +603,7 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("image_process.dll")]
-            static extern int DetectCutLineCrossroad(IntPtr source, int source_size, ref int centerX, ref int centerY, ref int width, ref int high, out IntPtr resultPtr);
+            static extern int DetectCutLineCrossroad(IntPtr source, int source_size, ref int centerX, ref int centerY, ref int width, ref int high, bool isLow, out IntPtr resultPtr);
 
             try
             {
@@ -614,7 +614,7 @@ namespace ImageCenter
                 int centerY = -1;
                 int width = -1;
                 int high = -1;
-                int ret = DetectCutLineCrossroad(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref centerX, ref centerY, ref width, ref high, out resultPtr);
+                int ret = DetectCutLineCrossroad(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref centerX, ref centerY, ref width, ref high, true, out resultPtr);
 
                 if (resultPtr != IntPtr.Zero)
                 {
@@ -622,8 +622,50 @@ namespace ImageCenter
                     byte[] imageBytes = Convert.FromBase64String(base64ImageData);
                     MemoryStream ms = new MemoryStream(imageBytes);
                     resultImage.Image = Image.FromStream(ms);
-                    console.Text += "[Info] center of cut line crossrad is at (" + centerX + ","+ centerY + ")\n";
-                    console.Text += "[Info] size of crossrad bounding box is at (" + width + "*"+ high + ")\n";
+                    console.Text += "[Info] center of cut line crossrad is at (" + centerX + "," + centerY + ")\n";
+                    console.Text += "[Info] size of crossrad bounding box is at (" + width + "*" + high + ")\n";
+                    console.Text += "[Info] Calling DetectCutLineCrossroad() function...Done\n";
+                }
+                console.Text += "[Info] Calling DetectCutLineCrossroad() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Functior not found!!";
+            }
+        }
+
+        private void detectHighCrossroad_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("image_process.dll")]
+            static extern int DetectCutLineCrossroad(IntPtr source, int source_size, ref int centerX, ref int centerY, ref int width, ref int high, bool isLow, out IntPtr resultPtr);
+
+            try
+            {
+                console.Text = "[Info] Calling DetectCutLineCrossroad() function...\n";
+                int times = (int)retryTimes.Value;
+                IntPtr resultPtr = IntPtr.Zero;
+                int centerX = -1;
+                int centerY = -1;
+                int width = -1;
+                int high = -1;
+                int ret = DetectCutLineCrossroad(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref centerX, ref centerY, ref width, ref high, false, out resultPtr);
+
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                    console.Text += "[Info] center of cut line crossrad is at (" + centerX + "," + centerY + ")\n";
+                    console.Text += "[Info] size of crossrad bounding box is at (" + width + "*" + high + ")\n";
                     console.Text += "[Info] Calling DetectCutLineCrossroad() function...Done\n";
                 }
                 console.Text += "[Info] Calling DetectCutLineCrossroad() function...Done\n";
