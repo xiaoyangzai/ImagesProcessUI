@@ -61,6 +61,7 @@
             retryTimes = new NumericUpDown();
             detectLowCrossroad = new Button();
             detectHighCrossroad = new Button();
+            checkGrainExist = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -401,12 +402,24 @@
             detectHighCrossroad.UseVisualStyleBackColor = true;
             detectHighCrossroad.Click += detectHighCrossroad_Click;
             // 
+            // checkGrainExist
+            // 
+            checkGrainExist.Location = new Point(1946, 1128);
+            checkGrainExist.Margin = new Padding(6, 5, 6, 5);
+            checkGrainExist.Name = "checkGrainExist";
+            checkGrainExist.Size = new Size(253, 71);
+            checkGrainExist.TabIndex = 33;
+            checkGrainExist.Text = "IfHasGrain";
+            checkGrainExist.UseVisualStyleBackColor = true;
+            checkGrainExist.Click += checkGrainExist_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2402, 1287);
+            Controls.Add(checkGrainExist);
             Controls.Add(detectHighCrossroad);
             Controls.Add(detectLowCrossroad);
             Controls.Add(retryTimes);
@@ -494,5 +507,6 @@
         private NumericUpDown retryTimes;
         private Button detectLowCrossroad;
         private Button detectHighCrossroad;
+        private Button checkGrainExist;
     }
 }
