@@ -62,6 +62,8 @@
             detectLowCrossroad = new Button();
             detectHighCrossroad = new Button();
             checkGrainExist = new Button();
+            label6 = new Label();
+            cutCenterLocX = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -71,6 +73,7 @@
             ((System.ComponentModel.ISupportInitialize)cutCenterLocY).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cutLineWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)retryTimes).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)cutCenterLocX).BeginInit();
             SuspendLayout();
             // 
             // StartAllTest
@@ -78,7 +81,7 @@
             StartAllTest.Location = new Point(968, 810);
             StartAllTest.Margin = new Padding(6, 5, 6, 5);
             StartAllTest.Name = "StartAllTest";
-            StartAllTest.Size = new Size(1344, 71);
+            StartAllTest.Size = new Size(1515, 71);
             StartAllTest.TabIndex = 0;
             StartAllTest.Text = "Select DLL...";
             StartAllTest.UseVisualStyleBackColor = true;
@@ -120,7 +123,7 @@
             // 
             // selectTarget
             // 
-            selectTarget.Location = new Point(968, 700);
+            selectTarget.Location = new Point(1064, 699);
             selectTarget.Margin = new Padding(6, 5, 6, 5);
             selectTarget.Name = "selectTarget";
             selectTarget.Size = new Size(324, 67);
@@ -149,7 +152,7 @@
             // 
             // templateImage
             // 
-            templateImage.Location = new Point(1008, 474);
+            templateImage.Location = new Point(1114, 476);
             templateImage.Margin = new Padding(6, 5, 6, 5);
             templateImage.Name = "templateImage";
             templateImage.Size = new Size(260, 188);
@@ -159,7 +162,7 @@
             // 
             // resultImage
             // 
-            resultImage.Location = new Point(1400, 46);
+            resultImage.Location = new Point(1571, 46);
             resultImage.Margin = new Padding(6, 5, 6, 5);
             resultImage.Name = "resultImage";
             resultImage.Size = new Size(912, 618);
@@ -172,7 +175,7 @@
             buttonRotateDegree.Location = new Point(968, 912);
             buttonRotateDegree.Margin = new Padding(6, 5, 6, 5);
             buttonRotateDegree.Name = "buttonRotateDegree";
-            buttonRotateDegree.Size = new Size(324, 71);
+            buttonRotateDegree.Size = new Size(257, 71);
             buttonRotateDegree.TabIndex = 11;
             buttonRotateDegree.Text = "ImageRotateDegree";
             buttonRotateDegree.UseVisualStyleBackColor = true;
@@ -183,7 +186,7 @@
             buttonMatcher.Location = new Point(968, 1022);
             buttonMatcher.Margin = new Padding(6, 5, 6, 5);
             buttonMatcher.Name = "buttonMatcher";
-            buttonMatcher.Size = new Size(324, 71);
+            buttonMatcher.Size = new Size(257, 71);
             buttonMatcher.TabIndex = 12;
             buttonMatcher.Text = "ImageMatcher";
             buttonMatcher.UseVisualStyleBackColor = true;
@@ -194,7 +197,7 @@
             buttonFocusQuality.Location = new Point(968, 1131);
             buttonFocusQuality.Margin = new Padding(6, 5, 6, 5);
             buttonFocusQuality.Name = "buttonFocusQuality";
-            buttonFocusQuality.Size = new Size(324, 71);
+            buttonFocusQuality.Size = new Size(257, 71);
             buttonFocusQuality.TabIndex = 13;
             buttonFocusQuality.Text = "AutoFocus";
             buttonFocusQuality.UseVisualStyleBackColor = true;
@@ -202,10 +205,10 @@
             // 
             // buttonBrightQuality
             // 
-            buttonBrightQuality.Location = new Point(1304, 1131);
+            buttonBrightQuality.Location = new Point(1267, 1131);
             buttonBrightQuality.Margin = new Padding(6, 5, 6, 5);
             buttonBrightQuality.Name = "buttonBrightQuality";
-            buttonBrightQuality.Size = new Size(324, 71);
+            buttonBrightQuality.Size = new Size(253, 71);
             buttonBrightQuality.TabIndex = 14;
             buttonBrightQuality.Text = "AutoBright";
             buttonBrightQuality.UseVisualStyleBackColor = true;
@@ -213,10 +216,10 @@
             // 
             // buttonCutLineDetection
             // 
-            buttonCutLineDetection.Location = new Point(1304, 912);
+            buttonCutLineDetection.Location = new Point(1883, 1116);
             buttonCutLineDetection.Margin = new Padding(6, 5, 6, 5);
             buttonCutLineDetection.Name = "buttonCutLineDetection";
-            buttonCutLineDetection.Size = new Size(324, 71);
+            buttonCutLineDetection.Size = new Size(253, 71);
             buttonCutLineDetection.TabIndex = 15;
             buttonCutLineDetection.Text = "CutLineDetection";
             buttonCutLineDetection.UseVisualStyleBackColor = true;
@@ -224,7 +227,7 @@
             // 
             // buttonCutTraceValidate
             // 
-            buttonCutTraceValidate.Location = new Point(1640, 1022);
+            buttonCutTraceValidate.Location = new Point(1883, 912);
             buttonCutTraceValidate.Margin = new Padding(6, 5, 6, 5);
             buttonCutTraceValidate.Name = "buttonCutTraceValidate";
             buttonCutTraceValidate.Size = new Size(253, 71);
@@ -235,10 +238,10 @@
             // 
             // buttonPixelMeasure
             // 
-            buttonPixelMeasure.Location = new Point(1304, 1022);
+            buttonPixelMeasure.Location = new Point(1267, 1013);
             buttonPixelMeasure.Margin = new Padding(6, 5, 6, 5);
             buttonPixelMeasure.Name = "buttonPixelMeasure";
-            buttonPixelMeasure.Size = new Size(324, 71);
+            buttonPixelMeasure.Size = new Size(253, 71);
             buttonPixelMeasure.TabIndex = 17;
             buttonPixelMeasure.Text = "ImagePixelMeasure";
             buttonPixelMeasure.UseVisualStyleBackColor = true;
@@ -302,7 +305,7 @@
             // 
             // saveReusltImage
             // 
-            saveReusltImage.Location = new Point(1400, 697);
+            saveReusltImage.Location = new Point(1903, 701);
             saveReusltImage.Margin = new Padding(6, 5, 6, 5);
             saveReusltImage.Name = "saveReusltImage";
             saveReusltImage.Size = new Size(324, 67);
@@ -314,7 +317,7 @@
             // cutCenterLocY
             // 
             cutCenterLocY.Increment = new decimal(new int[] { 5, 0, 0, 0 });
-            cutCenterLocY.Location = new Point(1798, 930);
+            cutCenterLocY.Location = new Point(2041, 991);
             cutCenterLocY.Margin = new Padding(6, 5, 6, 5);
             cutCenterLocY.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             cutCenterLocY.Minimum = new decimal(new int[] { 500, 0, 0, 0 });
@@ -327,7 +330,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(1640, 932);
+            label4.Location = new Point(1883, 993);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(148, 31);
@@ -337,7 +340,7 @@
             // cutLineWidth
             // 
             cutLineWidth.Increment = new decimal(new int[] { 2, 0, 0, 0 });
-            cutLineWidth.Location = new Point(1798, 978);
+            cutLineWidth.Location = new Point(2041, 1068);
             cutLineWidth.Margin = new Padding(6, 5, 6, 5);
             cutLineWidth.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             cutLineWidth.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
@@ -350,7 +353,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(1640, 980);
+            label5.Location = new Point(1883, 1070);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new Size(134, 31);
@@ -359,7 +362,7 @@
             // 
             // cutCenterValidate
             // 
-            cutCenterValidate.Location = new Point(1640, 1131);
+            cutCenterValidate.Location = new Point(1571, 1128);
             cutCenterValidate.Margin = new Padding(6, 5, 6, 5);
             cutCenterValidate.Name = "cutCenterValidate";
             cutCenterValidate.Size = new Size(148, 71);
@@ -371,7 +374,7 @@
             // retryTimes
             // 
             retryTimes.Increment = new decimal(new int[] { 2, 0, 0, 0 });
-            retryTimes.Location = new Point(1800, 1149);
+            retryTimes.Location = new Point(1729, 1149);
             retryTimes.Margin = new Padding(6, 5, 6, 5);
             retryTimes.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             retryTimes.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
@@ -382,7 +385,7 @@
             // 
             // detectLowCrossroad
             // 
-            detectLowCrossroad.Location = new Point(1946, 912);
+            detectLowCrossroad.Location = new Point(1267, 912);
             detectLowCrossroad.Margin = new Padding(6, 5, 6, 5);
             detectLowCrossroad.Name = "detectLowCrossroad";
             detectLowCrossroad.Size = new Size(253, 71);
@@ -393,7 +396,7 @@
             // 
             // detectHighCrossroad
             // 
-            detectHighCrossroad.Location = new Point(1946, 1022);
+            detectHighCrossroad.Location = new Point(1571, 912);
             detectHighCrossroad.Margin = new Padding(6, 5, 6, 5);
             detectHighCrossroad.Name = "detectHighCrossroad";
             detectHighCrossroad.Size = new Size(253, 71);
@@ -404,21 +407,46 @@
             // 
             // checkGrainExist
             // 
-            checkGrainExist.Location = new Point(1946, 1128);
+            checkGrainExist.Location = new Point(1571, 1020);
             checkGrainExist.Margin = new Padding(6, 5, 6, 5);
             checkGrainExist.Name = "checkGrainExist";
-            checkGrainExist.Size = new Size(253, 71);
+            checkGrainExist.Size = new Size(253, 64);
             checkGrainExist.TabIndex = 33;
             checkGrainExist.Text = "IfHasGrain";
             checkGrainExist.UseVisualStyleBackColor = true;
             checkGrainExist.Click += checkGrainExist_Click;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(1883, 1035);
+            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(149, 31);
+            label6.TabIndex = 35;
+            label6.Text = "切割道中心X";
+            // 
+            // cutCenterLocX
+            // 
+            cutCenterLocX.Increment = new decimal(new int[] { 5, 0, 0, 0 });
+            cutCenterLocX.Location = new Point(2041, 1033);
+            cutCenterLocX.Margin = new Padding(6, 5, 6, 5);
+            cutCenterLocX.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            cutCenterLocX.Minimum = new decimal(new int[] { 500, 0, 0, 0 });
+            cutCenterLocX.Name = "cutCenterLocX";
+            cutCenterLocX.Size = new Size(95, 38);
+            cutCenterLocX.TabIndex = 34;
+            cutCenterLocX.Value = new decimal(new int[] { 878, 0, 0, 0 });
+            cutCenterLocX.ValueChanged += cutCenterLocX_ValueChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(2402, 1287);
+            ClientSize = new Size(2512, 1287);
+            Controls.Add(label6);
+            Controls.Add(cutCenterLocX);
             Controls.Add(checkGrainExist);
             Controls.Add(detectHighCrossroad);
             Controls.Add(detectLowCrossroad);
@@ -462,6 +490,7 @@
             ((System.ComponentModel.ISupportInitialize)cutCenterLocY).EndInit();
             ((System.ComponentModel.ISupportInitialize)cutLineWidth).EndInit();
             ((System.ComponentModel.ISupportInitialize)retryTimes).EndInit();
+            ((System.ComponentModel.ISupportInitialize)cutCenterLocX).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -508,5 +537,7 @@
         private Button detectLowCrossroad;
         private Button detectHighCrossroad;
         private Button checkGrainExist;
+        private Label label6;
+        private NumericUpDown cutCenterLocX;
     }
 }

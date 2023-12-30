@@ -250,15 +250,18 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int CutLineDetection(IntPtr source, int source_size, ref int width, ref int offsetY, int refOffsetY, out IntPtr resultPtr);
+            static extern int CutLineDetection(IntPtr source, int source_size, ref int widthY, ref int widthX, ref int offsetY, ref int offsetX, int refOffsetY, int refOffsetX, out IntPtr resultPtr);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
-                int width = -1;
+                int widthY = -1;
                 int offsetY = -1;
+                int widthX = -1;
+                int offsetX = -1;
                 IntPtr resultPtr = IntPtr.Zero;
                 int refOffsetY = (int)cutCenterLocY.Value;
-                int ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref width, ref offsetY, refOffsetY, out resultPtr);
+                int refOffsetX = (int)cutCenterLocX.Value;
+                int ret = CutLineDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref widthY, ref widthX, ref offsetY, ref offsetX, refOffsetY, refOffsetX, out resultPtr);
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
@@ -727,6 +730,34 @@ namespace ImageCenter
             {
                 console.Text = "[Error] Function MatcherTarget not found!!";
             }
+        }
+
+        private void cutCenterLocX_ValueChanged(object sender, EventArgs e)
+        {
+            if (originalImage != null)
+            {
+                Bitmap bitmap = new Bitmap(originalImage);
+
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    // 设置线条颜色和宽度
+                    Pen pen = new Pen(Color.YellowGreen, 10);
+
+                    // 设置虚线的样式
+                    Pen dashedPen = new Pen(Color.YellowGreen, 10);
+                    dashedPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+
+                    // 计算线条的起点和终点
+                    int startX = (int)cutCenterLocX.Value;
+
+                    // 绘制垂直线
+                    graphics.DrawLine(pen, startX, 0, startX, inputImage.Image.Height);
+                }
+
+                // 将绘制好线条的 Bitmap 对象设置为 PictureBox 的图像
+                inputImage.Image = bitmap;
+            }
+
         }
     }
 }
