@@ -759,5 +759,32 @@ namespace ImageCenter
             }
 
         }
+
+        private void CheckifCutTrace_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("image_process.dll")]
+            static extern int IsCutTrace(IntPtr source, int source_size, ref bool hasCutTrace);
+
+            try
+            {
+                console.Text = "[Info] Calling IsCutTrace() function...\n";
+                bool hasCutTrace = false;
+                int ret = IsCutTrace(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref hasCutTrace);
+                console.Text += "[Info] Calling DetectCutLineCrossroad() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Functior not found!!";
+            }
+
+        }
     }
 }

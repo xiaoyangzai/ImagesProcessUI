@@ -64,6 +64,7 @@
             checkGrainExist = new Button();
             label6 = new Label();
             cutCenterLocX = new NumericUpDown();
+            CheckifCutTrace = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -268,16 +269,16 @@
             // 
             // startPosition
             // 
-            startPosition.Location = new Point(1506, 1224);
+            startPosition.Location = new Point(1502, 1224);
             startPosition.Margin = new Padding(4);
             startPosition.Name = "startPosition";
-            startPosition.Size = new Size(116, 38);
+            startPosition.Size = new Size(80, 38);
             startPosition.TabIndex = 20;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(1338, 1228);
+            label2.Location = new Point(1334, 1228);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(158, 31);
@@ -286,17 +287,17 @@
             // 
             // adjustStep
             // 
-            adjustStep.Location = new Point(1782, 1224);
+            adjustStep.Location = new Point(1744, 1224);
             adjustStep.Margin = new Padding(6, 5, 6, 5);
             adjustStep.Name = "adjustStep";
-            adjustStep.Size = new Size(208, 38);
+            adjustStep.Size = new Size(73, 38);
             adjustStep.TabIndex = 22;
             adjustStep.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(1666, 1228);
+            label3.Location = new Point(1628, 1228);
             label3.Margin = new Padding(6, 0, 6, 0);
             label3.Name = "label3";
             label3.Size = new Size(114, 31);
@@ -439,12 +440,24 @@
             cutCenterLocX.Value = new decimal(new int[] { 878, 0, 0, 0 });
             cutCenterLocX.ValueChanged += cutCenterLocX_ValueChanged;
             // 
+            // CheckifCutTrace
+            // 
+            CheckifCutTrace.Location = new Point(1883, 1191);
+            CheckifCutTrace.Margin = new Padding(6, 5, 6, 5);
+            CheckifCutTrace.Name = "CheckifCutTrace";
+            CheckifCutTrace.Size = new Size(253, 71);
+            CheckifCutTrace.TabIndex = 36;
+            CheckifCutTrace.Text = "CheckifCutTrace";
+            CheckifCutTrace.UseVisualStyleBackColor = true;
+            CheckifCutTrace.Click += CheckifCutTrace_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2512, 1287);
+            Controls.Add(CheckifCutTrace);
             Controls.Add(label6);
             Controls.Add(cutCenterLocX);
             Controls.Add(checkGrainExist);
@@ -539,5 +552,6 @@
         private Button checkGrainExist;
         private Label label6;
         private NumericUpDown cutCenterLocX;
+        private Button CheckifCutTrace;
     }
 }
