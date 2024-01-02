@@ -786,5 +786,47 @@ namespace ImageCenter
             }
 
         }
+
+        private void edgeDetection_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("image_process.dll")]
+            static extern int EdgePointDetection(IntPtr source, int source_size, ref int locX, ref int locY, out IntPtr resultPtr);
+
+            try
+            {
+                console.Text = "[Info] Calling IsCutTrace() function...\n";
+                bool hasCutTrace = false;
+                int locX = -1;
+                int locY = -1;
+                IntPtr resultPtr = IntPtr.Zero;
+                int ret = EdgePointDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref locX, ref locY, out resultPtr);
+                if (ret < 0)
+                {
+                    console.Text += "\n[Error] Failed to call EdgePointDetection function. Exit Code: " + ret;
+                    return;
+                }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling EdgePointDetection() function...Done!";
+                console.Text += "[Info] Calling EdgePointDetection() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Functior not found!!";
+            }
+        }
     }
 }

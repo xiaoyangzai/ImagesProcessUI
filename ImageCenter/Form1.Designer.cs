@@ -65,6 +65,7 @@
             label6 = new Label();
             cutCenterLocX = new NumericUpDown();
             CheckifCutTrace = new Button();
+            edgeDetection = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -451,12 +452,24 @@
             CheckifCutTrace.UseVisualStyleBackColor = true;
             CheckifCutTrace.Click += CheckifCutTrace_Click;
             // 
+            // edgeDetection
+            // 
+            edgeDetection.Location = new Point(2181, 912);
+            edgeDetection.Margin = new Padding(6, 5, 6, 5);
+            edgeDetection.Name = "edgeDetection";
+            edgeDetection.Size = new Size(253, 71);
+            edgeDetection.TabIndex = 37;
+            edgeDetection.Text = "ChipEdgeDetect";
+            edgeDetection.UseVisualStyleBackColor = true;
+            edgeDetection.Click += edgeDetection_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2512, 1287);
+            Controls.Add(edgeDetection);
             Controls.Add(CheckifCutTrace);
             Controls.Add(label6);
             Controls.Add(cutCenterLocX);
@@ -553,5 +566,6 @@
         private Label label6;
         private NumericUpDown cutCenterLocX;
         private Button CheckifCutTrace;
+        private Button edgeDetection;
     }
 }
