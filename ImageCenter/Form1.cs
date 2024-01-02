@@ -798,7 +798,7 @@ namespace ImageCenter
 
             try
             {
-                console.Text = "[Info] Calling IsCutTrace() function...\n";
+                console.Text = "[Info] Calling EdgePointDetection() function...\n";
                 bool hasCutTrace = false;
                 int locX = -1;
                 int locY = -1;
