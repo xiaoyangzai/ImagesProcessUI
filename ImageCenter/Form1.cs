@@ -65,13 +65,6 @@ namespace ImageCenter
                 byte[] imageBytes = File.ReadAllBytes(imagePath);
                 imageBase64String = Convert.ToBase64String(imageBytes);
             }
-            string chipImagePath = Environment.GetEnvironmentVariable("IMG_PROCESSOR_PATH", EnvironmentVariableTarget.Machine);
-            if (string.IsNullOrEmpty(chipImagePath))
-            {
-                MessageBox.Show("算法模块未安装或安装错误，请重新安装算法模块.", "算法模块", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-            Directory.SetCurrentDirectory(chipImagePath);
             console.Text = "Loading image processor center...\n";
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
