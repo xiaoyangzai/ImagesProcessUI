@@ -89,20 +89,6 @@ namespace ImageCenter
             {
                 return;
             }
-            string pathStr = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
-            string[] paths = pathStr.Split(';');
-
-            foreach (string path in paths)
-            {
-                if (path.Contains("ChipImage") && !path.Contains("Scripts"))
-                {
-                    string chipImagePath = Path.GetDirectoryName(path);
-                    console.Text += "\nChipImage PATH: \n" + chipImagePath;
-                    Directory.SetCurrentDirectory(chipImagePath);
-                    console.Text += "\nSelect DLL: \n" + filePath;
-                }
-            }
-
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]

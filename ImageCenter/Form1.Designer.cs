@@ -526,7 +526,7 @@
         private Button StartAllTest;
         private Label load_status;
         private RichTextBox console;
-        private string dllPath = "C:\\Users\\ywang2\\source\\repos\\ChipImage\\bin\\";
+        private string dllPath = "";
         private string imagePath = "";
         string imageBase64String;
         string targetBase64String;
