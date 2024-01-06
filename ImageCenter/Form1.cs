@@ -16,24 +16,8 @@ namespace ImageCenter
 {
     public partial class Form1 : Form
     {
-
-        public Form1()
-        {
-            InitializeComponent();
-            StartAllTest.Text = "Please select DLL...";
-            if (imagePath != "")
-            {
-                Image inputFile = Image.FromFile(imagePath);
-                inputImage.Image = inputFile;
-                originalImage = new Bitmap(inputImage.Image);
-                byte[] imageBytes = File.ReadAllBytes(imagePath);
-                imageBase64String = Convert.ToBase64String(imageBytes);
-            }
-        }
-
         delegate void DebugCallbackDelegate(string message);
         delegate int CaptureImageDelegate(IntPtr message, ref int length, int focusIndex);
-
         private void DebugCallback(string message)
         {
             Debug.WriteLine("************************\n");
@@ -70,32 +54,32 @@ namespace ImageCenter
             Debug.WriteLine("************************\n");
             return 0;
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        public Form1()
         {
-            selectDllPath.FileName = "*.dll";
-            string filePath = dllPath + "image_process.dll";
-            if (dllPath == null && selectDllPath.ShowDialog() == DialogResult.OK)
+            InitializeComponent();
+            if (imagePath != "")
             {
-                filePath = selectDllPath.FileName;
-                dllPath = Path.GetDirectoryName(filePath);
-                if (dllPath == null || filePath == null)
-                {
-                    console.Text = "[Error]: Failed to select file DLL. Please re-select.";
-                    return;
-                }
+                Image inputFile = Image.FromFile(imagePath);
+                inputImage.Image = inputFile;
+                originalImage = new Bitmap(inputImage.Image);
+                byte[] imageBytes = File.ReadAllBytes(imagePath);
+                imageBase64String = Convert.ToBase64String(imageBytes);
             }
-            if (dllPath == null)
+            string chipImagePath = Environment.GetEnvironmentVariable("IMG_PROCESSOR_PATH", EnvironmentVariableTarget.Machine);
+            if (string.IsNullOrEmpty(chipImagePath))
             {
-                return;
+                MessageBox.Show("算法模块未安装或安装错误，请重新安装算法模块.", "算法模块", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
             }
+            Directory.SetCurrentDirectory(chipImagePath);
+            console.Text = "Loading image processor center...\n";
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
             static extern void BaseFunctionTest(IntPtr data, int length);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
-
-            console.Text = "[Info] Calling BaseFunctionTest...\n";
+            console.Text = "Loading image processor center...Done\n";
+            console.Text += "[Info] Calling BaseFunctionTest...\n";
             try
             {
                 BaseFunctionTest(IntPtr.Zero, "hello world".Length);
