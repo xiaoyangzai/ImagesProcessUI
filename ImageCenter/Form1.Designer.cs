@@ -65,6 +65,10 @@
             cutCenterLocX = new NumericUpDown();
             CheckifCutTrace = new Button();
             edgeDetection = new Button();
+            checkIfUniqueTargetInGrain = new Button();
+            label7 = new Label();
+            targetSizeBox = new NumericUpDown();
+            AutoGetTarget = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -75,23 +79,25 @@
             ((System.ComponentModel.ISupportInitialize)cutLineWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)retryTimes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cutCenterLocX).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)targetSizeBox).BeginInit();
             SuspendLayout();
             // 
             // load_status
             // 
             load_status.AutoSize = true;
-            load_status.Location = new Point(-4, 446);
+            load_status.Location = new Point(-8, 813);
+            load_status.Margin = new Padding(6, 0, 6, 0);
             load_status.Name = "load_status";
-            load_status.Size = new Size(46, 17);
+            load_status.Size = new Size(91, 31);
             load_status.TabIndex = 1;
             load_status.Text = "Status:";
             // 
             // console
             // 
-            console.Location = new Point(46, 444);
-            console.Margin = new Padding(2, 2, 2, 2);
+            console.Location = new Point(92, 810);
+            console.Margin = new Padding(4);
             console.Name = "console";
-            console.Size = new Size(396, 215);
+            console.Size = new Size(788, 389);
             console.TabIndex = 3;
             console.Text = "";
             // 
@@ -101,9 +107,10 @@
             // 
             // selectImage
             // 
-            selectImage.Location = new Point(136, 382);
+            selectImage.Location = new Point(272, 697);
+            selectImage.Margin = new Padding(6, 5, 6, 5);
             selectImage.Name = "selectImage";
-            selectImage.Size = new Size(162, 39);
+            selectImage.Size = new Size(324, 71);
             selectImage.TabIndex = 4;
             selectImage.Text = "Select input Image...";
             selectImage.UseVisualStyleBackColor = true;
@@ -111,9 +118,10 @@
             // 
             // selectTarget
             // 
-            selectTarget.Location = new Point(532, 383);
+            selectTarget.Location = new Point(1064, 698);
+            selectTarget.Margin = new Padding(6, 5, 6, 5);
             selectTarget.Name = "selectTarget";
-            selectTarget.Size = new Size(162, 37);
+            selectTarget.Size = new Size(324, 67);
             selectTarget.TabIndex = 5;
             selectTarget.Text = "Select tempalte image...";
             selectTarget.UseVisualStyleBackColor = true;
@@ -129,36 +137,40 @@
             // 
             // inputImage
             // 
-            inputImage.Location = new Point(28, 25);
+            inputImage.Location = new Point(56, 46);
+            inputImage.Margin = new Padding(6, 5, 6, 5);
             inputImage.Name = "inputImage";
-            inputImage.Size = new Size(412, 339);
+            inputImage.Size = new Size(824, 618);
             inputImage.SizeMode = PictureBoxSizeMode.StretchImage;
             inputImage.TabIndex = 8;
             inputImage.TabStop = false;
             // 
             // templateImage
             // 
-            templateImage.Location = new Point(557, 261);
+            templateImage.Location = new Point(1114, 476);
+            templateImage.Margin = new Padding(6, 5, 6, 5);
             templateImage.Name = "templateImage";
-            templateImage.Size = new Size(130, 103);
+            templateImage.Size = new Size(260, 188);
             templateImage.SizeMode = PictureBoxSizeMode.CenterImage;
             templateImage.TabIndex = 9;
             templateImage.TabStop = false;
             // 
             // resultImage
             // 
-            resultImage.Location = new Point(786, 25);
+            resultImage.Location = new Point(1572, 46);
+            resultImage.Margin = new Padding(6, 5, 6, 5);
             resultImage.Name = "resultImage";
-            resultImage.Size = new Size(456, 339);
+            resultImage.Size = new Size(912, 618);
             resultImage.SizeMode = PictureBoxSizeMode.StretchImage;
             resultImage.TabIndex = 10;
             resultImage.TabStop = false;
             // 
             // buttonRotateDegree
             // 
-            buttonRotateDegree.Location = new Point(484, 500);
+            buttonRotateDegree.Location = new Point(968, 912);
+            buttonRotateDegree.Margin = new Padding(6, 5, 6, 5);
             buttonRotateDegree.Name = "buttonRotateDegree";
-            buttonRotateDegree.Size = new Size(129, 39);
+            buttonRotateDegree.Size = new Size(258, 71);
             buttonRotateDegree.TabIndex = 11;
             buttonRotateDegree.Text = "ImageRotateDegree";
             buttonRotateDegree.UseVisualStyleBackColor = true;
@@ -166,9 +178,10 @@
             // 
             // buttonMatcher
             // 
-            buttonMatcher.Location = new Point(484, 560);
+            buttonMatcher.Location = new Point(968, 1021);
+            buttonMatcher.Margin = new Padding(6, 5, 6, 5);
             buttonMatcher.Name = "buttonMatcher";
-            buttonMatcher.Size = new Size(129, 39);
+            buttonMatcher.Size = new Size(258, 71);
             buttonMatcher.TabIndex = 12;
             buttonMatcher.Text = "ImageMatcher";
             buttonMatcher.UseVisualStyleBackColor = true;
@@ -176,9 +189,10 @@
             // 
             // buttonFocusQuality
             // 
-            buttonFocusQuality.Location = new Point(484, 620);
+            buttonFocusQuality.Location = new Point(968, 1131);
+            buttonFocusQuality.Margin = new Padding(6, 5, 6, 5);
             buttonFocusQuality.Name = "buttonFocusQuality";
-            buttonFocusQuality.Size = new Size(129, 39);
+            buttonFocusQuality.Size = new Size(258, 71);
             buttonFocusQuality.TabIndex = 13;
             buttonFocusQuality.Text = "AutoFocus";
             buttonFocusQuality.UseVisualStyleBackColor = true;
@@ -186,9 +200,10 @@
             // 
             // buttonBrightQuality
             // 
-            buttonBrightQuality.Location = new Point(634, 620);
+            buttonBrightQuality.Location = new Point(1268, 1131);
+            buttonBrightQuality.Margin = new Padding(6, 5, 6, 5);
             buttonBrightQuality.Name = "buttonBrightQuality";
-            buttonBrightQuality.Size = new Size(126, 39);
+            buttonBrightQuality.Size = new Size(252, 71);
             buttonBrightQuality.TabIndex = 14;
             buttonBrightQuality.Text = "AutoBright";
             buttonBrightQuality.UseVisualStyleBackColor = true;
@@ -196,9 +211,10 @@
             // 
             // buttonCutLineDetection
             // 
-            buttonCutLineDetection.Location = new Point(942, 612);
+            buttonCutLineDetection.Location = new Point(1884, 1116);
+            buttonCutLineDetection.Margin = new Padding(6, 5, 6, 5);
             buttonCutLineDetection.Name = "buttonCutLineDetection";
-            buttonCutLineDetection.Size = new Size(126, 39);
+            buttonCutLineDetection.Size = new Size(252, 71);
             buttonCutLineDetection.TabIndex = 15;
             buttonCutLineDetection.Text = "CutLineDetection";
             buttonCutLineDetection.UseVisualStyleBackColor = true;
@@ -206,9 +222,10 @@
             // 
             // buttonCutTraceValidate
             // 
-            buttonCutTraceValidate.Location = new Point(942, 500);
+            buttonCutTraceValidate.Location = new Point(1884, 912);
+            buttonCutTraceValidate.Margin = new Padding(6, 5, 6, 5);
             buttonCutTraceValidate.Name = "buttonCutTraceValidate";
-            buttonCutTraceValidate.Size = new Size(126, 39);
+            buttonCutTraceValidate.Size = new Size(252, 71);
             buttonCutTraceValidate.TabIndex = 16;
             buttonCutTraceValidate.Text = "CutTraceValidate";
             buttonCutTraceValidate.UseVisualStyleBackColor = true;
@@ -216,9 +233,10 @@
             // 
             // buttonPixelMeasure
             // 
-            buttonPixelMeasure.Location = new Point(634, 556);
+            buttonPixelMeasure.Location = new Point(1268, 1014);
+            buttonPixelMeasure.Margin = new Padding(6, 5, 6, 5);
             buttonPixelMeasure.Name = "buttonPixelMeasure";
-            buttonPixelMeasure.Size = new Size(126, 39);
+            buttonPixelMeasure.Size = new Size(252, 71);
             buttonPixelMeasure.TabIndex = 17;
             buttonPixelMeasure.Text = "ImagePixelMeasure";
             buttonPixelMeasure.UseVisualStyleBackColor = true;
@@ -226,63 +244,66 @@
             // 
             // maxValue
             // 
-            maxValue.Location = new Point(598, 671);
-            maxValue.Margin = new Padding(2, 2, 2, 2);
+            maxValue.Location = new Point(1196, 1224);
+            maxValue.Margin = new Padding(4);
             maxValue.Name = "maxValue";
-            maxValue.Size = new Size(48, 23);
+            maxValue.Size = new Size(96, 38);
             maxValue.TabIndex = 18;
             maxValue.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(492, 673);
-            label1.Margin = new Padding(2, 0, 2, 0);
+            label1.Location = new Point(984, 1227);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(97, 17);
+            label1.Size = new Size(192, 31);
             label1.TabIndex = 19;
             label1.Text = "焦距/光亮最大值";
             // 
             // startPosition
             // 
-            startPosition.Location = new Point(751, 671);
-            startPosition.Margin = new Padding(2, 2, 2, 2);
+            startPosition.Location = new Point(1502, 1224);
+            startPosition.Margin = new Padding(4);
             startPosition.Name = "startPosition";
-            startPosition.Size = new Size(40, 23);
+            startPosition.Size = new Size(80, 38);
             startPosition.TabIndex = 20;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(667, 673);
-            label2.Margin = new Padding(2, 0, 2, 0);
+            label2.Location = new Point(1334, 1227);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(80, 17);
+            label2.Size = new Size(158, 31);
             label2.TabIndex = 21;
             label2.Text = "搜索起始位置";
             // 
             // adjustStep
             // 
-            adjustStep.Location = new Point(872, 671);
+            adjustStep.Location = new Point(1744, 1224);
+            adjustStep.Margin = new Padding(6, 5, 6, 5);
             adjustStep.Name = "adjustStep";
-            adjustStep.Size = new Size(36, 23);
+            adjustStep.Size = new Size(72, 38);
             adjustStep.TabIndex = 22;
             adjustStep.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(814, 673);
+            label3.Location = new Point(1628, 1227);
+            label3.Margin = new Padding(6, 0, 6, 0);
             label3.Name = "label3";
-            label3.Size = new Size(58, 17);
+            label3.Size = new Size(114, 31);
             label3.TabIndex = 23;
             label3.Text = "搜索Step";
             // 
             // saveReusltImage
             // 
-            saveReusltImage.Location = new Point(952, 384);
+            saveReusltImage.Location = new Point(1904, 700);
+            saveReusltImage.Margin = new Padding(6, 5, 6, 5);
             saveReusltImage.Name = "saveReusltImage";
-            saveReusltImage.Size = new Size(162, 37);
+            saveReusltImage.Size = new Size(324, 67);
             saveReusltImage.TabIndex = 24;
             saveReusltImage.Text = "save";
             saveReusltImage.UseVisualStyleBackColor = true;
@@ -291,11 +312,12 @@
             // cutCenterLocY
             // 
             cutCenterLocY.Increment = new decimal(new int[] { 5, 0, 0, 0 });
-            cutCenterLocY.Location = new Point(1020, 543);
+            cutCenterLocY.Location = new Point(2040, 990);
+            cutCenterLocY.Margin = new Padding(6, 5, 6, 5);
             cutCenterLocY.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             cutCenterLocY.Minimum = new decimal(new int[] { 500, 0, 0, 0 });
             cutCenterLocY.Name = "cutCenterLocY";
-            cutCenterLocY.Size = new Size(48, 23);
+            cutCenterLocY.Size = new Size(96, 38);
             cutCenterLocY.TabIndex = 25;
             cutCenterLocY.Value = new decimal(new int[] { 878, 0, 0, 0 });
             cutCenterLocY.ValueChanged += cutCenterLocY_ValueChanged;
@@ -303,21 +325,22 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(942, 545);
-            label4.Margin = new Padding(2, 0, 2, 0);
+            label4.Location = new Point(1884, 994);
+            label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(75, 17);
+            label4.Size = new Size(148, 31);
             label4.TabIndex = 26;
             label4.Text = "切割道中心Y";
             // 
             // cutLineWidth
             // 
             cutLineWidth.Increment = new decimal(new int[] { 2, 0, 0, 0 });
-            cutLineWidth.Location = new Point(1020, 586);
+            cutLineWidth.Location = new Point(2040, 1069);
+            cutLineWidth.Margin = new Padding(6, 5, 6, 5);
             cutLineWidth.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             cutLineWidth.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
             cutLineWidth.Name = "cutLineWidth";
-            cutLineWidth.Size = new Size(48, 23);
+            cutLineWidth.Size = new Size(96, 38);
             cutLineWidth.TabIndex = 27;
             cutLineWidth.Value = new decimal(new int[] { 100, 0, 0, 0 });
             cutLineWidth.ValueChanged += cutLineWidth_ValueChanged;
@@ -325,18 +348,19 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(942, 587);
-            label5.Margin = new Padding(2, 0, 2, 0);
+            label5.Location = new Point(1884, 1070);
+            label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
-            label5.Size = new Size(68, 17);
+            label5.Size = new Size(134, 31);
             label5.TabIndex = 28;
             label5.Text = "切割道宽度";
             // 
             // cutCenterValidate
             // 
-            cutCenterValidate.Location = new Point(786, 619);
+            cutCenterValidate.Location = new Point(1572, 1129);
+            cutCenterValidate.Margin = new Padding(6, 5, 6, 5);
             cutCenterValidate.Name = "cutCenterValidate";
-            cutCenterValidate.Size = new Size(74, 39);
+            cutCenterValidate.Size = new Size(148, 71);
             cutCenterValidate.TabIndex = 29;
             cutCenterValidate.Text = "CutCenterValidate";
             cutCenterValidate.UseVisualStyleBackColor = true;
@@ -345,19 +369,21 @@
             // retryTimes
             // 
             retryTimes.Increment = new decimal(new int[] { 2, 0, 0, 0 });
-            retryTimes.Location = new Point(864, 630);
+            retryTimes.Location = new Point(1728, 1149);
+            retryTimes.Margin = new Padding(6, 5, 6, 5);
             retryTimes.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             retryTimes.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             retryTimes.Name = "retryTimes";
-            retryTimes.Size = new Size(48, 23);
+            retryTimes.Size = new Size(96, 38);
             retryTimes.TabIndex = 30;
             retryTimes.Value = new decimal(new int[] { 10, 0, 0, 0 });
             // 
             // detectLowCrossroad
             // 
-            detectLowCrossroad.Location = new Point(634, 500);
+            detectLowCrossroad.Location = new Point(1268, 912);
+            detectLowCrossroad.Margin = new Padding(6, 5, 6, 5);
             detectLowCrossroad.Name = "detectLowCrossroad";
-            detectLowCrossroad.Size = new Size(126, 39);
+            detectLowCrossroad.Size = new Size(252, 71);
             detectLowCrossroad.TabIndex = 31;
             detectLowCrossroad.Text = "LowCrossroad";
             detectLowCrossroad.UseVisualStyleBackColor = true;
@@ -365,9 +391,10 @@
             // 
             // detectHighCrossroad
             // 
-            detectHighCrossroad.Location = new Point(786, 500);
+            detectHighCrossroad.Location = new Point(1572, 912);
+            detectHighCrossroad.Margin = new Padding(6, 5, 6, 5);
             detectHighCrossroad.Name = "detectHighCrossroad";
-            detectHighCrossroad.Size = new Size(126, 39);
+            detectHighCrossroad.Size = new Size(252, 71);
             detectHighCrossroad.TabIndex = 32;
             detectHighCrossroad.Text = "HighCrossroad";
             detectHighCrossroad.UseVisualStyleBackColor = true;
@@ -375,9 +402,10 @@
             // 
             // checkGrainExist
             // 
-            checkGrainExist.Location = new Point(786, 560);
+            checkGrainExist.Location = new Point(1572, 1021);
+            checkGrainExist.Margin = new Padding(6, 5, 6, 5);
             checkGrainExist.Name = "checkGrainExist";
-            checkGrainExist.Size = new Size(126, 35);
+            checkGrainExist.Size = new Size(252, 64);
             checkGrainExist.TabIndex = 33;
             checkGrainExist.Text = "IfHasGrain";
             checkGrainExist.UseVisualStyleBackColor = true;
@@ -386,30 +414,32 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(942, 568);
-            label6.Margin = new Padding(2, 0, 2, 0);
+            label6.Location = new Point(1884, 1036);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(76, 17);
+            label6.Size = new Size(149, 31);
             label6.TabIndex = 35;
             label6.Text = "切割道中心X";
             // 
             // cutCenterLocX
             // 
             cutCenterLocX.Increment = new decimal(new int[] { 5, 0, 0, 0 });
-            cutCenterLocX.Location = new Point(1020, 566);
+            cutCenterLocX.Location = new Point(2040, 1032);
+            cutCenterLocX.Margin = new Padding(6, 5, 6, 5);
             cutCenterLocX.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             cutCenterLocX.Minimum = new decimal(new int[] { 500, 0, 0, 0 });
             cutCenterLocX.Name = "cutCenterLocX";
-            cutCenterLocX.Size = new Size(48, 23);
+            cutCenterLocX.Size = new Size(96, 38);
             cutCenterLocX.TabIndex = 34;
             cutCenterLocX.Value = new decimal(new int[] { 878, 0, 0, 0 });
             cutCenterLocX.ValueChanged += cutCenterLocX_ValueChanged;
             // 
             // CheckifCutTrace
             // 
-            CheckifCutTrace.Location = new Point(942, 653);
+            CheckifCutTrace.Location = new Point(1884, 1191);
+            CheckifCutTrace.Margin = new Padding(6, 5, 6, 5);
             CheckifCutTrace.Name = "CheckifCutTrace";
-            CheckifCutTrace.Size = new Size(126, 39);
+            CheckifCutTrace.Size = new Size(252, 71);
             CheckifCutTrace.TabIndex = 36;
             CheckifCutTrace.Text = "CheckifCutTrace";
             CheckifCutTrace.UseVisualStyleBackColor = true;
@@ -417,20 +447,70 @@
             // 
             // edgeDetection
             // 
-            edgeDetection.Location = new Point(1090, 500);
+            edgeDetection.Location = new Point(2180, 912);
+            edgeDetection.Margin = new Padding(6, 5, 6, 5);
             edgeDetection.Name = "edgeDetection";
-            edgeDetection.Size = new Size(126, 39);
+            edgeDetection.Size = new Size(252, 71);
             edgeDetection.TabIndex = 37;
             edgeDetection.Text = "ChipEdgeDetect";
             edgeDetection.UseVisualStyleBackColor = true;
             edgeDetection.Click += edgeDetection_Click;
             // 
+            // checkIfUniqueTargetInGrain
+            // 
+            checkIfUniqueTargetInGrain.Location = new Point(2180, 1187);
+            checkIfUniqueTargetInGrain.Margin = new Padding(6, 5, 6, 5);
+            checkIfUniqueTargetInGrain.Name = "checkIfUniqueTargetInGrain";
+            checkIfUniqueTargetInGrain.Size = new Size(252, 71);
+            checkIfUniqueTargetInGrain.TabIndex = 38;
+            checkIfUniqueTargetInGrain.Text = "UnqiueTargetGrain";
+            checkIfUniqueTargetInGrain.UseVisualStyleBackColor = true;
+            checkIfUniqueTargetInGrain.Click += checkIfUniqueTargetInGrain_Click;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(2180, 1129);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(110, 31);
+            label7.TabIndex = 40;
+            label7.Text = "目标大小";
+            // 
+            // targetSizeBox
+            // 
+            targetSizeBox.Increment = new decimal(new int[] { 10, 0, 0, 0 });
+            targetSizeBox.Location = new Point(2321, 1125);
+            targetSizeBox.Margin = new Padding(6, 5, 6, 5);
+            targetSizeBox.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
+            targetSizeBox.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
+            targetSizeBox.Name = "targetSizeBox";
+            targetSizeBox.Size = new Size(96, 38);
+            targetSizeBox.TabIndex = 39;
+            targetSizeBox.Value = new decimal(new int[] { 100, 0, 0, 0 });
+            targetSizeBox.ValueChanged += targetSizeBox_ValueChanged;
+            // 
+            // AutoGetTarget
+            // 
+            AutoGetTarget.Location = new Point(2180, 999);
+            AutoGetTarget.Margin = new Padding(6, 5, 6, 5);
+            AutoGetTarget.Name = "AutoGetTarget";
+            AutoGetTarget.Size = new Size(252, 48);
+            AutoGetTarget.TabIndex = 41;
+            AutoGetTarget.Text = "AutoRotateTarget";
+            AutoGetTarget.UseVisualStyleBackColor = true;
+            AutoGetTarget.Click += AutoGetTarget_Click;
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(1257, 767);
+            ClientSize = new Size(2514, 1399);
+            Controls.Add(AutoGetTarget);
+            Controls.Add(label7);
+            Controls.Add(targetSizeBox);
+            Controls.Add(checkIfUniqueTargetInGrain);
             Controls.Add(edgeDetection);
             Controls.Add(CheckifCutTrace);
             Controls.Add(label6);
@@ -465,6 +545,7 @@
             Controls.Add(selectImage);
             Controls.Add(console);
             Controls.Add(load_status);
+            Margin = new Padding(6, 5, 6, 5);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)inputImage).EndInit();
@@ -477,6 +558,7 @@
             ((System.ComponentModel.ISupportInitialize)cutLineWidth).EndInit();
             ((System.ComponentModel.ISupportInitialize)retryTimes).EndInit();
             ((System.ComponentModel.ISupportInitialize)cutCenterLocX).EndInit();
+            ((System.ComponentModel.ISupportInitialize)targetSizeBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -525,5 +607,9 @@
         private NumericUpDown cutCenterLocX;
         private Button CheckifCutTrace;
         private Button edgeDetection;
+        private Button checkIfUniqueTargetInGrain;
+        private Label label7;
+        private NumericUpDown targetSizeBox;
+        private Button AutoGetTarget;
     }
 }

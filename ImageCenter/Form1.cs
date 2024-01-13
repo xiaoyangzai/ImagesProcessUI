@@ -275,7 +275,7 @@ namespace ImageCenter
                 IntPtr resultPtr = IntPtr.Zero;
                 int cutLineCencertLocY = (int)cutCenterLocY.Value;
                 int cutLineTraceWidth = (int)cutLineWidth.Value;
-                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, ref traceQuality, cutLineCencertLocY, cutLineTraceWidth,  out resultPtr);
+                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, ref traceQuality, cutLineCencertLocY, cutLineTraceWidth, out resultPtr);
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
@@ -804,6 +804,139 @@ namespace ImageCenter
             {
                 console.Text = "[Error] Functior not found!!";
             }
+        }
+
+        private void checkIfUniqueTargetInGrain_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+
+            [DllImport("image_process.dll")]
+            static extern int IsUniqueTargetInGrain(IntPtr source, int source_size, int targetWidth, int targetHigh, int horizontalStep, int verticalStep, int targetCenterX, int tergetCneterY, out IntPtr resultPtr);
+            templateImage.Image = null;
+            resultImage.Image = null;
+            try
+            {
+                console.Text = "[Info] IsUnqueTargetInGrain() function...\n";
+                int targetSize = (int)targetSizeBox.Value;
+                int step = (int)cutLineWidth.Value;
+                IntPtr resultPtr = IntPtr.Zero;
+                int ret = IsUniqueTargetInGrain(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, targetSize, targetSize, step, step, -1, -1, out resultPtr);
+                if (ret < 0)
+                {
+                    console.Text += "\n[Error] Failed to call IsUnqueTargetInGrain function. Exit Code: " + ret;
+                    return;
+                }
+
+                Bitmap bitmap = new Bitmap(originalImage);
+                int centerX = originalImage.Width / 2;
+                int centerY = originalImage.Height / 2;
+
+                int rectX = centerX - targetSize / 2;
+                int rectY = centerY - targetSize / 2;
+                int rectWidth = targetSize;
+                int rectHeight = targetSize;
+
+                Rectangle cropRect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+                Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
+                templateImage.Image = croppedImage;
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling IsUnqueTargetInGrain() function...Done!";
+                console.Text += "[Info] Calling IsUnqueTargetInGrain() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text += "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text += "[Error] Functior not found!!";
+            }
+
+        }
+
+        private void targetSizeBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (originalImage != null)
+            {
+                Bitmap bitmap = new Bitmap(originalImage);
+                int x = bitmap.Width / 2 - (int)targetSizeBox.Value / 2;
+                int y = bitmap.Height / 2 - (int)targetSizeBox.Value / 2;
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    // 设置线条颜色和宽度
+                    Pen pen = new Pen(Color.Green, 5);
+
+                    // 绘制垂直线
+                    graphics.DrawRectangle(pen, x, y, (int)targetSizeBox.Value, (int)targetSizeBox.Value);
+                }
+
+                // 将绘制好线条的 Bitmap 对象设置为 PictureBox 的图像
+                inputImage.Image = bitmap;
+            }
+        }
+
+        private void AutoGetTarget_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("image_process.dll")]
+            static extern int AutoGetUniqueTarget(IntPtr source, int source_size, ref int targetCenterX, ref int targetCenterY, ref int targetSize, ref int distanceToMove, out IntPtr targetImagePtr, out IntPtr resultPtr, UInt16 fontSize = 5);
+            templateImage.Image = null;
+            resultImage.Image = null;
+            try
+            {
+                console.Text = "[Info] AutoGetUniqueTarget() function...\n";
+                int targetSize = -1;
+                int targetCenterX = -1;
+                int targetCenterY = -1;
+                int distanceToMove = 0;
+                IntPtr targetPtr = IntPtr.Zero;
+                IntPtr resultPtr = IntPtr.Zero;
+                int ret = AutoGetUniqueTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref targetCenterX, ref targetCenterY, ref targetSize, ref distanceToMove, out targetPtr, out resultPtr);
+                if (ret < 0)
+                {
+                    console.Text += "\n[Error] Failed to call IsUnqueTargetInGrain function. Exit Code: " + ret;
+                    return;
+                }
+
+                if (targetPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(targetPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    templateImage.Image = Image.FromStream(ms);
+                }
+
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling AutoGetUniqueTarget() function...Done!";
+                console.Text += "[Info] Calling AutoGetUniqueTarget() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text += "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text += "[Error] Functior not found!!";
+            }
+
         }
     }
 }
