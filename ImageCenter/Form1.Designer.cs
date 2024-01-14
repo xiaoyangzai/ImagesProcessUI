@@ -71,6 +71,7 @@
             AutoGetTarget = new Button();
             negtiveMatch = new Button();
             postiveMatch = new Button();
+            GenterateTargetList = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -317,7 +318,7 @@
             cutCenterLocY.Location = new Point(2040, 916);
             cutCenterLocY.Margin = new Padding(6, 5, 6, 5);
             cutCenterLocY.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            cutCenterLocY.Minimum = new decimal(new int[] { 500, 0, 0, 0 });
+            cutCenterLocY.Minimum = new decimal(new int[] { 200, 0, 0, 0 });
             cutCenterLocY.Name = "cutCenterLocY";
             cutCenterLocY.Size = new Size(96, 38);
             cutCenterLocY.TabIndex = 25;
@@ -429,7 +430,7 @@
             cutCenterLocX.Location = new Point(2040, 958);
             cutCenterLocX.Margin = new Padding(6, 5, 6, 5);
             cutCenterLocX.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            cutCenterLocX.Minimum = new decimal(new int[] { 500, 0, 0, 0 });
+            cutCenterLocX.Minimum = new decimal(new int[] { 200, 0, 0, 0 });
             cutCenterLocX.Name = "cutCenterLocX";
             cutCenterLocX.Size = new Size(96, 38);
             cutCenterLocX.TabIndex = 34;
@@ -452,7 +453,7 @@
             edgeDetection.Location = new Point(2180, 810);
             edgeDetection.Margin = new Padding(6, 5, 6, 5);
             edgeDetection.Name = "edgeDetection";
-            edgeDetection.Size = new Size(252, 71);
+            edgeDetection.Size = new Size(319, 71);
             edgeDetection.TabIndex = 37;
             edgeDetection.Text = "ChipEdgeDetect";
             edgeDetection.UseVisualStyleBackColor = true;
@@ -460,19 +461,19 @@
             // 
             // checkIfUniqueTargetInGrain
             // 
-            checkIfUniqueTargetInGrain.Location = new Point(2180, 1116);
+            checkIfUniqueTargetInGrain.Location = new Point(2180, 1042);
             checkIfUniqueTargetInGrain.Margin = new Padding(6, 5, 6, 5);
             checkIfUniqueTargetInGrain.Name = "checkIfUniqueTargetInGrain";
-            checkIfUniqueTargetInGrain.Size = new Size(252, 71);
+            checkIfUniqueTargetInGrain.Size = new Size(319, 71);
             checkIfUniqueTargetInGrain.TabIndex = 38;
-            checkIfUniqueTargetInGrain.Text = "UnqiueTargetGrain";
+            checkIfUniqueTargetInGrain.Text = "CheckUnqiueTargetGrain";
             checkIfUniqueTargetInGrain.UseVisualStyleBackColor = true;
             checkIfUniqueTargetInGrain.Click += checkIfUniqueTargetInGrain_Click;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(2180, 1058);
+            label7.Location = new Point(2235, 995);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(110, 31);
@@ -482,7 +483,7 @@
             // targetSizeBox
             // 
             targetSizeBox.Increment = new decimal(new int[] { 10, 0, 0, 0 });
-            targetSizeBox.Location = new Point(2321, 1054);
+            targetSizeBox.Location = new Point(2355, 994);
             targetSizeBox.Margin = new Padding(6, 5, 6, 5);
             targetSizeBox.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
             targetSizeBox.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
@@ -497,9 +498,9 @@
             AutoGetTarget.Location = new Point(2180, 909);
             AutoGetTarget.Margin = new Padding(6, 5, 6, 5);
             AutoGetTarget.Name = "AutoGetTarget";
-            AutoGetTarget.Size = new Size(252, 48);
+            AutoGetTarget.Size = new Size(319, 48);
             AutoGetTarget.TabIndex = 41;
-            AutoGetTarget.Text = "AutoRotateTarget";
+            AutoGetTarget.Text = "AutoGetUniqueTarget";
             AutoGetTarget.UseVisualStyleBackColor = true;
             AutoGetTarget.Click += AutoGetTarget_Click;
             // 
@@ -525,12 +526,24 @@
             postiveMatch.UseVisualStyleBackColor = true;
             postiveMatch.Click += postiveMatch_Click;
             // 
+            // GenterateTargetList
+            // 
+            GenterateTargetList.Location = new Point(2180, 1123);
+            GenterateTargetList.Margin = new Padding(6, 5, 6, 5);
+            GenterateTargetList.Name = "GenterateTargetList";
+            GenterateTargetList.Size = new Size(319, 58);
+            GenterateTargetList.TabIndex = 44;
+            GenterateTargetList.Text = "GenterateTargetsList";
+            GenterateTargetList.UseVisualStyleBackColor = true;
+            GenterateTargetList.Click += GenterateTargetList_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2514, 1399);
+            Controls.Add(GenterateTargetList);
             Controls.Add(postiveMatch);
             Controls.Add(negtiveMatch);
             Controls.Add(AutoGetTarget);
@@ -639,5 +652,6 @@
         private Button AutoGetTarget;
         private Button negtiveMatch;
         private Button postiveMatch;
+        private Button GenterateTargetList;
     }
 }

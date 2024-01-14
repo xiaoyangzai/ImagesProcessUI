@@ -1105,5 +1105,57 @@ namespace ImageCenter
 
 
         }
+
+        private void GenterateTargetList_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("image_process.dll")]
+            static extern int GetTargetCandidateList(IntPtr source, int source_size, int horizontalStep, int verticalStep, out IntPtr targetsList, out IntPtr resultPtr);
+            templateImage.Image = null;
+            resultImage.Image = null;
+            try
+            {
+                console.Text = "[Info] GetTargetCandidateList() function...\n";
+                IntPtr targetsListPtr = IntPtr.Zero;
+                IntPtr resultPtr = IntPtr.Zero;
+                int step = (int)cutLineWidth.Value;
+                int ret = GetTargetCandidateList(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, step, step, out targetsListPtr, out resultPtr);
+                if (ret < 0)
+                {
+                    console.Text += "\n[Error] Failed to call IsUnqueTargetInGrain function. Exit Code: " + ret;
+                    return;
+                }
+
+                if (targetsListPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(targetsListPtr);
+                    byte[] targetsListBytes = Convert.FromBase64String(base64ImageData);
+                    string targetsListStr = Encoding.ASCII.GetString(targetsListBytes);
+                    Console.WriteLine(targetsListStr);
+                }
+
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling AutoGetUniqueTarget() function...Done!";
+                console.Text += "[Info] Calling AutoGetUniqueTarget() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text += "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text += "[Error] Functior not found!!";
+            }
+
+        }
     }
 }
