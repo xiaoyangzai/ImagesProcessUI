@@ -69,6 +69,8 @@
             label7 = new Label();
             targetSizeBox = new NumericUpDown();
             AutoGetTarget = new Button();
+            negtiveMatch = new Button();
+            postiveMatch = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -167,7 +169,7 @@
             // 
             // buttonRotateDegree
             // 
-            buttonRotateDegree.Location = new Point(968, 912);
+            buttonRotateDegree.Location = new Point(968, 810);
             buttonRotateDegree.Margin = new Padding(6, 5, 6, 5);
             buttonRotateDegree.Name = "buttonRotateDegree";
             buttonRotateDegree.Size = new Size(258, 71);
@@ -211,7 +213,7 @@
             // 
             // buttonCutLineDetection
             // 
-            buttonCutLineDetection.Location = new Point(1884, 1116);
+            buttonCutLineDetection.Location = new Point(1884, 1042);
             buttonCutLineDetection.Margin = new Padding(6, 5, 6, 5);
             buttonCutLineDetection.Name = "buttonCutLineDetection";
             buttonCutLineDetection.Size = new Size(252, 71);
@@ -222,7 +224,7 @@
             // 
             // buttonCutTraceValidate
             // 
-            buttonCutTraceValidate.Location = new Point(1884, 912);
+            buttonCutTraceValidate.Location = new Point(1884, 813);
             buttonCutTraceValidate.Margin = new Padding(6, 5, 6, 5);
             buttonCutTraceValidate.Name = "buttonCutTraceValidate";
             buttonCutTraceValidate.Size = new Size(252, 71);
@@ -312,7 +314,7 @@
             // cutCenterLocY
             // 
             cutCenterLocY.Increment = new decimal(new int[] { 5, 0, 0, 0 });
-            cutCenterLocY.Location = new Point(2040, 990);
+            cutCenterLocY.Location = new Point(2040, 916);
             cutCenterLocY.Margin = new Padding(6, 5, 6, 5);
             cutCenterLocY.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             cutCenterLocY.Minimum = new decimal(new int[] { 500, 0, 0, 0 });
@@ -325,7 +327,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(1884, 994);
+            label4.Location = new Point(1884, 920);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(148, 31);
@@ -335,7 +337,7 @@
             // cutLineWidth
             // 
             cutLineWidth.Increment = new decimal(new int[] { 2, 0, 0, 0 });
-            cutLineWidth.Location = new Point(2040, 1069);
+            cutLineWidth.Location = new Point(2040, 995);
             cutLineWidth.Margin = new Padding(6, 5, 6, 5);
             cutLineWidth.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             cutLineWidth.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
@@ -348,7 +350,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(1884, 1070);
+            label5.Location = new Point(1884, 996);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new Size(134, 31);
@@ -380,7 +382,7 @@
             // 
             // detectLowCrossroad
             // 
-            detectLowCrossroad.Location = new Point(1268, 912);
+            detectLowCrossroad.Location = new Point(1268, 810);
             detectLowCrossroad.Margin = new Padding(6, 5, 6, 5);
             detectLowCrossroad.Name = "detectLowCrossroad";
             detectLowCrossroad.Size = new Size(252, 71);
@@ -391,7 +393,7 @@
             // 
             // detectHighCrossroad
             // 
-            detectHighCrossroad.Location = new Point(1572, 912);
+            detectHighCrossroad.Location = new Point(1572, 813);
             detectHighCrossroad.Margin = new Padding(6, 5, 6, 5);
             detectHighCrossroad.Name = "detectHighCrossroad";
             detectHighCrossroad.Size = new Size(252, 71);
@@ -414,7 +416,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(1884, 1036);
+            label6.Location = new Point(1884, 962);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(149, 31);
@@ -424,7 +426,7 @@
             // cutCenterLocX
             // 
             cutCenterLocX.Increment = new decimal(new int[] { 5, 0, 0, 0 });
-            cutCenterLocX.Location = new Point(2040, 1032);
+            cutCenterLocX.Location = new Point(2040, 958);
             cutCenterLocX.Margin = new Padding(6, 5, 6, 5);
             cutCenterLocX.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             cutCenterLocX.Minimum = new decimal(new int[] { 500, 0, 0, 0 });
@@ -436,7 +438,7 @@
             // 
             // CheckifCutTrace
             // 
-            CheckifCutTrace.Location = new Point(1884, 1191);
+            CheckifCutTrace.Location = new Point(1884, 1117);
             CheckifCutTrace.Margin = new Padding(6, 5, 6, 5);
             CheckifCutTrace.Name = "CheckifCutTrace";
             CheckifCutTrace.Size = new Size(252, 71);
@@ -447,7 +449,7 @@
             // 
             // edgeDetection
             // 
-            edgeDetection.Location = new Point(2180, 912);
+            edgeDetection.Location = new Point(2180, 810);
             edgeDetection.Margin = new Padding(6, 5, 6, 5);
             edgeDetection.Name = "edgeDetection";
             edgeDetection.Size = new Size(252, 71);
@@ -458,7 +460,7 @@
             // 
             // checkIfUniqueTargetInGrain
             // 
-            checkIfUniqueTargetInGrain.Location = new Point(2180, 1187);
+            checkIfUniqueTargetInGrain.Location = new Point(2180, 1116);
             checkIfUniqueTargetInGrain.Margin = new Padding(6, 5, 6, 5);
             checkIfUniqueTargetInGrain.Name = "checkIfUniqueTargetInGrain";
             checkIfUniqueTargetInGrain.Size = new Size(252, 71);
@@ -470,7 +472,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(2180, 1129);
+            label7.Location = new Point(2180, 1058);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(110, 31);
@@ -480,7 +482,7 @@
             // targetSizeBox
             // 
             targetSizeBox.Increment = new decimal(new int[] { 10, 0, 0, 0 });
-            targetSizeBox.Location = new Point(2321, 1125);
+            targetSizeBox.Location = new Point(2321, 1054);
             targetSizeBox.Margin = new Padding(6, 5, 6, 5);
             targetSizeBox.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
             targetSizeBox.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
@@ -492,7 +494,7 @@
             // 
             // AutoGetTarget
             // 
-            AutoGetTarget.Location = new Point(2180, 999);
+            AutoGetTarget.Location = new Point(2180, 909);
             AutoGetTarget.Margin = new Padding(6, 5, 6, 5);
             AutoGetTarget.Name = "AutoGetTarget";
             AutoGetTarget.Size = new Size(252, 48);
@@ -501,12 +503,36 @@
             AutoGetTarget.UseVisualStyleBackColor = true;
             AutoGetTarget.Click += AutoGetTarget_Click;
             // 
+            // negtiveMatch
+            // 
+            negtiveMatch.Location = new Point(1113, 942);
+            negtiveMatch.Margin = new Padding(6, 5, 6, 5);
+            negtiveMatch.Name = "negtiveMatch";
+            negtiveMatch.Size = new Size(113, 71);
+            negtiveMatch.TabIndex = 42;
+            negtiveMatch.Text = "-5°";
+            negtiveMatch.UseVisualStyleBackColor = true;
+            negtiveMatch.Click += negtiveMatch_Click;
+            // 
+            // postiveMatch
+            // 
+            postiveMatch.Location = new Point(968, 942);
+            postiveMatch.Margin = new Padding(6, 5, 6, 5);
+            postiveMatch.Name = "postiveMatch";
+            postiveMatch.Size = new Size(113, 71);
+            postiveMatch.TabIndex = 43;
+            postiveMatch.Text = "+5°";
+            postiveMatch.UseVisualStyleBackColor = true;
+            postiveMatch.Click += postiveMatch_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2514, 1399);
+            Controls.Add(postiveMatch);
+            Controls.Add(negtiveMatch);
             Controls.Add(AutoGetTarget);
             Controls.Add(label7);
             Controls.Add(targetSizeBox);
@@ -611,5 +637,7 @@
         private Label label7;
         private NumericUpDown targetSizeBox;
         private Button AutoGetTarget;
+        private Button negtiveMatch;
+        private Button postiveMatch;
     }
 }
