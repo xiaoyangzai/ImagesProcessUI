@@ -926,20 +926,34 @@ namespace ImageCenter
                     return;
                 }
 
-                if (targetPtr != IntPtr.Zero)
+                if (targetPtr != IntPtr.Zero && resultPtr != IntPtr.Zero)
                 {
-                    string base64ImageData = Marshal.PtrToStringAnsi(targetPtr);
-                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
-                    MemoryStream ms = new MemoryStream(imageBytes);
-                    templateImage.Image = Image.FromStream(ms);
-                }
+                    string base64TargetData = Marshal.PtrToStringAnsi(targetPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64TargetData);
+                    MemoryStream msTarget = new MemoryStream(imageBytes);
+                    templateImage.Image = Image.FromStream(msTarget);
 
-                if (resultPtr != IntPtr.Zero)
-                {
-                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
-                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
-                    MemoryStream ms = new MemoryStream(imageBytes);
-                    resultImage.Image = Image.FromStream(ms);
+                    string base64ResultData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageResultBytes = Convert.FromBase64String(base64ResultData);
+                    MemoryStream msResult = new MemoryStream(imageResultBytes);
+                    resultImage.Image = Image.FromStream(msResult);
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        Bitmap movedBitmap = new Bitmap(resultImage.Image);
+                        using (Graphics g = Graphics.FromImage(movedBitmap))
+                        {
+                            Font font = new Font("Arial", 15, FontStyle.Regular);
+                            string direction;
+                            if (distanceToMove < 0)
+                                direction = "\nDirection: Left";
+                            else
+                                direction = "\nDirection: Right";
+                            g.DrawString("Distance to move: " + Math.Abs(distanceToMove) + direction, font, Brushes.Yellow, new PointF(movedBitmap.Width / 2f, 0));
+                        }
+                        movedBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        resultImage.Image = movedBitmap;
+                    }
                 }
                 console.Text += "\n[Info] Calling AutoGetUniqueTarget() function...Done!";
                 console.Text += "[Info] Calling AutoGetUniqueTarget() function...Done\n";
@@ -1154,6 +1168,298 @@ namespace ImageCenter
             catch (EntryPointNotFoundException)
             {
                 console.Text += "[Error] Functior not found!!";
+            }
+
+        }
+
+        private void moveToLeft_Click(object sender, EventArgs e)
+        {
+
+            if (inputImage.Image == null)
+            {
+                console.Text = "[Error] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+            if (templateImage.Image == null)
+            {
+                console.Text = "[Error] Target image is not selected. Please selec the target image again!";
+                return;
+            }
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Bitmap rotatedBitmap = new Bitmap(originalImage);
+                using (Graphics g = Graphics.FromImage(rotatedBitmap))
+                {
+                    g.TranslateTransform(-100, 0);
+                    g.DrawImage(originalImage, Point.Empty);
+                }
+
+                rotatedBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] inputImageBytes = ms.ToArray();
+                imageBase64String = Convert.ToBase64String(inputImageBytes);
+            }
+
+            using (MemoryStream targetms = new MemoryStream())
+            {
+
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
+
+            console.Text = "[Info] Calling MatcherTarget function...\n";
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("image_process.dll")]
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            try
+            {
+                int quality = -1;
+                int offsetX = -1, offsetY = -1;
+                IntPtr resultPtr = IntPtr.Zero;
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                if (quality < 0)
+                {
+                    console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
+                    return;
+                }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling MatcherTarget function...Done!";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function MatcherTarget not found!!";
+            }
+
+        }
+
+        private void moveToRight_Click(object sender, EventArgs e)
+        {
+            if (inputImage.Image == null)
+            {
+                console.Text = "[Error] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+            if (templateImage.Image == null)
+            {
+                console.Text = "[Error] Target image is not selected. Please selec the target image again!";
+                return;
+            }
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Bitmap rotatedBitmap = new Bitmap(originalImage);
+                using (Graphics g = Graphics.FromImage(rotatedBitmap))
+                {
+                    g.TranslateTransform(100, 0);
+                    g.DrawImage(originalImage, Point.Empty);
+                }
+
+                rotatedBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] inputImageBytes = ms.ToArray();
+                imageBase64String = Convert.ToBase64String(inputImageBytes);
+            }
+
+            using (MemoryStream targetms = new MemoryStream())
+            {
+
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
+
+            console.Text = "[Info] Calling MatcherTarget function...\n";
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("image_process.dll")]
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            try
+            {
+                int quality = -1;
+                int offsetX = -1, offsetY = -1;
+                IntPtr resultPtr = IntPtr.Zero;
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                if (quality < 0)
+                {
+                    console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
+                    return;
+                }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling MatcherTarget function...Done!";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function MatcherTarget not found!!";
+            }
+        }
+
+        private void moveUp_Click(object sender, EventArgs e)
+        {
+            if (inputImage.Image == null)
+            {
+                console.Text = "[Error] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+            if (templateImage.Image == null)
+            {
+                console.Text = "[Error] Target image is not selected. Please selec the target image again!";
+                return;
+            }
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Bitmap rotatedBitmap = new Bitmap(originalImage);
+                using (Graphics g = Graphics.FromImage(rotatedBitmap))
+                {
+                    g.TranslateTransform(0, 100);
+                    g.DrawImage(originalImage, Point.Empty);
+                }
+
+                rotatedBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] inputImageBytes = ms.ToArray();
+                imageBase64String = Convert.ToBase64String(inputImageBytes);
+            }
+
+            using (MemoryStream targetms = new MemoryStream())
+            {
+
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
+
+            console.Text = "[Info] Calling MatcherTarget function...\n";
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("image_process.dll")]
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            try
+            {
+                int quality = -1;
+                int offsetX = -1, offsetY = -1;
+                IntPtr resultPtr = IntPtr.Zero;
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                if (quality < 0)
+                {
+                    console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
+                    return;
+                }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling MatcherTarget function...Done!";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function MatcherTarget not found!!";
+            }
+
+        }
+
+        private void moveDown_Click(object sender, EventArgs e)
+        {
+            if (inputImage.Image == null)
+            {
+                console.Text = "[Error] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+            if (templateImage.Image == null)
+            {
+                console.Text = "[Error] Target image is not selected. Please selec the target image again!";
+                return;
+            }
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Bitmap rotatedBitmap = new Bitmap(originalImage);
+                using (Graphics g = Graphics.FromImage(rotatedBitmap))
+                {
+                    g.TranslateTransform(0, -100);
+                    g.DrawImage(originalImage, Point.Empty);
+                }
+
+                rotatedBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] inputImageBytes = ms.ToArray();
+                imageBase64String = Convert.ToBase64String(inputImageBytes);
+            }
+
+            using (MemoryStream targetms = new MemoryStream())
+            {
+
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
+
+            console.Text = "[Info] Calling MatcherTarget function...\n";
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("image_process.dll")]
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            try
+            {
+                int quality = -1;
+                int offsetX = -1, offsetY = -1;
+                IntPtr resultPtr = IntPtr.Zero;
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                if (quality < 0)
+                {
+                    console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
+                    return;
+                }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling MatcherTarget function...Done!";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function MatcherTarget not found!!";
             }
 
         }

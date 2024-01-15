@@ -72,6 +72,10 @@
             negtiveMatch = new Button();
             postiveMatch = new Button();
             GenterateTargetList = new Button();
+            moveToLeft = new Button();
+            moveToRight = new Button();
+            moveDown = new Button();
+            moveUp = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -181,7 +185,7 @@
             // 
             // buttonMatcher
             // 
-            buttonMatcher.Location = new Point(968, 1021);
+            buttonMatcher.Location = new Point(969, 1014);
             buttonMatcher.Margin = new Padding(6, 5, 6, 5);
             buttonMatcher.Name = "buttonMatcher";
             buttonMatcher.Size = new Size(258, 71);
@@ -236,7 +240,7 @@
             // 
             // buttonPixelMeasure
             // 
-            buttonPixelMeasure.Location = new Point(1268, 1014);
+            buttonPixelMeasure.Location = new Point(1268, 1021);
             buttonPixelMeasure.Margin = new Padding(6, 5, 6, 5);
             buttonPixelMeasure.Name = "buttonPixelMeasure";
             buttonPixelMeasure.Size = new Size(252, 71);
@@ -506,10 +510,10 @@
             // 
             // negtiveMatch
             // 
-            negtiveMatch.Location = new Point(1113, 942);
+            negtiveMatch.Location = new Point(1114, 1084);
             negtiveMatch.Margin = new Padding(6, 5, 6, 5);
             negtiveMatch.Name = "negtiveMatch";
-            negtiveMatch.Size = new Size(113, 71);
+            negtiveMatch.Size = new Size(113, 51);
             negtiveMatch.TabIndex = 42;
             negtiveMatch.Text = "-5°";
             negtiveMatch.UseVisualStyleBackColor = true;
@@ -517,10 +521,10 @@
             // 
             // postiveMatch
             // 
-            postiveMatch.Location = new Point(968, 942);
+            postiveMatch.Location = new Point(969, 1084);
             postiveMatch.Margin = new Padding(6, 5, 6, 5);
             postiveMatch.Name = "postiveMatch";
-            postiveMatch.Size = new Size(113, 71);
+            postiveMatch.Size = new Size(113, 51);
             postiveMatch.TabIndex = 43;
             postiveMatch.Text = "+5°";
             postiveMatch.UseVisualStyleBackColor = true;
@@ -537,12 +541,60 @@
             GenterateTargetList.UseVisualStyleBackColor = true;
             GenterateTargetList.Click += GenterateTargetList_Click;
             // 
+            // moveToLeft
+            // 
+            moveToLeft.Location = new Point(969, 962);
+            moveToLeft.Margin = new Padding(6, 5, 6, 5);
+            moveToLeft.Name = "moveToLeft";
+            moveToLeft.Size = new Size(113, 52);
+            moveToLeft.TabIndex = 45;
+            moveToLeft.Text = "左移100";
+            moveToLeft.UseVisualStyleBackColor = true;
+            moveToLeft.Click += moveToLeft_Click;
+            // 
+            // moveToRight
+            // 
+            moveToRight.Location = new Point(1114, 962);
+            moveToRight.Margin = new Padding(6, 5, 6, 5);
+            moveToRight.Name = "moveToRight";
+            moveToRight.Size = new Size(113, 53);
+            moveToRight.TabIndex = 46;
+            moveToRight.Text = "右移100";
+            moveToRight.UseVisualStyleBackColor = true;
+            moveToRight.Click += moveToRight_Click;
+            // 
+            // moveDown
+            // 
+            moveDown.Location = new Point(1114, 904);
+            moveDown.Margin = new Padding(6, 5, 6, 5);
+            moveDown.Name = "moveDown";
+            moveDown.Size = new Size(113, 53);
+            moveDown.TabIndex = 47;
+            moveDown.Text = "下移100";
+            moveDown.UseVisualStyleBackColor = true;
+            moveDown.Click += moveDown_Click;
+            // 
+            // moveUp
+            // 
+            moveUp.Location = new Point(969, 904);
+            moveUp.Margin = new Padding(6, 5, 6, 5);
+            moveUp.Name = "moveUp";
+            moveUp.Size = new Size(113, 53);
+            moveUp.TabIndex = 48;
+            moveUp.Text = "上移100";
+            moveUp.UseVisualStyleBackColor = true;
+            moveUp.Click += moveUp_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2514, 1399);
+            Controls.Add(moveUp);
+            Controls.Add(moveDown);
+            Controls.Add(moveToRight);
+            Controls.Add(moveToLeft);
             Controls.Add(GenterateTargetList);
             Controls.Add(postiveMatch);
             Controls.Add(negtiveMatch);
@@ -653,5 +705,9 @@
         private Button negtiveMatch;
         private Button postiveMatch;
         private Button GenterateTargetList;
+        private Button moveToLeft;
+        private Button moveToRight;
+        private Button moveDown;
+        private Button moveUp;
     }
 }
