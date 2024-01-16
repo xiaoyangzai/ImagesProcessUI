@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.DirectoryServices;
 using System.Net.NetworkInformation;
+using System.Drawing;
 
 namespace ImageCenter
 {
@@ -1462,6 +1463,40 @@ namespace ImageCenter
                 console.Text = "[Error] Function MatcherTarget not found!!";
             }
 
+        }
+
+        private void rotatebutton_Click(object sender, EventArgs e)
+        {
+            if (inputImage.Image == null)
+            {
+                console.Text = "[Error] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Bitmap rotatedBitmap = new Bitmap(inputImage.Image);
+                using (Graphics g = Graphics.FromImage(rotatedBitmap))
+                {
+                    // 设置旋转角度为0.2°（顺时针方向）
+                    float angle = 0.2f;
+
+                    // 计算旋转中心点坐标
+                    float centerX = rotatedBitmap.Width / 2f;
+                    float centerY = rotatedBitmap.Height / 2f;
+
+                    // 执行旋转操作
+                    g.TranslateTransform(centerX, centerY); // 将旋转中心点移动到图像中心
+                    g.RotateTransform(angle); // 进行旋转
+                    g.TranslateTransform(-centerX, -centerY); // 将旋转中心点移回原位
+                    g.DrawImage(inputImage.Image, Point.Empty);
+                }
+
+                rotatedBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] inputImageBytes = ms.ToArray();
+                imageBase64String = Convert.ToBase64String(inputImageBytes);
+                inputImage.Image = rotatedBitmap;
+            }
         }
     }
 }

@@ -76,6 +76,7 @@
             moveToRight = new Button();
             moveDown = new Button();
             moveUp = new Button();
+            rotatebutton = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -585,12 +586,24 @@
             moveUp.UseVisualStyleBackColor = true;
             moveUp.Click += moveUp_Click;
             // 
+            // rotatebutton
+            // 
+            rotatebutton.Location = new Point(1268, 910);
+            rotatebutton.Margin = new Padding(6, 5, 6, 5);
+            rotatebutton.Name = "rotatebutton";
+            rotatebutton.Size = new Size(113, 51);
+            rotatebutton.TabIndex = 49;
+            rotatebutton.Text = "+0.1°";
+            rotatebutton.UseVisualStyleBackColor = true;
+            rotatebutton.Click += rotatebutton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2514, 1399);
+            Controls.Add(rotatebutton);
             Controls.Add(moveUp);
             Controls.Add(moveDown);
             Controls.Add(moveToRight);
@@ -709,5 +722,6 @@
         private Button moveToRight;
         private Button moveDown;
         private Button moveUp;
+        private Button rotatebutton;
     }
 }
