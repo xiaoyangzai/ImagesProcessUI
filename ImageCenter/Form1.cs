@@ -938,23 +938,6 @@ namespace ImageCenter
                     byte[] imageResultBytes = Convert.FromBase64String(base64ResultData);
                     MemoryStream msResult = new MemoryStream(imageResultBytes);
                     resultImage.Image = Image.FromStream(msResult);
-
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        Bitmap movedBitmap = new Bitmap(resultImage.Image);
-                        using (Graphics g = Graphics.FromImage(movedBitmap))
-                        {
-                            Font font = new Font("Arial", 15, FontStyle.Regular);
-                            string direction;
-                            if (distanceToMove < 0)
-                                direction = "\nDirection: Left";
-                            else
-                                direction = "\nDirection: Right";
-                            g.DrawString("Distance to move: " + Math.Abs(distanceToMove) + direction, font, Brushes.Yellow, new PointF(movedBitmap.Width / 2f, 0));
-                        }
-                        movedBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                        resultImage.Image = movedBitmap;
-                    }
                 }
                 console.Text += "\n[Info] Calling AutoGetUniqueTarget() function...Done!";
                 console.Text += "[Info] Calling AutoGetUniqueTarget() function...Done\n";

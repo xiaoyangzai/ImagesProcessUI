@@ -159,7 +159,7 @@
             templateImage.Margin = new Padding(6, 5, 6, 5);
             templateImage.Name = "templateImage";
             templateImage.Size = new Size(260, 188);
-            templateImage.SizeMode = PictureBoxSizeMode.CenterImage;
+            templateImage.SizeMode = PictureBoxSizeMode.StretchImage;
             templateImage.TabIndex = 9;
             templateImage.TabStop = false;
             // 
