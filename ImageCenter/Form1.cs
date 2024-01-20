@@ -72,6 +72,8 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void BaseFunctionTest(IntPtr data, int length);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            currentTargetX = 0;
+            currentTargetY = 0;
             console.Text = "Loading image processor center...Done\n";
             console.Text += "[Info] Calling BaseFunctionTest...\n";
             try
@@ -104,6 +106,9 @@ namespace ImageCenter
                 imageBase64String = Convert.ToBase64String(imageBytes);
                 originalImage = new Bitmap(inputImage.Image);
                 resultImage.Image = null;
+                scaleX = (double)inputImage.ClientSize.Width / inputImage.Image.Width;
+                scaleY = (double)inputImage.ClientSize.Height / inputImage.Image.Height;
+
             }
         }
 
@@ -198,7 +203,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset=true);
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
@@ -887,6 +892,12 @@ namespace ImageCenter
                 Bitmap bitmap = new Bitmap(originalImage);
                 int x = bitmap.Width / 2 - (int)targetSizeBox.Value / 2;
                 int y = bitmap.Height / 2 - (int)targetSizeBox.Value / 2;
+                if (currentTargetX != bitmap.Width / 2 && currentTargetY != bitmap.Height / 2)
+                {
+                    x = currentTargetX - (int)targetSizeBox.Value / 2;
+                    y = currentTargetY - (int)targetSizeBox.Value / 2;
+                }
+
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
                     // 设置线条颜色和宽度
@@ -1479,6 +1490,161 @@ namespace ImageCenter
                 byte[] inputImageBytes = ms.ToArray();
                 imageBase64String = Convert.ToBase64String(inputImageBytes);
                 inputImage.Image = rotatedBitmap;
+            }
+        }
+
+        private void moveUpTarget_Click(object sender, EventArgs e)
+        {
+            Bitmap bitmap = new Bitmap(originalImage);
+            int targetSize = (int)targetSizeBox.Value;
+            if (currentTargetX == 0)
+                currentTargetX = bitmap.Width / 2;
+            if (currentTargetY == 0)
+                currentTargetY = bitmap.Height / 2;
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                Pen pen = new Pen(Color.Green, 5);
+                if (currentTargetY - targetSize / 2 > 0)
+                    currentTargetY -= (int)(20 * scaleY);
+
+                graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            }
+            Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
+            templateImage.Image = croppedImage;
+            inputImage.Image = bitmap;
+
+        }
+
+        private void moveTargetDown_Click(object sender, EventArgs e)
+        {
+            Bitmap bitmap = new Bitmap(originalImage);
+            if (currentTargetX == 0)
+                currentTargetX = bitmap.Width / 2;
+            if (currentTargetY == 0)
+                currentTargetY = bitmap.Height / 2;
+            int targetSize = (int)targetSizeBox.Value;
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                Pen pen = new Pen(Color.Green, 5);
+                if (currentTargetY + targetSize / 2 < bitmap.Height)
+                    currentTargetY += (int)(20 * scaleY);
+
+                graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            }
+            Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
+            templateImage.Image = croppedImage;
+            inputImage.Image = bitmap;
+        }
+
+        private void moveTargetLeft_Click(object sender, EventArgs e)
+        {
+            Bitmap bitmap = new Bitmap(originalImage);
+            if (currentTargetX == 0)
+                currentTargetX = bitmap.Width / 2;
+            if (currentTargetY == 0)
+                currentTargetY = bitmap.Height / 2;
+            int targetSize = (int)targetSizeBox.Value;
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                Pen pen = new Pen(Color.Green, 5);
+                if (currentTargetX - targetSize / 2 > 0)
+                    currentTargetX -= (int)(20 * scaleX);
+
+                graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            }
+            Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
+            templateImage.Image = croppedImage;
+            inputImage.Image = bitmap;
+
+        }
+
+        private void targetMoveRight_Click(object sender, EventArgs e)
+        {
+            Bitmap bitmap = new Bitmap(originalImage);
+            if (currentTargetX == 0)
+                currentTargetX = bitmap.Width / 2;
+            if (currentTargetY == 0)
+                currentTargetY = bitmap.Height / 2;
+            int targetSize = (int)targetSizeBox.Value;
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                Pen pen = new Pen(Color.Green, 5);
+                if (currentTargetX + targetSize / 2 < bitmap.Width)
+                    currentTargetX += (int)(20 * scaleX);
+
+                graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            }
+            Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
+            templateImage.Image = croppedImage;
+            inputImage.Image = bitmap;
+
+        }
+
+        private void matchSelectedTarget_Click(object sender, EventArgs e)
+        {
+            if (inputImage.Image == null)
+            {
+                console.Text = "[Error] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+            if (templateImage.Image == null)
+            {
+                console.Text = "[Error] Target image is not selected. Please selec the target image again!";
+                return;
+            }
+            using (MemoryStream ms = new MemoryStream())
+            {
+
+                Image img = originalImage;
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] inputImageBytes = ms.ToArray();
+                imageBase64String = Convert.ToBase64String(inputImageBytes);
+            }
+            using (MemoryStream targetms = new MemoryStream())
+            {
+
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
+            console.Text = "[Info] Calling MatcherTarget function...\n";
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("image_process.dll")]
+            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset = true);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            try
+            {
+                int quality = -1;
+                int offsetX = -1, offsetY = -1;
+                IntPtr resultPtr = IntPtr.Zero;
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, 7);
+                if (quality < 0)
+                {
+                    console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
+                    return;
+                }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling MatcherTarget function...Done!";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function MatcherTarget not found!!";
             }
         }
     }

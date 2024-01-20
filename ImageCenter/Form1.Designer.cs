@@ -66,7 +66,6 @@
             CheckifCutTrace = new Button();
             edgeDetection = new Button();
             checkIfUniqueTargetInGrain = new Button();
-            label7 = new Label();
             targetSizeBox = new NumericUpDown();
             AutoGetTarget = new Button();
             negtiveMatch = new Button();
@@ -77,6 +76,12 @@
             moveDown = new Button();
             moveUp = new Button();
             rotatebutton = new Button();
+            moveTargetLeft = new Button();
+            targetMoveRight = new Button();
+            moveUpTarget = new Button();
+            moveTargetDown = new Button();
+            label7 = new Label();
+            matchSelectedTarget = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -149,7 +154,7 @@
             inputImage.Margin = new Padding(6, 5, 6, 5);
             inputImage.Name = "inputImage";
             inputImage.Size = new Size(824, 618);
-            inputImage.SizeMode = PictureBoxSizeMode.StretchImage;
+            inputImage.SizeMode = PictureBoxSizeMode.Zoom;
             inputImage.TabIndex = 8;
             inputImage.TabStop = false;
             // 
@@ -169,7 +174,7 @@
             resultImage.Margin = new Padding(6, 5, 6, 5);
             resultImage.Name = "resultImage";
             resultImage.Size = new Size(912, 618);
-            resultImage.SizeMode = PictureBoxSizeMode.StretchImage;
+            resultImage.SizeMode = PictureBoxSizeMode.Zoom;
             resultImage.TabIndex = 10;
             resultImage.TabStop = false;
             // 
@@ -475,25 +480,15 @@
             checkIfUniqueTargetInGrain.UseVisualStyleBackColor = true;
             checkIfUniqueTargetInGrain.Click += checkIfUniqueTargetInGrain_Click;
             // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(2235, 995);
-            label7.Margin = new Padding(4, 0, 4, 0);
-            label7.Name = "label7";
-            label7.Size = new Size(110, 31);
-            label7.TabIndex = 40;
-            label7.Text = "目标大小";
-            // 
             // targetSizeBox
             // 
             targetSizeBox.Increment = new decimal(new int[] { 10, 0, 0, 0 });
-            targetSizeBox.Location = new Point(2355, 994);
+            targetSizeBox.Location = new Point(2299, 996);
             targetSizeBox.Margin = new Padding(6, 5, 6, 5);
             targetSizeBox.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
             targetSizeBox.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
             targetSizeBox.Name = "targetSizeBox";
-            targetSizeBox.Size = new Size(96, 38);
+            targetSizeBox.Size = new Size(185, 38);
             targetSizeBox.TabIndex = 39;
             targetSizeBox.Value = new decimal(new int[] { 100, 0, 0, 0 });
             targetSizeBox.ValueChanged += targetSizeBox_ValueChanged;
@@ -597,12 +592,83 @@
             rotatebutton.UseVisualStyleBackColor = true;
             rotatebutton.Click += rotatebutton_Click;
             // 
+            // moveTargetLeft
+            // 
+            moveTargetLeft.Location = new Point(2123, 1265);
+            moveTargetLeft.Margin = new Padding(6, 5, 6, 5);
+            moveTargetLeft.Name = "moveTargetLeft";
+            moveTargetLeft.Size = new Size(126, 53);
+            moveTargetLeft.TabIndex = 50;
+            moveTargetLeft.Text = "目标左移";
+            moveTargetLeft.UseVisualStyleBackColor = true;
+            moveTargetLeft.Click += moveTargetLeft_Click;
+            // 
+            // targetMoveRight
+            // 
+            targetMoveRight.Location = new Point(2370, 1265);
+            targetMoveRight.Margin = new Padding(6, 5, 6, 5);
+            targetMoveRight.Name = "targetMoveRight";
+            targetMoveRight.Size = new Size(129, 53);
+            targetMoveRight.TabIndex = 51;
+            targetMoveRight.Text = "目标右移";
+            targetMoveRight.UseVisualStyleBackColor = true;
+            targetMoveRight.Click += targetMoveRight_Click;
+            // 
+            // moveUpTarget
+            // 
+            moveUpTarget.Location = new Point(2245, 1202);
+            moveUpTarget.Margin = new Padding(6, 5, 6, 5);
+            moveUpTarget.Name = "moveUpTarget";
+            moveUpTarget.Size = new Size(129, 53);
+            moveUpTarget.TabIndex = 52;
+            moveUpTarget.Text = "目标上移";
+            moveUpTarget.UseVisualStyleBackColor = true;
+            moveUpTarget.Click += moveUpTarget_Click;
+            // 
+            // moveTargetDown
+            // 
+            moveTargetDown.Location = new Point(2245, 1328);
+            moveTargetDown.Margin = new Padding(6, 5, 6, 5);
+            moveTargetDown.Name = "moveTargetDown";
+            moveTargetDown.Size = new Size(129, 53);
+            moveTargetDown.TabIndex = 53;
+            moveTargetDown.Text = "目标下移";
+            moveTargetDown.UseVisualStyleBackColor = true;
+            moveTargetDown.Click += moveTargetDown_Click;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(2180, 998);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(110, 31);
+            label7.TabIndex = 54;
+            label7.Text = "目标大小";
+            // 
+            // matchSelectedTarget
+            // 
+            matchSelectedTarget.Location = new Point(2245, 1265);
+            matchSelectedTarget.Margin = new Padding(6, 5, 6, 5);
+            matchSelectedTarget.Name = "matchSelectedTarget";
+            matchSelectedTarget.Size = new Size(129, 53);
+            matchSelectedTarget.TabIndex = 55;
+            matchSelectedTarget.Text = "目标匹配";
+            matchSelectedTarget.UseVisualStyleBackColor = true;
+            matchSelectedTarget.Click += matchSelectedTarget_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2514, 1399);
+            Controls.Add(matchSelectedTarget);
+            Controls.Add(label7);
+            Controls.Add(moveTargetDown);
+            Controls.Add(moveUpTarget);
+            Controls.Add(targetMoveRight);
+            Controls.Add(moveTargetLeft);
             Controls.Add(rotatebutton);
             Controls.Add(moveUp);
             Controls.Add(moveDown);
@@ -612,7 +678,6 @@
             Controls.Add(postiveMatch);
             Controls.Add(negtiveMatch);
             Controls.Add(AutoGetTarget);
-            Controls.Add(label7);
             Controls.Add(targetSizeBox);
             Controls.Add(checkIfUniqueTargetInGrain);
             Controls.Add(edgeDetection);
@@ -675,6 +740,11 @@
         string imageBase64String;
         string targetBase64String;
         private string targetPath = "";
+        double scaleX = 1.0;
+        double scaleY = 1.0;
+        Point targetPos;
+        int currentTargetX = 0;
+        int currentTargetY = 0;
         private Bitmap originalImage;
         private OpenFileDialog selectDllPath;
         private Button selectImage;
@@ -712,7 +782,6 @@
         private Button CheckifCutTrace;
         private Button edgeDetection;
         private Button checkIfUniqueTargetInGrain;
-        private Label label7;
         private NumericUpDown targetSizeBox;
         private Button AutoGetTarget;
         private Button negtiveMatch;
@@ -723,5 +792,11 @@
         private Button moveDown;
         private Button moveUp;
         private Button rotatebutton;
+        private Button moveTargetLeft;
+        private Button targetMoveRight;
+        private Button moveUpTarget;
+        private Button moveTargetDown;
+        private Label label7;
+        private Button matchSelectedTarget;
     }
 }
