@@ -892,7 +892,7 @@ namespace ImageCenter
                 Bitmap bitmap = new Bitmap(originalImage);
                 int x = bitmap.Width / 2 - (int)targetSizeBox.Value / 2;
                 int y = bitmap.Height / 2 - (int)targetSizeBox.Value / 2;
-                if (currentTargetX != bitmap.Width / 2 && currentTargetY != bitmap.Height / 2)
+                if (currentTargetX !=  0 && currentTargetY != 0)
                 {
                     x = currentTargetX - (int)targetSizeBox.Value / 2;
                     y = currentTargetY - (int)targetSizeBox.Value / 2;
@@ -909,6 +909,17 @@ namespace ImageCenter
 
                 // 将绘制好线条的 Bitmap 对象设置为 PictureBox 的图像
                 inputImage.Image = bitmap;
+
+                Rectangle cropRect = new Rectangle(x, y, (int)targetSizeBox.Value, (int)targetSizeBox.Value);
+                Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
+                templateImage.Image = croppedImage;
+                using (MemoryStream targetms = new MemoryStream())
+                {
+                    Image img = templateImage.Image;
+                    img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    byte[] targetImageBytes = targetms.ToArray();
+                    targetBase64String = Convert.ToBase64String(targetImageBytes);
+                }
             }
         }
 
@@ -1495,6 +1506,7 @@ namespace ImageCenter
 
         private void moveUpTarget_Click(object sender, EventArgs e)
         {
+            templateImage.Image = null;
             Bitmap bitmap = new Bitmap(originalImage);
             int targetSize = (int)targetSizeBox.Value;
             if (currentTargetX == 0)
@@ -1512,12 +1524,20 @@ namespace ImageCenter
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
+            using (MemoryStream targetms = new MemoryStream())
+            {
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
             inputImage.Image = bitmap;
 
         }
 
         private void moveTargetDown_Click(object sender, EventArgs e)
         {
+            templateImage.Image = null;
             Bitmap bitmap = new Bitmap(originalImage);
             if (currentTargetX == 0)
                 currentTargetX = bitmap.Width / 2;
@@ -1535,11 +1555,19 @@ namespace ImageCenter
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
+            using (MemoryStream targetms = new MemoryStream())
+            {
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
             inputImage.Image = bitmap;
         }
 
         private void moveTargetLeft_Click(object sender, EventArgs e)
         {
+            templateImage.Image = null;
             Bitmap bitmap = new Bitmap(originalImage);
             if (currentTargetX == 0)
                 currentTargetX = bitmap.Width / 2;
@@ -1557,12 +1585,20 @@ namespace ImageCenter
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
+            using (MemoryStream targetms = new MemoryStream())
+            {
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
             inputImage.Image = bitmap;
 
         }
 
         private void targetMoveRight_Click(object sender, EventArgs e)
         {
+            templateImage.Image = null;
             Bitmap bitmap = new Bitmap(originalImage);
             if (currentTargetX == 0)
                 currentTargetX = bitmap.Width / 2;
@@ -1580,6 +1616,13 @@ namespace ImageCenter
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
+            using (MemoryStream targetms = new MemoryStream())
+            {
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
             inputImage.Image = bitmap;
 
         }
@@ -1645,6 +1688,143 @@ namespace ImageCenter
             catch (EntryPointNotFoundException)
             {
                 console.Text = "[Error] Function MatcherTarget not found!!";
+            }
+        }
+
+        private void matchScaleDown_Click(object sender, EventArgs e)
+        {
+            if (inputImage.Image == null)
+            {
+                console.Text = "[Error] Input image is not selected. Please selec the input image again!";
+                return;
+            }
+            if (templateImage.Image == null)
+            {
+                console.Text = "[Error] Target image is not selected. Please selec the target image again!";
+                return;
+            }
+
+            int newWidth = originalImage.Width / 3;
+            int newHigh = originalImage.Height / 3;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Bitmap resizedBitmap = new Bitmap(newWidth, newHigh);
+                using (Graphics g = Graphics.FromImage(resizedBitmap))
+                {
+                    g.DrawImage(originalImage, new Rectangle(0, 0, newWidth, newHigh));
+                }
+
+                resizedBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] inputImageBytes = ms.ToArray();
+                imageBase64String = Convert.ToBase64String(inputImageBytes);
+            }
+
+            int newTargetW = templateImage.Image.Width / 3;
+            int newTargetH = templateImage.Image.Height / 3;
+            using (MemoryStream targetms = new MemoryStream())
+            {
+
+                Bitmap resizedTargetBitmap = new Bitmap(newTargetW, newTargetH);
+                using (Graphics g = Graphics.FromImage(resizedTargetBitmap))
+                {
+                    g.DrawImage(templateImage.Image, new Rectangle(0, 0, newTargetW, newTargetH));
+                }
+                resizedTargetBitmap.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
+
+            console.Text = "[Info] Calling MatcherTarget function...\n";
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            [DllImport("image_process.dll")]
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShow = true);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            try
+            {
+                int quality = -1;
+                int offsetX = -1, offsetY = -1;
+                IntPtr resultPtr = IntPtr.Zero;
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 1, false);
+                if (quality < 0)
+                {
+                    console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
+                    return;
+                }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling MatcherTarget function...Done!";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text = "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text = "[Error] Function MatcherTarget not found!!";
+            }
+        }
+
+        private void CheckUniqueTargetHigh_Click(object sender, EventArgs e)
+        {
+            resultImage.Image = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+
+                Image img = originalImage;
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] inputImageBytes = ms.ToArray();
+                imageBase64String = Convert.ToBase64String(inputImageBytes);
+            }
+            using (MemoryStream targetms = new MemoryStream())
+            {
+
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+
+            [DllImport("image_process.dll")]
+            static extern int IsUniqueTargetHigh(IntPtr source, int source_size, int targetWidth, int targetHigh, int targetCenterX, int tergetCneterY, out IntPtr resultPtr);
+            resultImage.Image = null;
+            try
+            {
+                console.Text = "[Info] IsUnqueTargetHigh() function...\n";
+                int targetSize = (int)targetSizeBox.Value;
+                IntPtr resultPtr = IntPtr.Zero;
+                int ret = IsUniqueTargetHigh(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, targetSize, targetSize, currentTargetX, currentTargetY,out resultPtr);
+                if (ret < 0)
+                {
+                    console.Text += "\n[Error] Failed to call IsUnqueTargetHigh function. Exit Code: " + ret;
+                    return;
+                }
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling IsUnqueTargetHigh() function...Done!";
+                console.Text += "[Info] Calling IsUnqueTargetHigh() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text += "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text += "[Error] Functior not found!!";
             }
         }
     }

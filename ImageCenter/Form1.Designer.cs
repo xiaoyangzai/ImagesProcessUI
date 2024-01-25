@@ -82,6 +82,8 @@
             moveTargetDown = new Button();
             label7 = new Label();
             matchSelectedTarget = new Button();
+            matchScaleDown = new Button();
+            CheckUniqueTargetHigh = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -506,10 +508,10 @@
             // 
             // negtiveMatch
             // 
-            negtiveMatch.Location = new Point(1114, 1084);
+            negtiveMatch.Location = new Point(1154, 1084);
             negtiveMatch.Margin = new Padding(6, 5, 6, 5);
             negtiveMatch.Name = "negtiveMatch";
-            negtiveMatch.Size = new Size(113, 51);
+            negtiveMatch.Size = new Size(73, 51);
             negtiveMatch.TabIndex = 42;
             negtiveMatch.Text = "-5°";
             negtiveMatch.UseVisualStyleBackColor = true;
@@ -520,7 +522,7 @@
             postiveMatch.Location = new Point(969, 1084);
             postiveMatch.Margin = new Padding(6, 5, 6, 5);
             postiveMatch.Name = "postiveMatch";
-            postiveMatch.Size = new Size(113, 51);
+            postiveMatch.Size = new Size(80, 51);
             postiveMatch.TabIndex = 43;
             postiveMatch.Text = "+5°";
             postiveMatch.UseVisualStyleBackColor = true;
@@ -528,10 +530,10 @@
             // 
             // GenterateTargetList
             // 
-            GenterateTargetList.Location = new Point(2180, 1123);
+            GenterateTargetList.Location = new Point(1884, 1204);
             GenterateTargetList.Margin = new Padding(6, 5, 6, 5);
             GenterateTargetList.Name = "GenterateTargetList";
-            GenterateTargetList.Size = new Size(319, 58);
+            GenterateTargetList.Size = new Size(262, 58);
             GenterateTargetList.TabIndex = 44;
             GenterateTargetList.Text = "GenterateTargetsList";
             GenterateTargetList.UseVisualStyleBackColor = true;
@@ -657,12 +659,36 @@
             matchSelectedTarget.UseVisualStyleBackColor = true;
             matchSelectedTarget.Click += matchSelectedTarget_Click;
             // 
+            // matchScaleDown
+            // 
+            matchScaleDown.Location = new Point(1064, 1084);
+            matchScaleDown.Margin = new Padding(6, 5, 6, 5);
+            matchScaleDown.Name = "matchScaleDown";
+            matchScaleDown.Size = new Size(80, 51);
+            matchScaleDown.TabIndex = 56;
+            matchScaleDown.Text = "缩略";
+            matchScaleDown.UseVisualStyleBackColor = true;
+            matchScaleDown.Click += matchScaleDown_Click;
+            // 
+            // CheckUniqueTargetHigh
+            // 
+            CheckUniqueTargetHigh.Location = new Point(2180, 1121);
+            CheckUniqueTargetHigh.Margin = new Padding(6, 5, 6, 5);
+            CheckUniqueTargetHigh.Name = "CheckUniqueTargetHigh";
+            CheckUniqueTargetHigh.Size = new Size(319, 71);
+            CheckUniqueTargetHigh.TabIndex = 57;
+            CheckUniqueTargetHigh.Text = "CheckUnqiueTargetHigh";
+            CheckUniqueTargetHigh.UseVisualStyleBackColor = true;
+            CheckUniqueTargetHigh.Click += CheckUniqueTargetHigh_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2514, 1399);
+            Controls.Add(CheckUniqueTargetHigh);
+            Controls.Add(matchScaleDown);
             Controls.Add(matchSelectedTarget);
             Controls.Add(label7);
             Controls.Add(moveTargetDown);
@@ -798,5 +824,7 @@
         private Button moveTargetDown;
         private Label label7;
         private Button matchSelectedTarget;
+        private Button matchScaleDown;
+        private Button CheckUniqueTargetHigh;
     }
 }
