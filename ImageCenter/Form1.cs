@@ -72,8 +72,8 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void BaseFunctionTest(IntPtr data, int length);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
-            currentTargetX = 0;
-            currentTargetY = 0;
+            currentTargetX = -1;
+            currentTargetY = -1;
             console.Text = "Loading image processor center...Done\n";
             console.Text += "[Info] Calling BaseFunctionTest...\n";
             try
@@ -108,7 +108,8 @@ namespace ImageCenter
                 resultImage.Image = null;
                 scaleX = (double)inputImage.ClientSize.Width / inputImage.Image.Width;
                 scaleY = (double)inputImage.ClientSize.Height / inputImage.Image.Height;
-
+                currentTargetX = -1;
+                currentTargetY = -1;
             }
         }
 
@@ -892,11 +893,13 @@ namespace ImageCenter
                 Bitmap bitmap = new Bitmap(originalImage);
                 int x = bitmap.Width / 2 - (int)targetSizeBox.Value / 2;
                 int y = bitmap.Height / 2 - (int)targetSizeBox.Value / 2;
-                if (currentTargetX !=  0 && currentTargetY != 0)
+                if (currentTargetX < 0 && currentTargetY < 0)
                 {
-                    x = currentTargetX - (int)targetSizeBox.Value / 2;
-                    y = currentTargetY - (int)targetSizeBox.Value / 2;
+                    currentTargetX = originalImage.Width / 2;
+                    currentTargetY = originalImage.Height / 2;
                 }
+                x = currentTargetX - (int)targetSizeBox.Value / 2;
+                y = currentTargetY - (int)targetSizeBox.Value / 2;
 
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
@@ -1016,14 +1019,19 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            if (currentTargetX < 0 && currentTargetY < 0)
+            {
+                currentTargetX = originalImage.Width / 2;
+                currentTargetY = originalImage.Height / 2;
+            }
             try
             {
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1091,14 +1099,19 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            if (currentTargetX < 0 && currentTargetY < 0)
+            {
+                currentTargetX = originalImage.Width / 2;
+                currentTargetY = originalImage.Height / 2;
+            }
             try
             {
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1494,13 +1507,14 @@ namespace ImageCenter
                     g.TranslateTransform(centerX, centerY); // 将旋转中心点移动到图像中心
                     g.RotateTransform(angle); // 进行旋转
                     g.TranslateTransform(-centerX, -centerY); // 将旋转中心点移回原位
-                    g.DrawImage(inputImage.Image, Point.Empty);
+                    g.DrawImage(originalImage, Point.Empty);
                 }
 
                 rotatedBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                 byte[] inputImageBytes = ms.ToArray();
                 imageBase64String = Convert.ToBase64String(inputImageBytes);
                 inputImage.Image = rotatedBitmap;
+                originalImage = rotatedBitmap;
             }
         }
 
@@ -1661,6 +1675,12 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            if (currentTargetX < 0 && currentTargetY < 0)
+            {
+                currentTargetX = originalImage.Width / 2;
+                currentTargetY = originalImage.Height / 2;
+            }
             try
             {
                 int quality = -1;
@@ -1802,7 +1822,7 @@ namespace ImageCenter
                 console.Text = "[Info] IsUnqueTargetHigh() function...\n";
                 int targetSize = (int)targetSizeBox.Value;
                 IntPtr resultPtr = IntPtr.Zero;
-                int ret = IsUniqueTargetHigh(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, targetSize, targetSize, currentTargetX, currentTargetY,out resultPtr);
+                int ret = IsUniqueTargetHigh(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, targetSize, targetSize, currentTargetX, currentTargetY, out resultPtr);
                 if (ret < 0)
                 {
                     console.Text += "\n[Error] Failed to call IsUnqueTargetHigh function. Exit Code: " + ret;
@@ -1817,6 +1837,57 @@ namespace ImageCenter
                 }
                 console.Text += "\n[Info] Calling IsUnqueTargetHigh() function...Done!";
                 console.Text += "[Info] Calling IsUnqueTargetHigh() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text += "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text += "[Error] Functior not found!!";
+            }
+        }
+
+        private void targetListForHigh_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("image_process.dll")]
+            static extern int GetTargetCandidateListHigh(IntPtr source, int source_size, int horizontalWidth, int verticalWidth, out IntPtr targetsList, out IntPtr resultPtr);
+            templateImage.Image = null;
+            resultImage.Image = null;
+            try
+            {
+                console.Text = "[Info] GetTargetCandidateList() function...\n";
+                IntPtr targetsListPtr = IntPtr.Zero;
+                IntPtr resultPtr = IntPtr.Zero;
+                int step = (int)cutLineWidth.Value;
+                int ret = GetTargetCandidateListHigh(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, step, step, out targetsListPtr, out resultPtr);
+                if (ret < 0)
+                {
+                    console.Text += "\n[Error] Failed to call IsUnqueTargetInGrain function. Exit Code: " + ret;
+                    return;
+                }
+
+                if (targetsListPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(targetsListPtr);
+                    byte[] targetsListBytes = Convert.FromBase64String(base64ImageData);
+                    string targetsListStr = Encoding.ASCII.GetString(targetsListBytes);
+                    Console.WriteLine(targetsListStr);
+                }
+
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling AutoGetUniqueTarget() function...Done!";
+                console.Text += "[Info] Calling AutoGetUniqueTarget() function...Done\n";
             }
             catch (DllNotFoundException)
             {
