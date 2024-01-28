@@ -771,6 +771,8 @@
         Point targetPos;
         int currentTargetX = 0;
         int currentTargetY = 0;
+        bool isAutoGetUniqueTarget = false;
+        int autoUniqueTargetSize = -1;
         private Bitmap originalImage;
         private OpenFileDialog selectDllPath;
         private Button selectImage;

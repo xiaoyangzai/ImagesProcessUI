@@ -74,6 +74,7 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             currentTargetX = -1;
             currentTargetY = -1;
+            isAutoGetUniqueTarget = false;
             console.Text = "Loading image processor center...Done\n";
             console.Text += "[Info] Calling BaseFunctionTest...\n";
             try
@@ -964,6 +965,10 @@ namespace ImageCenter
                     MemoryStream msResult = new MemoryStream(imageResultBytes);
                     resultImage.Image = Image.FromStream(msResult);
                 }
+                currentTargetX = targetCenterX;
+                currentTargetY = targetCenterY;
+                autoUniqueTargetSize = targetSize;
+                isAutoGetUniqueTarget = true;
                 console.Text += "\n[Info] Calling AutoGetUniqueTarget() function...Done!";
                 console.Text += "[Info] Calling AutoGetUniqueTarget() function...Done\n";
             }
@@ -980,6 +985,7 @@ namespace ImageCenter
 
         private void negtiveMatch_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             if (inputImage.Image == null)
             {
                 console.Text = "[Error] Input image is not selected. Please selec the input image again!";
@@ -1059,6 +1065,7 @@ namespace ImageCenter
 
         private void postiveMatch_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             if (inputImage.Image == null)
             {
                 console.Text = "[Error] Input image is not selected. Please selec the input image again!";
@@ -1194,6 +1201,7 @@ namespace ImageCenter
         private void moveToLeft_Click(object sender, EventArgs e)
         {
 
+            isAutoGetUniqueTarget = false;
             if (inputImage.Image == null)
             {
                 console.Text = "[Error] Input image is not selected. Please selec the input image again!";
@@ -1267,6 +1275,7 @@ namespace ImageCenter
 
         private void moveToRight_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             if (inputImage.Image == null)
             {
                 console.Text = "[Error] Input image is not selected. Please selec the input image again!";
@@ -1339,6 +1348,7 @@ namespace ImageCenter
 
         private void moveUp_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             if (inputImage.Image == null)
             {
                 console.Text = "[Error] Input image is not selected. Please selec the input image again!";
@@ -1412,6 +1422,7 @@ namespace ImageCenter
 
         private void moveDown_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             if (inputImage.Image == null)
             {
                 console.Text = "[Error] Input image is not selected. Please selec the input image again!";
@@ -1485,6 +1496,7 @@ namespace ImageCenter
 
         private void rotatebutton_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             if (inputImage.Image == null)
             {
                 console.Text = "[Error] Input image is not selected. Please selec the input image again!";
@@ -1520,6 +1532,7 @@ namespace ImageCenter
 
         private void moveUpTarget_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             templateImage.Image = null;
             Bitmap bitmap = new Bitmap(originalImage);
             int targetSize = (int)targetSizeBox.Value;
@@ -1551,6 +1564,7 @@ namespace ImageCenter
 
         private void moveTargetDown_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             templateImage.Image = null;
             Bitmap bitmap = new Bitmap(originalImage);
             if (currentTargetX == 0)
@@ -1581,6 +1595,7 @@ namespace ImageCenter
 
         private void moveTargetLeft_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             templateImage.Image = null;
             Bitmap bitmap = new Bitmap(originalImage);
             if (currentTargetX == 0)
@@ -1612,6 +1627,7 @@ namespace ImageCenter
 
         private void targetMoveRight_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             templateImage.Image = null;
             Bitmap bitmap = new Bitmap(originalImage);
             if (currentTargetX == 0)
@@ -1686,7 +1702,14 @@ namespace ImageCenter
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, 7);
+                int originalX = currentTargetX - (int)targetSizeBox.Value / 2;
+                int originalY = currentTargetY - (int)targetSizeBox.Value / 2;
+                if (isAutoGetUniqueTarget)
+                {
+                    originalX = currentTargetX - autoUniqueTargetSize / 2;
+                    originalY = currentTargetY - autoUniqueTargetSize / 2;
+                }
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, originalX, originalY , ref offsetX, ref offsetY, out resultPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1713,6 +1736,7 @@ namespace ImageCenter
 
         private void matchScaleDown_Click(object sender, EventArgs e)
         {
+            isAutoGetUniqueTarget = false;
             if (inputImage.Image == null)
             {
                 console.Text = "[Error] Input image is not selected. Please selec the input image again!";
