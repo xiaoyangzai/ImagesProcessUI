@@ -913,7 +913,8 @@ namespace ImageCenter
 
                 // 将绘制好线条的 Bitmap 对象设置为 PictureBox 的图像
                 inputImage.Image = bitmap;
-
+                int targetSize = (int)targetSizeBox.Value;
+                console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize+ "x" + targetSize;
                 Rectangle cropRect = new Rectangle(x, y, (int)targetSizeBox.Value, (int)targetSizeBox.Value);
                 Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
                 templateImage.Image = croppedImage;
@@ -1548,6 +1549,7 @@ namespace ImageCenter
 
                 graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             }
+            console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
@@ -1580,6 +1582,7 @@ namespace ImageCenter
 
                 graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             }
+            console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
@@ -1611,6 +1614,7 @@ namespace ImageCenter
 
                 graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             }
+            console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
@@ -1643,6 +1647,7 @@ namespace ImageCenter
 
                 graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             }
+            console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
@@ -1709,7 +1714,7 @@ namespace ImageCenter
                     originalX = currentTargetX - autoUniqueTargetSize / 2;
                     originalY = currentTargetY - autoUniqueTargetSize / 2;
                 }
-                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, originalX, originalY , ref offsetX, ref offsetY, out resultPtr, 7);
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, originalX, originalY, ref offsetX, ref offsetY, out resultPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
