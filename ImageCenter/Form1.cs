@@ -70,7 +70,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern void BaseFunctionTest(IntPtr data, int length);
+            static extern bool ChipImageInitial();
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             currentTargetX = -1;
             currentTargetY = -1;
@@ -79,7 +79,7 @@ namespace ImageCenter
             console.Text += "[Info] Calling BaseFunctionTest...\n";
             try
             {
-                BaseFunctionTest(IntPtr.Zero, "hello world".Length);
+                ChipImageInitial();
                 console.Text += "\n[Info] Calling BaseFunctionTest...Done\n";
             }
             catch (DllNotFoundException)
@@ -1697,6 +1697,7 @@ namespace ImageCenter
             static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
+            console.Text += "\n[***] current pos: " + currentTargetX + " x " + currentTargetY + "\n";
             if (currentTargetX < 0 && currentTargetY < 0)
             {
                 currentTargetX = originalImage.Width / 2;
@@ -1713,7 +1714,13 @@ namespace ImageCenter
                 {
                     originalX = currentTargetX - autoUniqueTargetSize / 2;
                     originalY = currentTargetY - autoUniqueTargetSize / 2;
+                    console.Text += "\n[INFO] current auto generated target size: " + autoUniqueTargetSize + "\n";
                 }
+                else
+                {
+                    console.Text += "\n[INFO] current target size: " + autoUniqueTargetSize + "\n";
+                }
+                console.Text += "\n[***] current pos: " + currentTargetX + " x " + currentTargetY + "\n";
                 quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, originalX, originalY, ref offsetX, ref offsetY, out resultPtr, 7);
                 if (quality < 0)
                 {

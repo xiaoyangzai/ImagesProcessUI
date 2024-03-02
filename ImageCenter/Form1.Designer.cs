@@ -336,7 +336,7 @@
             cutLineWidth.Location = new Point(1457, 802);
             cutLineWidth.Margin = new Padding(4);
             cutLineWidth.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
-            cutLineWidth.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
+            cutLineWidth.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             cutLineWidth.Name = "cutLineWidth";
             cutLineWidth.Size = new Size(69, 31);
             cutLineWidth.TabIndex = 27;
