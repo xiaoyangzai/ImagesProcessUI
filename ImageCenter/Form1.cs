@@ -838,7 +838,7 @@ namespace ImageCenter
 
 
             [DllImport("image_process.dll")]
-            static extern int IsUniqueTargetInGrain(IntPtr source, int source_size, int targetWidth, int targetHigh, int horizontalStep, int verticalStep, int targetCenterX, int tergetCneterY, out IntPtr resultPtr);
+            static extern int IsUniqueTargetInGrain(IntPtr source, int source_size, int targetWidth, int targetHigh, int horizontalStep, int verticalStep, int targetCenterX, int tergetCneterY, out IntPtr targetImagePtr, out IntPtr resultPtr);
             templateImage.Image = null;
             resultImage.Image = null;
             try
@@ -847,7 +847,8 @@ namespace ImageCenter
                 int targetSize = (int)targetSizeBox.Value;
                 int step = (int)cutLineWidth.Value;
                 IntPtr resultPtr = IntPtr.Zero;
-                int ret = IsUniqueTargetInGrain(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, targetSize, targetSize, step, step, -1, -1, out resultPtr);
+                IntPtr targetImgPtr = IntPtr.Zero;
+                int ret = IsUniqueTargetInGrain(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, targetSize, targetSize, step, step, -1, -1, out targetImgPtr, out resultPtr);
                 if (ret < 0)
                 {
                     console.Text += "\n[Error] Failed to call IsUnqueTargetInGrain function. Exit Code: " + ret;
@@ -865,13 +866,19 @@ namespace ImageCenter
 
                 Rectangle cropRect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
                 Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
-                templateImage.Image = croppedImage;
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
                     byte[] imageBytes = Convert.FromBase64String(base64ImageData);
                     MemoryStream ms = new MemoryStream(imageBytes);
                     resultImage.Image = Image.FromStream(ms);
+                }
+                if (targetImgPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(targetImgPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    templateImage.Image = Image.FromStream(ms);
                 }
                 console.Text += "\n[Info] Calling IsUnqueTargetInGrain() function...Done!";
                 console.Text += "[Info] Calling IsUnqueTargetInGrain() function...Done\n";
