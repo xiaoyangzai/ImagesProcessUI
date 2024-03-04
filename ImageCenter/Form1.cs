@@ -920,7 +920,8 @@ namespace ImageCenter
 
                 // 将绘制好线条的 Bitmap 对象设置为 PictureBox 的图像
                 inputImage.Image = bitmap;
-
+                int targetSize = (int)targetSizeBox.Value;
+                console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize+ "x" + targetSize;
                 Rectangle cropRect = new Rectangle(x, y, (int)targetSizeBox.Value, (int)targetSizeBox.Value);
                 Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
                 templateImage.Image = croppedImage;
@@ -1555,6 +1556,7 @@ namespace ImageCenter
 
                 graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             }
+            console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
@@ -1587,6 +1589,7 @@ namespace ImageCenter
 
                 graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             }
+            console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
@@ -1618,6 +1621,7 @@ namespace ImageCenter
 
                 graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             }
+            console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
@@ -1650,6 +1654,7 @@ namespace ImageCenter
 
                 graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             }
+            console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
             Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
             Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
             templateImage.Image = croppedImage;
