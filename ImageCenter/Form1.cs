@@ -871,6 +871,13 @@ namespace ImageCenter
                     MemoryStream ms = new MemoryStream(imageBytes);
                     templateImage.Image = Image.FromStream(ms);
                 }
+                if (targetImgPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(targetImgPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    templateImage.Image = Image.FromStream(ms);
+                }
                 console.Text += "\n[Info] Calling IsUnqueTargetInGrain() function...Done!";
                 console.Text += "[Info] Calling IsUnqueTargetInGrain() function...Done\n";
             }
