@@ -838,7 +838,7 @@ namespace ImageCenter
 
 
             [DllImport("image_process.dll")]
-            static extern int IsUniqueTargetInGrain(IntPtr source, int source_size, int targetWidth, int targetHigh, int horizontalStep, int verticalStep, int targetCenterX, int tergetCneterY, out IntPtr resultPtr);
+            static extern int GetUniqueTargetLow(IntPtr source, int source_size, int targetCenterX, int targetCenterY, int targetWidth, int targetHigh, ref int offsetX, ref int offsetY, int horizontalStep, int verticalStep, out IntPtr targetPtr, out IntPtr resultPtr, UInt16 fontSize = 5);
             templateImage.Image = null;
             resultImage.Image = null;
             try
@@ -847,31 +847,29 @@ namespace ImageCenter
                 int targetSize = (int)targetSizeBox.Value;
                 int step = (int)cutLineWidth.Value;
                 IntPtr resultPtr = IntPtr.Zero;
-                int ret = IsUniqueTargetInGrain(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, targetSize, targetSize, step, step, -1, -1, out resultPtr);
-                if (ret < 0)
-                {
-                    console.Text += "\n[Error] Failed to call IsUnqueTargetInGrain function. Exit Code: " + ret;
-                    return;
-                }
-
-                Bitmap bitmap = new Bitmap(originalImage);
-                int centerX = originalImage.Width / 2;
-                int centerY = originalImage.Height / 2;
-
-                int rectX = centerX - targetSize / 2;
-                int rectY = centerY - targetSize / 2;
-                int rectWidth = targetSize;
-                int rectHeight = targetSize;
-
-                Rectangle cropRect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
-                Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
-                templateImage.Image = croppedImage;
+                IntPtr targetPtr = IntPtr.Zero;
+                int offsetX = -1;
+                int offsetY = -1;
+                int ret = GetUniqueTargetLow(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, currentTargetX, currentTargetY, targetSize, targetSize, ref offsetX, ref offsetY, step, step, out targetPtr, out resultPtr);
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
                     byte[] imageBytes = Convert.FromBase64String(base64ImageData);
                     MemoryStream ms = new MemoryStream(imageBytes);
                     resultImage.Image = Image.FromStream(ms);
+                }
+                if (ret < 0)
+                {
+                    console.Text += "\n[Error] Failed to call IsUnqueTargetInGrain function. Exit Code: " + ret;
+                    return;
+                }
+                if (targetPtr != IntPtr.Zero)
+                {
+                    templateImage.Image = null;
+                    string base64ImageData = Marshal.PtrToStringAnsi(targetPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    templateImage.Image = Image.FromStream(ms);
                 }
                 console.Text += "\n[Info] Calling IsUnqueTargetInGrain() function...Done!";
                 console.Text += "[Info] Calling IsUnqueTargetInGrain() function...Done\n";
@@ -914,7 +912,7 @@ namespace ImageCenter
                 // 将绘制好线条的 Bitmap 对象设置为 PictureBox 的图像
                 inputImage.Image = bitmap;
                 int targetSize = (int)targetSizeBox.Value;
-                console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize+ "x" + targetSize;
+                console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
                 Rectangle cropRect = new Rectangle(x, y, (int)targetSizeBox.Value, (int)targetSizeBox.Value);
                 Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
                 templateImage.Image = croppedImage;
@@ -1851,25 +1849,37 @@ namespace ImageCenter
 
 
             [DllImport("image_process.dll")]
-            static extern int IsUniqueTargetHigh(IntPtr source, int source_size, int targetWidth, int targetHigh, int targetCenterX, int tergetCneterY, out IntPtr resultPtr);
+            static extern int GetUniqueTargetHigh(IntPtr image, int imageSize, int targetCenterX, int targetCenterY, int targetWidth, int targetHigh, ref int offsetX, ref int offsetY, out IntPtr outputTargetImage, out IntPtr outputMatchedImage, UInt16 fontSize = 5);
+
             resultImage.Image = null;
             try
             {
                 console.Text = "[Info] IsUnqueTargetHigh() function...\n";
                 int targetSize = (int)targetSizeBox.Value;
+                IntPtr targetPtr = IntPtr.Zero;
                 IntPtr resultPtr = IntPtr.Zero;
-                int ret = IsUniqueTargetHigh(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, targetSize, targetSize, currentTargetX, currentTargetY, out resultPtr);
-                if (ret < 0)
-                {
-                    console.Text += "\n[Error] Failed to call IsUnqueTargetHigh function. Exit Code: " + ret;
-                    return;
-                }
+                int offsetX = -1;
+                int offsetY = -1;
+                int ret = GetUniqueTargetHigh(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, currentTargetX, currentTargetY, targetSize, targetSize, ref offsetX, ref offsetY, out targetPtr, out resultPtr);
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
                     byte[] imageBytes = Convert.FromBase64String(base64ImageData);
                     MemoryStream ms = new MemoryStream(imageBytes);
                     resultImage.Image = Image.FromStream(ms);
+                }
+                if (ret < 0)
+                {
+                    console.Text += "\n[Error] Failed to call IsUnqueTargetHigh function. Exit Code: " + ret;
+                    return;
+                }
+                if (targetPtr != IntPtr.Zero)
+                {
+                    templateImage.Image = null;
+                    string base64ImageData = Marshal.PtrToStringAnsi(targetPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    templateImage.Image = Image.FromStream(ms);
                 }
                 console.Text += "\n[Info] Calling IsUnqueTargetHigh() function...Done!";
                 console.Text += "[Info] Calling IsUnqueTargetHigh() function...Done\n";
@@ -1933,6 +1943,79 @@ namespace ImageCenter
             {
                 console.Text += "[Error] Functior not found!!";
             }
+        }
+
+        private void targetLocXBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (originalImage == null)
+                return;
+            int targetLocX = (int)targetLocXBox.Value;
+            isAutoGetUniqueTarget = false;
+            templateImage.Image = null;
+            Bitmap bitmap = new Bitmap(originalImage);
+            if (targetLocX >= bitmap.Width)
+            {
+                return;
+            }
+            if (currentTargetY < 0)
+                currentTargetY = bitmap.Height / 2;
+            currentTargetX = targetLocX;
+            int targetSize = (int)targetSizeBox.Value;
+            currentTargetX = currentTargetX < targetSize / 2 ? targetSize / 2 : targetLocX;
+
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                Pen pen = new Pen(Color.Green, 10);
+                graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            }
+            console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
+            Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
+            templateImage.Image = croppedImage;
+            using (MemoryStream targetms = new MemoryStream())
+            {
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
+            inputImage.Image = bitmap;
+        }
+
+        private void targetLocYBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (originalImage == null)
+                return;
+            int targetLocY = (int)targetLocYBox.Value;
+            isAutoGetUniqueTarget = false;
+            templateImage.Image = null;
+            Bitmap bitmap = new Bitmap(originalImage);
+            if (targetLocY >= bitmap.Height)
+            {
+                return;
+            }
+            if (currentTargetX < 0)
+                currentTargetX = bitmap.Width / 2;
+            currentTargetY = targetLocY;
+            int targetSize = (int)targetSizeBox.Value;
+            currentTargetY = currentTargetY < targetSize / 2 ? targetSize / 2 : targetLocY;
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            {
+                Pen pen = new Pen(Color.Green, 10);
+                graphics.DrawRectangle(pen, currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            }
+            console.Text = "[INFO] Selected target center location: " + currentTargetX + "x" + currentTargetY + "\n" + "[INFO] Selected target size: " + targetSize + "x" + targetSize;
+            Rectangle cropRect = new Rectangle(currentTargetX - targetSize / 2, currentTargetY - targetSize / 2, targetSize, targetSize);
+            Bitmap croppedImage = originalImage.Clone(cropRect, originalImage.PixelFormat);
+            templateImage.Image = croppedImage;
+            using (MemoryStream targetms = new MemoryStream())
+            {
+                Image img = templateImage.Image;
+                img.Save(targetms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] targetImageBytes = targetms.ToArray();
+                targetBase64String = Convert.ToBase64String(targetImageBytes);
+            }
+            inputImage.Image = bitmap;
         }
     }
 }
