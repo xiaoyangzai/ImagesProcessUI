@@ -87,6 +87,7 @@
             targetLocXBox = new NumericUpDown();
             targetLocYBox = new NumericUpDown();
             label8 = new Label();
+            SelectHighTarget = new Button();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -718,12 +719,24 @@
             label8.TabIndex = 63;
             label8.Text = "目标位置";
             // 
+            // SelectHighTarget
+            // 
+            SelectHighTarget.Location = new Point(786, 548);
+            SelectHighTarget.Margin = new Padding(3, 2, 3, 2);
+            SelectHighTarget.Name = "SelectHighTarget";
+            SelectHighTarget.Size = new Size(126, 33);
+            SelectHighTarget.TabIndex = 64;
+            SelectHighTarget.Text = "SelectHighTarget";
+            SelectHighTarget.UseVisualStyleBackColor = true;
+            SelectHighTarget.Click += SelectHighTarget_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(1270, 629);
+            Controls.Add(SelectHighTarget);
             Controls.Add(label8);
             Controls.Add(targetLocYBox);
             Controls.Add(targetLocXBox);
@@ -805,6 +818,7 @@
         private RichTextBox console;
         private string dllPath = "";
         private string imagePath = "";
+        public List<string> sortedFilePathList;
         string imageBase64String;
         string targetBase64String;
         private string targetPath = "";
@@ -873,5 +887,6 @@
         private NumericUpDown targetLocXBox;
         private NumericUpDown targetLocYBox;
         private Label label8;
+        private Button SelectHighTarget;
     }
 }

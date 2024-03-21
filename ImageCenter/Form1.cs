@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.DirectoryServices;
 using System.Net.NetworkInformation;
 using System.Drawing;
+using static System.Windows.Forms.DataFormats;
 
 namespace ImageCenter
 {
@@ -111,6 +112,10 @@ namespace ImageCenter
                 scaleY = (double)inputImage.ClientSize.Height / inputImage.Image.Height;
                 currentTargetX = -1;
                 currentTargetY = -1;
+                string directoryPath = Path.GetDirectoryName(imagePath);
+                string[] filePaths = Directory.GetFiles(directoryPath);
+                var sortedFilePaths = filePaths.OrderBy(path => new FileInfo(path).Name.Length);
+                sortedFilePathList = sortedFilePaths.ToList();
             }
         }
 
@@ -2016,6 +2021,72 @@ namespace ImageCenter
                 targetBase64String = Convert.ToBase64String(targetImageBytes);
             }
             inputImage.Image = bitmap;
+        }
+
+        private void SelectHighTarget_Click(object sender, EventArgs e)
+        {
+
+            if (sortedFilePathList.Count() < 7)
+            {
+                MessageBox.Show("高倍镜目标模板筛选过程中需要16张原图，包括9张九宫格图和8张步进图", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("image_process.dll")]
+            static extern int GetTargetCandidateListHigh(IntPtr source, int source_size, int horizontalWidth, int verticalWidth, out IntPtr targetsList, out IntPtr resultPtr);
+            templateImage.Image = null;
+            resultImage.Image = null;
+            string targetsListStr;
+            try
+            {
+                console.Text = "[Info] GetTargetCandidateListHigh() function...\n";
+                IntPtr targetsListPtr = IntPtr.Zero;
+                IntPtr resultPtr = IntPtr.Zero;
+                int step = (int)cutLineWidth.Value;
+                int ret = GetTargetCandidateListHigh(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, step, step, out targetsListPtr, out resultPtr);
+                if (ret < 0)
+                {
+                    console.Text += "\n[Error]  Failed to call GetTargetCandidateListHigh(). Exit Code: " + ret;
+                    return;
+                }
+
+                if (targetsListPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(targetsListPtr);
+                    byte[] targetsListBytes = Convert.FromBase64String(base64ImageData);
+                    targetsListStr = Encoding.ASCII.GetString(targetsListBytes);
+                    Console.WriteLine(targetsListStr);
+                }
+
+                if (resultPtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resultImage.Image = Image.FromStream(ms);
+                }
+                console.Text += "\n[Info] Calling AutoGetUniqueTarget() function...Done!";
+                console.Text += "[Info] Calling AutoGetUniqueTarget() function...Done\n";
+            }
+            catch (DllNotFoundException)
+            {
+                console.Text += "[Error] DLL not found!!";
+            }
+            catch (EntryPointNotFoundException)
+            {
+                console.Text += "[Error] Functior not found!!";
+            }
+
+
+            
+            this.Enabled = false;
+            Form2 highTargetSelecDialog = new Form2(imagePath, targetsListStr, sortedFilePathList);
+            highTargetSelecDialog.FormClosed += (s, args) => { this.Enabled = true; };
+            highTargetSelecDialog.Show();
         }
     }
 }
