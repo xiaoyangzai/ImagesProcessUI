@@ -285,7 +285,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int CutTraceDetection(IntPtr source, int source_size, ref int traceCenterOffset, ref int tranceWidth, ref int maxTraceWith, ref int maxArea, ref int traceQuality, int cutLineCenterY, int cutLineWidth, out IntPtr resultPtr);
+            static extern int CutTraceDetection(IntPtr source, int source_size, ref int traceCenterOffset, ref int tranceWidth, ref int maxTraceWith, ref int maxArea, ref int traceQuality, int cutLineWidth, int cutLineCenterY, out IntPtr resultPtr);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             console.Text = "[Info] Calling CutTraceDetection function...\n";
@@ -299,7 +299,7 @@ namespace ImageCenter
                 IntPtr resultPtr = IntPtr.Zero;
                 int cutLineCencertLocY = (int)cutCenterLocY.Value;
                 int cutLineTraceWidth = (int)cutLineWidth.Value;
-                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, ref traceQuality, cutLineCencertLocY, cutLineTraceWidth, out resultPtr);
+                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, ref traceQuality, cutLineTraceWidth, cutLineCencertLocY, out resultPtr);
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
