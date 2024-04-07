@@ -504,10 +504,10 @@ namespace ImageCenter
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
                     // 设置线条颜色和宽度
-                    Pen pen = new Pen(Color.YellowGreen, 10);
+                    Pen pen = new Pen(Color.YellowGreen, 2);
 
                     // 设置虚线的样式
-                    Pen dashedPen = new Pen(Color.YellowGreen, 10);
+                    Pen dashedPen = new Pen(Color.YellowGreen, 2);
                     dashedPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
 
                     // 计算线条的起点和终点
@@ -536,10 +536,10 @@ namespace ImageCenter
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
                     // 设置线条颜色和宽度
-                    Pen pen = new Pen(Color.YellowGreen, 10);
+                    Pen pen = new Pen(Color.YellowGreen, 1);
 
                     // 设置虚线的样式
-                    Pen dashedPen = new Pen(Color.YellowGreen, 10);
+                    Pen dashedPen = new Pen(Color.YellowGreen, 1);
                     dashedPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
 
                     // 计算线条的起点和终点
@@ -1036,7 +1036,7 @@ namespace ImageCenter
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, 7);
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, 1);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1117,7 +1117,7 @@ namespace ImageCenter
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, 7);
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, 1);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1152,7 +1152,7 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("image_process.dll")]
-            static extern int GetTargetCandidateList(IntPtr source, int source_size, int horizontalStep, int verticalStep, out IntPtr targetsList, out IntPtr resultPtr);
+            static extern int GetTargetCandidateListLow(IntPtr source, int source_size, int horizontalStep, int verticalStep, out IntPtr targetsList, out IntPtr resultPtr);
             templateImage.Image = null;
             resultImage.Image = null;
             try
@@ -1161,7 +1161,7 @@ namespace ImageCenter
                 IntPtr targetsListPtr = IntPtr.Zero;
                 IntPtr resultPtr = IntPtr.Zero;
                 int step = (int)cutLineWidth.Value;
-                int ret = GetTargetCandidateList(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, step, step, out targetsListPtr, out resultPtr);
+                int ret = GetTargetCandidateListLow(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, step, step, out targetsListPtr, out resultPtr);
                 if (ret < 0)
                 {
                     console.Text += "\n[Error] Failed to call IsUnqueTargetInGrain function. Exit Code: " + ret;
@@ -1692,7 +1692,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset = true);
+            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 1, bool isShowOffset = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             console.Text += "\n[***] current pos: " + currentTargetX + " x " + currentTargetY + "\n";
@@ -1719,7 +1719,7 @@ namespace ImageCenter
                     console.Text += "\n[INFO] current target size: " + autoUniqueTargetSize + "\n";
                 }
                 console.Text += "\n[***] current pos: " + currentTargetX + " x " + currentTargetY + "\n";
-                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, originalX, originalY, ref offsetX, ref offsetY, out resultPtr, 7);
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, originalX, originalY, ref offsetX, ref offsetY, out resultPtr, 1);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
