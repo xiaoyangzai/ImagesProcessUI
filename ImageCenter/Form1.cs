@@ -69,27 +69,11 @@ namespace ImageCenter
             console.Text = "Loading image processor center...\n";
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
-            [DllImport("image_process.dll")]
-            static extern bool ChipImageInitial();
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             currentTargetX = -1;
             currentTargetY = -1;
             isAutoGetUniqueTarget = false;
             console.Text = "Loading image processor center...Done\n";
-            console.Text += "[Info] Calling BaseFunctionTest...\n";
-            try
-            {
-                ChipImageInitial();
-                console.Text += "\n[Info] Calling BaseFunctionTest...Done\n";
-            }
-            catch (DllNotFoundException)
-            {
-                console.Text = "[Error] DLL not found!!";
-            }
-            catch (EntryPointNotFoundException)
-            {
-                console.Text = "[Error] Functior not found!!";
-            }
         }
 
         private void selectImage_Click(object sender, EventArgs e)
