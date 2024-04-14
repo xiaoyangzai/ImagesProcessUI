@@ -66,14 +66,23 @@ namespace ImageCenter
                 byte[] imageBytes = File.ReadAllBytes(imagePath);
                 imageBase64String = Convert.ToBase64String(imageBytes);
             }
-            console.Text = "Loading image processor center...\n";
+            console.Text += "Loading image processor center...\n";
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+
+            [DllImport("image_process.dll", CallingConvention = CallingConvention.Cdecl)]
+            static extern int GetVersionInfo(StringBuilder result);
+            StringBuilder result = new StringBuilder(100);
+            int retCode = GetVersionInfo(result);
+            if (retCode == 0) { 
+                console.Text += "Image processor runtime version: " + result.ToString() + "\n";
+            }
+
             currentTargetX = -1;
             currentTargetY = -1;
             isAutoGetUniqueTarget = false;
-            console.Text = "Loading image processor center...Done\n";
+            console.Text += "Loading image processor center...Done\n";
         }
 
         private void selectImage_Click(object sender, EventArgs e)
