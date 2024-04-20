@@ -798,10 +798,9 @@
             // 
             // ScopeXWidthBox
             // 
-            ScopeXWidthBox.Increment = new decimal(new int[] { 50, 0, 0, 0 });
             ScopeXWidthBox.Location = new Point(1457, 952);
             ScopeXWidthBox.Margin = new Padding(4, 3, 4, 3);
-            ScopeXWidthBox.Maximum = new decimal(new int[] { 2000, 0, 0, 0 });
+            ScopeXWidthBox.Maximum = new decimal(new int[] { 9, 0, 0, 0 });
             ScopeXWidthBox.Name = "ScopeXWidthBox";
             ScopeXWidthBox.Size = new Size(69, 31);
             ScopeXWidthBox.TabIndex = 71;
