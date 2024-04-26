@@ -367,7 +367,7 @@
             cutLineWidth.Name = "cutLineWidth";
             cutLineWidth.Size = new Size(97, 38);
             cutLineWidth.TabIndex = 27;
-            cutLineWidth.Value = new decimal(new int[] { 100, 0, 0, 0 });
+            cutLineWidth.Value = new decimal(new int[] { 260, 0, 0, 0 });
             cutLineWidth.ValueChanged += cutLineWidth_ValueChanged;
             // 
             // label5
@@ -756,7 +756,7 @@
             Mask_ABox.Name = "Mask_ABox";
             Mask_ABox.Size = new Size(97, 38);
             Mask_ABox.TabIndex = 64;
-            Mask_ABox.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            Mask_ABox.Value = new decimal(new int[] { 60, 0, 0, 0 });
             // 
             // label10
             // 
@@ -778,7 +778,7 @@
             Mask_bBox.Name = "Mask_bBox";
             Mask_bBox.Size = new Size(97, 38);
             Mask_bBox.TabIndex = 67;
-            Mask_bBox.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            Mask_bBox.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
             // label11
             // 
@@ -841,7 +841,6 @@
             BladeWidthBox.Name = "BladeWidthBox";
             BladeWidthBox.Size = new Size(97, 38);
             BladeWidthBox.TabIndex = 73;
-            BladeWidthBox.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // Form1
             // 
