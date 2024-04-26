@@ -97,6 +97,11 @@
             ScopeXWidthBox = new NumericUpDown();
             label13 = new Label();
             BladeWidthBox = new NumericUpDown();
+            label14 = new Label();
+            label15 = new Label();
+            label16 = new Label();
+            label17 = new Label();
+            label18 = new Label();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -130,7 +135,7 @@
             // console
             // 
             console.Location = new Point(92, 810);
-            console.Margin = new Padding(4, 4, 4, 4);
+            console.Margin = new Padding(4);
             console.Name = "console";
             console.Size = new Size(788, 388);
             console.TabIndex = 3;
@@ -235,7 +240,7 @@
             // 
             // buttonCutLineDetection
             // 
-            buttonCutLineDetection.Location = new Point(2180, 1107);
+            buttonCutLineDetection.Location = new Point(2193, 1107);
             buttonCutLineDetection.Margin = new Padding(6, 4, 6, 4);
             buttonCutLineDetection.Name = "buttonCutLineDetection";
             buttonCutLineDetection.Size = new Size(321, 53);
@@ -269,7 +274,7 @@
             // maxValue
             // 
             maxValue.Location = new Point(1196, 1224);
-            maxValue.Margin = new Padding(4, 4, 4, 4);
+            maxValue.Margin = new Padding(4);
             maxValue.Name = "maxValue";
             maxValue.Size = new Size(97, 38);
             maxValue.TabIndex = 18;
@@ -288,7 +293,7 @@
             // startPosition
             // 
             startPosition.Location = new Point(1502, 1224);
-            startPosition.Margin = new Padding(4, 4, 4, 4);
+            startPosition.Margin = new Padding(4);
             startPosition.Name = "startPosition";
             startPosition.Size = new Size(80, 38);
             startPosition.TabIndex = 20;
@@ -472,7 +477,7 @@
             // 
             // edgeDetection
             // 
-            edgeDetection.Location = new Point(2180, 810);
+            edgeDetection.Location = new Point(2193, 810);
             edgeDetection.Margin = new Padding(6, 4, 6, 4);
             edgeDetection.Name = "edgeDetection";
             edgeDetection.Size = new Size(321, 71);
@@ -483,7 +488,7 @@
             // 
             // checkIfUniqueTargetInGrain
             // 
-            checkIfUniqueTargetInGrain.Location = new Point(2180, 967);
+            checkIfUniqueTargetInGrain.Location = new Point(2193, 967);
             checkIfUniqueTargetInGrain.Margin = new Padding(6, 4, 6, 4);
             checkIfUniqueTargetInGrain.Name = "checkIfUniqueTargetInGrain";
             checkIfUniqueTargetInGrain.Size = new Size(321, 60);
@@ -507,7 +512,7 @@
             // 
             // AutoGetTarget
             // 
-            AutoGetTarget.Location = new Point(2180, 890);
+            AutoGetTarget.Location = new Point(2193, 890);
             AutoGetTarget.Margin = new Padding(6, 4, 6, 4);
             AutoGetTarget.Name = "AutoGetTarget";
             AutoGetTarget.Size = new Size(321, 58);
@@ -682,7 +687,7 @@
             // 
             // CheckUniqueTargetHigh
             // 
-            CheckUniqueTargetHigh.Location = new Point(2180, 1034);
+            CheckUniqueTargetHigh.Location = new Point(2193, 1034);
             CheckUniqueTargetHigh.Margin = new Padding(6, 4, 6, 4);
             CheckUniqueTargetHigh.Name = "CheckUniqueTargetHigh";
             CheckUniqueTargetHigh.Size = new Size(321, 57);
@@ -706,7 +711,7 @@
             // 
             targetLocXBox.Increment = new decimal(new int[] { 10, 0, 0, 0 });
             targetLocXBox.Location = new Point(1018, 1060);
-            targetLocXBox.Margin = new Padding(4, 4, 4, 4);
+            targetLocXBox.Margin = new Padding(4);
             targetLocXBox.Maximum = new decimal(new int[] { 2000, 0, 0, 0 });
             targetLocXBox.Name = "targetLocXBox";
             targetLocXBox.Size = new Size(126, 38);
@@ -718,7 +723,7 @@
             // 
             targetLocYBox.Increment = new decimal(new int[] { 10, 0, 0, 0 });
             targetLocYBox.Location = new Point(1156, 1060);
-            targetLocYBox.Margin = new Padding(4, 4, 4, 4);
+            targetLocYBox.Margin = new Padding(4);
             targetLocYBox.Maximum = new decimal(new int[] { 2000, 0, 0, 0 });
             targetLocYBox.Name = "targetLocYBox";
             targetLocYBox.Size = new Size(111, 38);
@@ -799,7 +804,7 @@
             PixelSizeBox.Name = "PixelSizeBox";
             PixelSizeBox.Size = new Size(97, 38);
             PixelSizeBox.TabIndex = 69;
-            PixelSizeBox.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            PixelSizeBox.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
             // label12
             // 
@@ -842,12 +847,67 @@
             BladeWidthBox.Size = new Size(97, 38);
             BladeWidthBox.TabIndex = 73;
             // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(2138, 1007);
+            label14.Margin = new Padding(6, 0, 6, 0);
+            label14.Name = "label14";
+            label14.Size = new Size(58, 31);
+            label14.TabIndex = 74;
+            label14.Text = "mm";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(2137, 1047);
+            label15.Margin = new Padding(6, 0, 6, 0);
+            label15.Name = "label15";
+            label15.Size = new Size(58, 31);
+            label15.TabIndex = 75;
+            label15.Text = "mm";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(2137, 1095);
+            label16.Margin = new Padding(6, 0, 6, 0);
+            label16.Name = "label16";
+            label16.Size = new Size(58, 31);
+            label16.TabIndex = 76;
+            label16.Text = "mm";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(2138, 1136);
+            label17.Margin = new Padding(6, 0, 6, 0);
+            label17.Name = "label17";
+            label17.Size = new Size(51, 31);
+            label17.TabIndex = 77;
+            label17.Text = "nm";
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(2138, 1235);
+            label18.Margin = new Padding(6, 0, 6, 0);
+            label18.Name = "label18";
+            label18.Size = new Size(58, 31);
+            label18.TabIndex = 78;
+            label18.Text = "mm";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2540, 1300);
+            Controls.Add(label18);
+            Controls.Add(label17);
+            Controls.Add(label16);
+            Controls.Add(label15);
+            Controls.Add(label14);
             Controls.Add(BladeWidthBox);
             Controls.Add(label13);
             Controls.Add(ScopeXWidthBox);
@@ -1022,5 +1082,10 @@
         private NumericUpDown ScopeXWidthBox;
         private Label label13;
         private NumericUpDown BladeWidthBox;
+        private Label label14;
+        private Label label15;
+        private Label label16;
+        private Label label17;
+        private Label label18;
     }
 }
