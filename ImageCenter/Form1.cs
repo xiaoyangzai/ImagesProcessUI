@@ -279,18 +279,19 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int CutTraceDetection(IntPtr source, int source_size, ref int traceCenterOffset, ref int tranceWidth, ref int maxTraceWith, ref int maxArea, ref int traceQuality, ref int half_w, int pixelSize, double cutLineWidth, double mask_a, double mask_b, int cutLineCenterY, double bladeWidth, int scopeXWidth, int detectSensitive, int detectMode, out IntPtr resultPtr);
+            static extern int CutTraceDetection(IntPtr source, int source_size, ref int traceCenterOffset, ref double tranceWidth, ref double maxTraceWith, ref int maxArea, ref int traceQuality, ref double half_w, ref double max_collapse_w, int pixelSize, double cutLineWidth, double mask_a, double mask_b, int cutLineCenterY, double bladeWidth, int scopeXWidth, int detectSensitive, int detectMode, out IntPtr resultPtr);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             console.Text = "[Info] Calling CutTraceDetection function...\n";
             try
             {
                 int traceCenterOffset = 0;
-                int tranceWidth = -1;
-                int maxTraceWith = -1;
+                double tranceWidth = -1;
+                double maxTraceWith = -1;
                 int maxArea = -1;
                 int traceQuality = -1;
-                int half_w = -1;
+                double half_w = -1;
+                double max_collapse_w = -1;
                 double mask_a = (double)Mask_ABox.Value;
                 double mask_b = (double)Mask_bBox.Value;
                 int scopeXWidth = (int)ScopeXWidthBox.Value;
@@ -299,7 +300,7 @@ namespace ImageCenter
                 IntPtr resultPtr = IntPtr.Zero;
                 int cutLineCencertLocY = (int)cutCenterLocY.Value;
                 double cutLineTraceWidth = (double)cutLineWidth.Value;
-                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, ref traceQuality, ref half_w, pixelSize, cutLineTraceWidth, mask_a, mask_b, cutLineCencertLocY, bladeWidth, scopeXWidth, 0, 0, out resultPtr);
+                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, ref traceQuality, ref half_w, ref max_collapse_w, pixelSize, cutLineTraceWidth, mask_a, mask_b, cutLineCencertLocY, bladeWidth, scopeXWidth, 0, 0, out resultPtr);
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
