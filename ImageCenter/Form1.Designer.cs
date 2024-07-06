@@ -102,6 +102,11 @@
             label16 = new Label();
             label17 = new Label();
             label18 = new Label();
+            resizedImage = new PictureBox();
+            fontSizeBox = new NumericUpDown();
+            label19 = new Label();
+            resizeBox = new NumericUpDown();
+            label20 = new Label();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -120,6 +125,9 @@
             ((System.ComponentModel.ISupportInitialize)PixelSizeBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ScopeXWidthBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BladeWidthBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)resizedImage).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)fontSizeBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)resizeBox).BeginInit();
             SuspendLayout();
             // 
             // load_status
@@ -207,10 +215,10 @@
             // 
             // buttonRotateDegree
             // 
-            buttonRotateDegree.Location = new Point(906, 810);
+            buttonRotateDegree.Location = new Point(906, 788);
             buttonRotateDegree.Margin = new Padding(6, 4, 6, 4);
             buttonRotateDegree.Name = "buttonRotateDegree";
-            buttonRotateDegree.Size = new Size(363, 71);
+            buttonRotateDegree.Size = new Size(363, 48);
             buttonRotateDegree.TabIndex = 11;
             buttonRotateDegree.Text = "ImageRotateDegree";
             buttonRotateDegree.UseVisualStyleBackColor = true;
@@ -897,12 +905,70 @@
             label18.TabIndex = 78;
             label18.Text = "mm";
             // 
+            // resizedImage
+            // 
+            resizedImage.Location = new Point(1114, 46);
+            resizedImage.Margin = new Padding(6, 4, 6, 4);
+            resizedImage.Name = "resizedImage";
+            resizedImage.Size = new Size(260, 188);
+            resizedImage.SizeMode = PictureBoxSizeMode.AutoSize;
+            resizedImage.TabIndex = 79;
+            resizedImage.TabStop = false;
+            // 
+            // fontSizeBox
+            // 
+            fontSizeBox.Location = new Point(1016, 838);
+            fontSizeBox.Margin = new Padding(6, 4, 6, 4);
+            fontSizeBox.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
+            fontSizeBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            fontSizeBox.Name = "fontSizeBox";
+            fontSizeBox.Size = new Size(61, 38);
+            fontSizeBox.TabIndex = 80;
+            fontSizeBox.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(900, 845);
+            label19.Margin = new Padding(6, 0, 6, 0);
+            label19.Name = "label19";
+            label19.Size = new Size(116, 31);
+            label19.TabIndex = 81;
+            label19.Text = "Font size";
+            // 
+            // resizeBox
+            // 
+            resizeBox.Increment = new decimal(new int[] { 20, 0, 0, 0 });
+            resizeBox.Location = new Point(1170, 838);
+            resizeBox.Margin = new Padding(6, 4, 6, 4);
+            resizeBox.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
+            resizeBox.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
+            resizeBox.Name = "resizeBox";
+            resizeBox.Size = new Size(97, 38);
+            resizeBox.TabIndex = 82;
+            resizeBox.Value = new decimal(new int[] { 200, 0, 0, 0 });
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new Point(1089, 840);
+            label20.Margin = new Padding(6, 0, 6, 0);
+            label20.Name = "label20";
+            label20.Size = new Size(80, 31);
+            label20.TabIndex = 83;
+            label20.Text = "resize";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2540, 1300);
+            Controls.Add(label20);
+            Controls.Add(resizeBox);
+            Controls.Add(label19);
+            Controls.Add(fontSizeBox);
+            Controls.Add(resizedImage);
             Controls.Add(label18);
             Controls.Add(label17);
             Controls.Add(label16);
@@ -977,6 +1043,7 @@
             Margin = new Padding(6, 4, 6, 4);
             Name = "Form1";
             Text = "Form1";
+            FormClosing += Form1_FormClosing;
             ((System.ComponentModel.ISupportInitialize)inputImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).EndInit();
@@ -995,6 +1062,9 @@
             ((System.ComponentModel.ISupportInitialize)PixelSizeBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)ScopeXWidthBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)BladeWidthBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)resizedImage).EndInit();
+            ((System.ComponentModel.ISupportInitialize)fontSizeBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)resizeBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1087,5 +1157,10 @@
         private Label label16;
         private Label label17;
         private Label label18;
+        private PictureBox resizedImage;
+        private NumericUpDown fontSizeBox;
+        private Label label19;
+        private NumericUpDown resizeBox;
+        private Label label20;
     }
 }

@@ -73,6 +73,10 @@ namespace ImageCenter
 
             [DllImport("image_process.dll", CallingConvention = CallingConvention.Cdecl)]
             static extern int GetVersionInfo(StringBuilder result);
+
+            [DllImport("image_process.dll")]
+            static extern int ChipModuleInit();
+            ChipModuleInit();
             StringBuilder result = new StringBuilder(100);
             int retCode = GetVersionInfo(result);
             if (retCode == 0)
@@ -199,14 +203,14 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset = true);
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, int resize, out IntPtr resizedRetPtr, UInt16 fontSize = 5, bool isShow = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, -1, out resultPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1025,7 +1029,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset = true);
+            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, int resize, out IntPtr resizedPtr, UInt16 fontSize = 5, bool isShowOffset = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             if (currentTargetX < 0 && currentTargetY < 0)
             {
@@ -1037,7 +1041,7 @@ namespace ImageCenter
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, 1);
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, -1, out resultPtr, 1);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1106,7 +1110,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShowOffset = true);
+            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, int resize, out IntPtr resizedPtr, UInt16 fontSize = 1, bool isShowOffset = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             if (currentTargetX < 0 && currentTargetY < 0)
             {
@@ -1118,7 +1122,7 @@ namespace ImageCenter
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, 1);
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, currentTargetX - (int)targetSizeBox.Value / 2, currentTargetY - (int)targetSizeBox.Value / 2, ref offsetX, ref offsetY, out resultPtr, -1, out resultPtr, 1);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1240,14 +1244,14 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, int resize, out IntPtr resizedRetPtr, UInt16 fontSize = 5, bool isShow = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, -1, out resultPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1314,14 +1318,15 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, int resize, out IntPtr resizedRetPtr, UInt16 fontSize = 5, bool isShow = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                IntPtr resiedPtr = IntPtr.Zero;
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, -1, out resiedPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1387,14 +1392,15 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, int resize, out IntPtr resizedRetPtr, UInt16 fontSize = 5, bool isShow = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                IntPtr resizedPtr = IntPtr.Zero;
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, -1, out resizedPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1461,14 +1467,15 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5);
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, int resize, out IntPtr resizedRetPtr, UInt16 fontSize = 5, bool isShow = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 7);
+                IntPtr resizedPtr = IntPtr.Zero;
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, -1, out resizedPtr, 7);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1693,7 +1700,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 1, bool isShowOffset = true);
+            static extern int MatchTargetOriginal(IntPtr source, int source_size, IntPtr target, int target_size, int originalX, int originalY, ref int offsetX, ref int offsetY, out IntPtr resultPtr, int resize, out IntPtr resizedPtr, UInt16 fontSize = 1, bool isShowOffset = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             console.Text += "\n[***] current pos: " + currentTargetX + " x " + currentTargetY + "\n";
@@ -1707,6 +1714,7 @@ namespace ImageCenter
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
+                IntPtr resizePtr = IntPtr.Zero;
                 int originalX = currentTargetX - (int)targetSizeBox.Value / 2;
                 int originalY = currentTargetY - (int)targetSizeBox.Value / 2;
                 if (isAutoGetUniqueTarget)
@@ -1720,7 +1728,9 @@ namespace ImageCenter
                     console.Text += "\n[INFO] current target size: " + autoUniqueTargetSize + "\n";
                 }
                 console.Text += "\n[***] current pos: " + currentTargetX + " x " + currentTargetY + "\n";
-                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, originalX, originalY, ref offsetX, ref offsetY, out resultPtr, 1);
+                int resize = (int)resizeBox.Value;
+                UInt16 fontSize = (UInt16)fontSizeBox.Value;
+                quality = MatchTargetOriginal(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, originalX, originalY, ref offsetX, ref offsetY, out resultPtr, resize, out resizePtr, fontSize);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -1732,6 +1742,13 @@ namespace ImageCenter
                     byte[] imageBytes = Convert.FromBase64String(base64ImageData);
                     MemoryStream ms = new MemoryStream(imageBytes);
                     resultImage.Image = Image.FromStream(ms);
+                }
+                if (resizePtr != IntPtr.Zero)
+                {
+                    string base64ImageData = Marshal.PtrToStringAnsi(resizePtr);
+                    byte[] imageBytes = Convert.FromBase64String(base64ImageData);
+                    MemoryStream ms = new MemoryStream(imageBytes);
+                    resizedImage.Image = Image.FromStream(ms);
                 }
                 console.Text += "\n[Info] Calling MatcherTarget function...Done!";
             }
@@ -1793,14 +1810,15 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, UInt16 fontSize = 5, bool isShow = true);
+            static extern int MatchTargetCenter(IntPtr source, int source_size, IntPtr target, int target_size, ref int offsetX, ref int offsetY, out IntPtr resultPtr, int resize, out IntPtr resizedRetPtr, UInt16 fontSize = 5, bool isShow = true);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
             try
             {
                 int quality = -1;
                 int offsetX = -1, offsetY = -1;
                 IntPtr resultPtr = IntPtr.Zero;
-                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, 1, false);
+                IntPtr resizedPtr = IntPtr.Zero;
+                quality = MatchTargetCenter(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, Marshal.StringToHGlobalAnsi(targetBase64String), targetBase64String.Length, ref offsetX, ref offsetY, out resultPtr, -1, out resizedPtr, 1, false);
                 if (quality < 0)
                 {
                     console.Text += "\n[Error] Failed to call MatchTarget function. Exit Code: " + quality;
@@ -2017,6 +2035,13 @@ namespace ImageCenter
                 targetBase64String = Convert.ToBase64String(targetImageBytes);
             }
             inputImage.Image = bitmap;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern int ChipModuleClean();
+            ChipModuleClean();
         }
     }
 }
