@@ -541,10 +541,10 @@ namespace ImageCenter
                 using (Graphics graphics = Graphics.FromImage(bitmap))
                 {
                     // 设置线条颜色和宽度
-                    Pen pen = new Pen(Color.YellowGreen, 1);
+                    Pen pen = new Pen(Color.YellowGreen, 2);
 
                     // 设置虚线的样式
-                    Pen dashedPen = new Pen(Color.YellowGreen, 1);
+                    Pen dashedPen = new Pen(Color.YellowGreen, 2);
                     dashedPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
 
                     // 计算线条的起点和终点
