@@ -786,7 +786,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(2611, 1375);
+            label11.Location = new Point(2567, 1377);
             label11.Margin = new Padding(6, 0, 6, 0);
             label11.Name = "label11";
             label11.Size = new Size(113, 31);
@@ -796,13 +796,14 @@
             // PixelSizeBox
             // 
             PixelSizeBox.Increment = new decimal(new int[] { 50, 0, 0, 0 });
-            PixelSizeBox.Location = new Point(2723, 1372);
+            PixelSizeBox.Location = new Point(2680, 1372);
             PixelSizeBox.Margin = new Padding(6, 4, 6, 4);
-            PixelSizeBox.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            PixelSizeBox.Maximum = new decimal(new int[] { 2000000, 0, 0, 0 });
+            PixelSizeBox.Minimum = new decimal(new int[] { 1000000, 0, 0, 0 });
             PixelSizeBox.Name = "PixelSizeBox";
-            PixelSizeBox.Size = new Size(97, 38);
+            PixelSizeBox.Size = new Size(140, 38);
             PixelSizeBox.TabIndex = 69;
-            PixelSizeBox.Value = new decimal(new int[] { 1000, 0, 0, 0 });
+            PixelSizeBox.Value = new decimal(new int[] { 1000000, 0, 0, 0 });
             // 
             // label12
             // 
