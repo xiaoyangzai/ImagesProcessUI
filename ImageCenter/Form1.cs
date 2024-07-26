@@ -64,7 +64,7 @@ namespace ImageCenter
                 inputImage.Image = inputFile;
                 originalImage = new Bitmap(inputImage.Image);
                 byte[] imageBytes = File.ReadAllBytes(imagePath);
-                imageBase64String = Convert.ToBase64String(imageBytes);
+                imageBase64String = Convert.ToBase64String(imageBytes, Base64FormattingOptions.None);
             }
             console.Text += "Loading image processor center...\n";
             [DllImport("image_process.dll")]
@@ -2042,6 +2042,26 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern int ChipModuleClean();
             ChipModuleClean();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            [DllImport("image_process.dll")]
+            static extern float ImageFocusQuality(IntPtr source, int source_size);
+            float ret = ImageFocusQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            [DllImport("image_process.dll")]
+            static extern void SetDebugCallback(DebugCallbackDelegate callback);
+            SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            [DllImport("image_process.dll")]
+            static extern float ImageLightQuality(IntPtr source, int source_size);
+            float ret = ImageLightQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length);
         }
     }
 }
