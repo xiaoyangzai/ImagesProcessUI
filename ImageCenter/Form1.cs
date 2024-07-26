@@ -2049,6 +2049,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            console.Text = "";
             [DllImport("image_process.dll")]
             static extern float ImageFocusQuality(IntPtr source, int source_size);
             float ret = ImageFocusQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length);
@@ -2059,6 +2060,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
+            console.Text = "";
             [DllImport("image_process.dll")]
             static extern float ImageLightQuality(IntPtr source, int source_size);
             float ret = ImageLightQuality(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length);
