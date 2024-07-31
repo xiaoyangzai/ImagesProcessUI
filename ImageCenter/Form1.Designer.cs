@@ -344,11 +344,11 @@
             cutCenterLocY.Location = new Point(2723, 1136);
             cutCenterLocY.Margin = new Padding(6, 4, 6, 4);
             cutCenterLocY.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            cutCenterLocY.Minimum = new decimal(new int[] { 200, 0, 0, 0 });
+            cutCenterLocY.Minimum = new decimal(new int[] { 10, 0, 0, int.MinValue });
             cutCenterLocY.Name = "cutCenterLocY";
             cutCenterLocY.Size = new Size(97, 38);
             cutCenterLocY.TabIndex = 25;
-            cutCenterLocY.Value = new decimal(new int[] { 878, 0, 0, 0 });
+            cutCenterLocY.Value = new decimal(new int[] { 1, 0, 0, int.MinValue });
             cutCenterLocY.ValueChanged += cutCenterLocY_ValueChanged;
             // 
             // label4
