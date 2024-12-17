@@ -492,10 +492,11 @@ namespace ImageCenter
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Images|*.png;*.bmp;*.jpg";
-                saveFileDialog.Title = "Save an Image File";
+                saveFileDialog.Title = "Save selected target...";
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    resultImage.Image.Save(saveFileDialog.FileName);
+                    //resultImage.Image.Save(saveFileDialog.FileName);
+                    templateImage.Image.Save(saveFileDialog.FileName);
                 }
             }
         }
@@ -938,7 +939,7 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("image_process.dll")]
-            static extern int AutoGetUniqueTarget(IntPtr source, int source_size, ref int targetCenterX, ref int targetCenterY, ref int targetSize, ref int distanceToMove, out IntPtr targetImagePtr, out IntPtr resultPtr, UInt16 fontSize = 5);
+            static extern int AutoGetUniqueTarget(IntPtr source, int source_size, ref int targetCenterX, ref int targetCenterY, ref int targetSize, ref int distanceToMove, out IntPtr targetImagePtr, out IntPtr resultPtr, UInt16 fontSize = 5, int targetMinSize = -1);
             templateImage.Image = null;
             resultImage.Image = null;
             try
@@ -950,7 +951,8 @@ namespace ImageCenter
                 int distanceToMove = 0;
                 IntPtr targetPtr = IntPtr.Zero;
                 IntPtr resultPtr = IntPtr.Zero;
-                int ret = AutoGetUniqueTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref targetCenterX, ref targetCenterY, ref targetSize, ref distanceToMove, out targetPtr, out resultPtr);
+                int targetMinSize = (int)targetSizeBox.Value;
+                int ret = AutoGetUniqueTarget(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref targetCenterX, ref targetCenterY, ref targetSize, ref distanceToMove, out targetPtr, out resultPtr, 5, targetMinSize);
                 if (ret < 0)
                 {
                     console.Text += "\n[Error] Failed to call IsUnqueTargetInGrain function. Exit Code: " + ret;
