@@ -503,7 +503,6 @@
             targetSizeBox.Location = new Point(2288, 1370);
             targetSizeBox.Margin = new Padding(6, 4, 6, 4);
             targetSizeBox.Maximum = new decimal(new int[] { 2000, 0, 0, 0 });
-            targetSizeBox.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
             targetSizeBox.Name = "targetSizeBox";
             targetSizeBox.Size = new Size(251, 38);
             targetSizeBox.TabIndex = 39;
@@ -801,7 +800,6 @@
             PixelSizeBox.Location = new Point(2680, 1372);
             PixelSizeBox.Margin = new Padding(6, 4, 6, 4);
             PixelSizeBox.Maximum = new decimal(new int[] { 2000000, 0, 0, 0 });
-            PixelSizeBox.Minimum = new decimal(new int[] { 1000000, 0, 0, 0 });
             PixelSizeBox.Name = "PixelSizeBox";
             PixelSizeBox.Size = new Size(140, 38);
             PixelSizeBox.TabIndex = 69;
