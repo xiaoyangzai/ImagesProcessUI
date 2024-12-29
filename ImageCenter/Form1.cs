@@ -87,6 +87,7 @@ namespace ImageCenter
             currentTargetX = -1;
             currentTargetY = -1;
             isAutoGetUniqueTarget = false;
+            langCode.SelectedIndex = 0;
             console.Text += "Loading image processor center...Done\n";
         }
 
@@ -283,7 +284,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int CutTraceDetection(IntPtr source, int source_size, ref int traceCenterOffset, ref double tranceWidth, ref double maxTraceWith, ref int maxArea, ref int traceQuality, ref double half_w, ref double max_collapse_w, int pixelSize, double cutLineWidth, double mask_a, double mask_b, int cutLineCenterY, double bladeWidth, int scopeXWidth, int detectSensitive, int detectMode, out IntPtr resultPtr, bool enableTegMask = false, int maxTegWidth = 0, bool enbleDetectionScope = false, int tegMaskSensitive = 5);
+            static extern int CutTraceDetection(IntPtr source, int source_size, ref int traceCenterOffset, ref double tranceWidth, ref double maxTraceWith, ref int maxArea, ref int traceQuality, ref double half_w, ref double max_collapse_w, int pixelSize, double cutLineWidth, double mask_a, double mask_b, int cutLineCenterY, double bladeWidth, int scopeXWidth, int detectSensitive, int detectMode, out IntPtr resultPtr, string langCode = "enus", bool enableTegMask = false, int maxTegWidth = 0, bool enbleDetectionScope = false, int tegMaskSensitive = 5);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             console.Text = "[Info] Calling CutTraceDetection function...\n";
@@ -304,7 +305,8 @@ namespace ImageCenter
                 IntPtr resultPtr = IntPtr.Zero;
                 int cutLineCencertLocY = (int)cutCenterLocY.Value;
                 double cutLineTraceWidth = (double)cutLineWidth.Value;
-                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, ref traceQuality, ref half_w, ref max_collapse_w, pixelSize, cutLineTraceWidth, mask_a, mask_b, cutLineCencertLocY, bladeWidth, scopeXWidth, 0, 0, out resultPtr);
+                string langCodeText = langCode.SelectedItem.ToString();
+                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, ref traceQuality, ref half_w, ref max_collapse_w, pixelSize, cutLineTraceWidth, mask_a, mask_b, cutLineCencertLocY, bladeWidth, scopeXWidth, 0, 0, out resultPtr, langCodeText);
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);

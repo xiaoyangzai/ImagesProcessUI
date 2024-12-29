@@ -109,6 +109,8 @@
             label21 = new Label();
             button1 = new Button();
             button2 = new Button();
+            langCode = new ComboBox();
+            label22 = new Label();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -978,12 +980,33 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // langCode
+            // 
+            langCode.FormattingEnabled = true;
+            langCode.Items.AddRange(new object[] { "enus", "zhcn", "zhtw" });
+            langCode.Location = new Point(2723, 1512);
+            langCode.Name = "langCode";
+            langCode.Size = new Size(97, 39);
+            langCode.TabIndex = 87;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new Point(2570, 1512);
+            label22.Margin = new Padding(6, 0, 6, 0);
+            label22.Name = "label22";
+            label22.Size = new Size(120, 31);
+            label22.TabIndex = 88;
+            label22.Text = "language";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2884, 1650);
+            Controls.Add(label22);
+            Controls.Add(langCode);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label21);
@@ -1186,5 +1209,7 @@
         private Label label21;
         private Button button1;
         private Button button2;
+        private ComboBox langCode;
+        private Label label22;
     }
 }
