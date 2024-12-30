@@ -111,6 +111,7 @@
             button2 = new Button();
             langCode = new ComboBox();
             label22 = new Label();
+            aelx = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -999,12 +1000,22 @@
             label22.TabIndex = 88;
             label22.Text = "language";
             // 
+            // aelx
+            // 
+            aelx.FormattingEnabled = true;
+            aelx.Items.AddRange(new object[] { "Z1", "Z2" });
+            aelx.Location = new Point(2723, 1557);
+            aelx.Name = "aelx";
+            aelx.Size = new Size(97, 39);
+            aelx.TabIndex = 89;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2884, 1650);
+            Controls.Add(aelx);
             Controls.Add(label22);
             Controls.Add(langCode);
             Controls.Add(button2);
@@ -1211,5 +1222,6 @@
         private Button button2;
         private ComboBox langCode;
         private Label label22;
+        private ComboBox aelx;
     }
 }
