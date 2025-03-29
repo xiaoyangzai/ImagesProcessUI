@@ -778,14 +778,21 @@ namespace ImageCenter
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             [DllImport("image_process.dll")]
-            static extern int IsIncludeCutTrace(IntPtr source, int source_size, ref bool hasCutTrace);
+            static extern int IsCutCurveExisted(IntPtr source, int source_size, ref bool hasCutTrace, double cutLineCenterLoc);
 
             try
             {
-                console.Text = "[Info] Calling IsCutTrace() function...\n";
+                console.Text = "[Info] Calling IsCutCurveExisted() function...\n";
                 bool hasCutTrace = false;
-                int ret = IsIncludeCutTrace(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref hasCutTrace);
-                console.Text += "[Info] Calling DetectCutLineCrossroad() function...Done\n";
+                int ret = IsCutCurveExisted(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref hasCutTrace, -1);
+                if (hasCutTrace)
+                {
+                    console.Text += "[Info]\n\tFound the cut curve.\n";
+                } else
+                {
+                    console.Text += "[Info]\n\tNot found the cut curve.\n";
+                }
+                console.Text += "[Info] Calling IsCutCurveExisted() function...Done\n";
             }
             catch (DllNotFoundException)
             {
