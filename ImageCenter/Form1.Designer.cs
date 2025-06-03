@@ -115,6 +115,8 @@
             label24 = new Label();
             detSensitiveBox = new ComboBox();
             label25 = new Label();
+            label23 = new Label();
+            detectModeComBox = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)inputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)templateImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)resultImage).BeginInit();
@@ -1008,7 +1010,7 @@
             aelx.DisplayMember = "Z1";
             aelx.FormattingEnabled = true;
             aelx.Items.AddRange(new object[] { "Z1", "Z2" });
-            aelx.Location = new Point(2528, 1406);
+            aelx.Location = new Point(2336, 1404);
             aelx.Name = "aelx";
             aelx.Size = new Size(90, 36);
             aelx.TabIndex = 89;
@@ -1017,7 +1019,7 @@
             // label24
             // 
             label24.AutoSize = true;
-            label24.Location = new Point(2436, 1412);
+            label24.Location = new Point(2244, 1410);
             label24.Margin = new Padding(6, 0, 6, 0);
             label24.Name = "label24";
             label24.Size = new Size(56, 28);
@@ -1030,21 +1032,43 @@
             detSensitiveBox.FormatString = "N0";
             detSensitiveBox.FormattingEnabled = true;
             detSensitiveBox.Items.AddRange(new object[] { "0", "1", "2", "3" });
-            detSensitiveBox.Location = new Point(2528, 1451);
+            detSensitiveBox.Location = new Point(2354, 1448);
             detSensitiveBox.Name = "detSensitiveBox";
-            detSensitiveBox.Size = new Size(90, 36);
+            detSensitiveBox.Size = new Size(72, 36);
             detSensitiveBox.TabIndex = 92;
             detSensitiveBox.ValueMember = "0";
             // 
             // label25
             // 
             label25.AutoSize = true;
-            label25.Location = new Point(2402, 1454);
+            label25.Location = new Point(2233, 1453);
             label25.Margin = new Padding(6, 0, 6, 0);
             label25.Name = "label25";
             label25.Size = new Size(117, 28);
             label25.TabIndex = 93;
             label25.Text = "检测灵敏度";
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Location = new Point(2435, 1410);
+            label23.Margin = new Padding(6, 0, 6, 0);
+            label23.Name = "label23";
+            label23.Size = new Size(135, 28);
+            label23.TabIndex = 94;
+            label23.Text = "detectMode";
+            // 
+            // detectModeComBox
+            // 
+            detectModeComBox.DisplayMember = "0";
+            detectModeComBox.FormatString = "N0";
+            detectModeComBox.FormattingEnabled = true;
+            detectModeComBox.Items.AddRange(new object[] { "0", "1", "2", "3" });
+            detectModeComBox.Location = new Point(2562, 1404);
+            detectModeComBox.Name = "detectModeComBox";
+            detectModeComBox.Size = new Size(72, 36);
+            detectModeComBox.TabIndex = 95;
+            detectModeComBox.ValueMember = "0";
             // 
             // Form1
             // 
@@ -1052,6 +1076,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             ClientSize = new Size(2678, 1490);
+            Controls.Add(detectModeComBox);
+            Controls.Add(label23);
             Controls.Add(label25);
             Controls.Add(detSensitiveBox);
             Controls.Add(label24);
@@ -1266,5 +1292,7 @@
         private Label label24;
         private ComboBox detSensitiveBox;
         private Label label25;
+        private Label label23;
+        private ComboBox detectModeComBox;
     }
 }

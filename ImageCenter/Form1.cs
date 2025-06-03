@@ -309,7 +309,8 @@ namespace ImageCenter
                 string langCodeText = langCode.SelectedItem.ToString();
                 string aelxcode = aelx.SelectedItem.ToString();
                 int detectSensitive = int.Parse(detSensitiveBox.SelectedItem.ToString());
-                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, ref traceQuality, ref half_w, ref max_collapse_w, pixelSize, cutLineTraceWidth, mask_a, mask_b, cutLineCencertLocY, bladeWidth, scopeXWidth, detectSensitive, 0, out resultPtr, langCodeText, aelxcode);
+                int detectMode = int.Parse(detectModeComBox.SelectedItem.ToString());
+                int ret = CutTraceDetection(Marshal.StringToHGlobalAnsi(imageBase64String), imageBase64String.Length, ref traceCenterOffset, ref tranceWidth, ref maxTraceWith, ref maxArea, ref traceQuality, ref half_w, ref max_collapse_w, pixelSize, cutLineTraceWidth, mask_a, mask_b, cutLineCencertLocY, bladeWidth, scopeXWidth, detectSensitive, detectMode, out resultPtr, langCodeText, aelxcode);
                 if (resultPtr != IntPtr.Zero)
                 {
                     string base64ImageData = Marshal.PtrToStringAnsi(resultPtr);
