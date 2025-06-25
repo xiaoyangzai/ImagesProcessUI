@@ -285,7 +285,7 @@ namespace ImageCenter
             [DllImport("image_process.dll")]
             static extern void SetDebugCallback(DebugCallbackDelegate callback);
             [DllImport("image_process.dll")]
-            static extern int CutTraceDetection(IntPtr source, int source_size, ref int traceCenterOffset, ref double tranceWidth, ref double maxTraceWith, ref int maxArea, ref int traceQuality, ref double half_w, ref double max_collapse_w, int pixelSize, double cutLineWidth, double mask_a, double mask_b, int cutLineCenterY, double bladeWidth, int scopeXWidth, int detectSensitive, int detectMode, out IntPtr resultPtr, string langCode = "enus", string aelx = "Z1", bool enableTegMask = false, int maxTegWidth = 0, bool enbleDetectionScope = false, int tegMaskSensitive = 5);
+            static extern int CutTraceDetection(IntPtr source, int source_size, ref int traceCenterOffset, ref double tranceWidth, ref double maxTraceWith, ref int maxArea, ref int traceQuality, ref double half_w, ref double max_collapse_w, int pixelSize, double cutLineWidth, double mask_a, double mask_b, int cutLineCenterY, double bladeWidth, int scopeXWidth, int detectSensitive, int detectMode, out IntPtr resultPtr, string langCode = "enus", string aelx = "Z1", bool enableTegMask = false, float maxTegWidth = 0, bool enbleDetectionScope = false, int tegMaskSensitive = 5);
             SetDebugCallback(new DebugCallbackDelegate(DebugCallback));
 
             console.Text = "[Info] Calling CutTraceDetection function...\n";
